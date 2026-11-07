@@ -8,14 +8,14 @@ from core.user_data import db
 
 from core.logger import logger
 
-from config import banco_central, money_icon
+from config import BANCO_CENTRAL, MONEY_ICON
 
 BRASILIA = ZoneInfo("America/Sao_Paulo")
 
 # Imposto sobre saldo excedente
 def ImpostoSobreSaldo():
     data = db.get_all_data()
-    data = [row for row in data if row[0] != banco_central]
+    data = [row for row in data if row[0] != BANCO_CENTRAL]
     data = sorted(data, key=lambda x: x[1] + x[2] + x[5], reverse=True)
     i = 0
     total_collected = 0
@@ -54,7 +54,7 @@ def ImpostoSobreSaldo():
         saldo = int(saldo - imposto)
 
         db.post_user_data("bank", user_id, saldo)
-        EconomyService.add_user_bank(banco_central, imposto)
+        EconomyService.add_user_bank(BANCO_CENTRAL, imposto)
         i+=1
     return i, int(total_collected)
 
@@ -70,7 +70,7 @@ class Economy_tasks(commands.Cog):
     async def cycle(self):
         try:
             i_PSE, total_collected = ImpostoSobreSaldo()
-            await logger(self.bot, "Cycle concluido", f"Finalizado 24h\nPSE: `{i_PSE}` `{money_icon}{total_collected}`")
+            await logger(self.bot, "Cycle concluido", f"Finalizado 24h\nPSE: `{i_PSE}` `{MONEY_ICON}{total_collected}`")
 
         except Exception as e:
                 print(f"Erro cycle: {e}")

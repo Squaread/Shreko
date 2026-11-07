@@ -1,12 +1,11 @@
 import discord
 from discord.ext import commands
-from discord.ext import commands, tasks
 import math
 
 from modules.economy import service as EconomyService
 from modules.investments import service as InvestmentsService
 
-from config import bot_prefix, money_icon
+from config import BOT_PREFIX, MONEY_ICON
 
 class investments(commands.Cog):
     def __init__(self, bot):
@@ -31,11 +30,11 @@ class investments(commands.Cog):
             else: stonks_emoji = "<:Ice:1532538728244056125>"
 
             if data.get("category") == "share":
-                shares = shares + f"**{name}**\n`{data.get("code")}` `↩️{money_icon}{last_value:.4f}` `{money_icon}{value:.4f}`{stonks_emoji}\n"
+                shares = shares + f"**{name}**\n`{data.get("code")}` `↩️{MONEY_ICON}{last_value:.4f}` `{MONEY_ICON}{value:.4f}`{stonks_emoji}\n"
             elif data.get("category") == "currency":
-                currencies = currencies + f"**{name}**\n`{data.get("code")}` `↩️{money_icon}{last_value:.4f}` `{money_icon}{value:.4f}`{stonks_emoji}\n"
+                currencies = currencies + f"**{name}**\n`{data.get("code")}` `↩️{MONEY_ICON}{last_value:.4f}` `{MONEY_ICON}{value:.4f}`{stonks_emoji}\n"
 
-        market_embed = discord.Embed(title="Mercado/Bolsa de valores", description=f"`{bot_prefix}investir <code> <amount>` `{bot_prefix}negociar <code> <amount>` `{bot_prefix}investimentos <@user>`")
+        market_embed = discord.Embed(title="Mercado/Bolsa de valores", description=f"`{BOT_PREFIX}investir <code> <amount>` `{BOT_PREFIX}negociar <code> <amount>` `{BOT_PREFIX}investimentos <@user>`")
         market_embed.add_field(name="Moedas", value=currencies)
         market_embed.add_field(name="Ações", value=shares)
         market_embed.set_footer(text=f"{ctx.author.display_name}/{ctx.author.id} - Atualiza a cada 3 horas")
@@ -58,12 +57,12 @@ class investments(commands.Cog):
                     price = value*amount
                     investors = market[name].get("investors")
 
-                    if price < 1: return await ctx.reply(f"`{money_icon}{price}` o valor final não pode ser menor que `{money_icon}1`")
+                    if price < 1: return await ctx.reply(f"`{MONEY_ICON}{price}` o valor final não pode ser menor que `{MONEY_ICON}1`")
                     price = math.ceil(price)
 
-                    if price < 100: return await ctx.reply(f"Total: `{money_icon}{price}` você tem que investir pelo menos `{money_icon}100`")
+                    if price < 100: return await ctx.reply(f"Total: `{MONEY_ICON}{price}` você tem que investir pelo menos `{MONEY_ICON}100`")
                     user_money = EconomyService.get_user_money(user_id)
-                    if user_money < price: return await ctx.reply(f"Você não tem `{money_icon}{price}` pobre")
+                    if user_money < price: return await ctx.reply(f"Você não tem `{MONEY_ICON}{price}` pobre")
                     EconomyService.add_user_money(user_id, -price)
 
                     if not investors.get(str(user_id)): investors[str(user_id)] = amount
@@ -71,9 +70,9 @@ class investments(commands.Cog):
 
                     InvestmentsService.market = market
                     InvestmentsService.save_market(market)
-                    return await ctx.reply(f"Você comprou `{code} {amount}` por `{money_icon}{price}`")
+                    return await ctx.reply(f"Você comprou `{code} {amount}` por `{MONEY_ICON}{price}`")
 
-        await ctx.reply(f"`{code}` não encontrado `{bot_prefix}mercado`")
+        await ctx.reply(f"`{code}` não encontrado `{BOT_PREFIX}mercado`")
 
 #---------------------------------------------------------------
     @commands.hybrid_command(name="investimentos", description="Faça investimentos")
@@ -106,7 +105,7 @@ class investments(commands.Cog):
                     elif value < last_value: stonks_emoji = "<:NotStonks:1532493350614335611>"
                     else: stonks_emoji = "<:Ice:1532538728244056125>"
 
-                    text = f"**{name}** `{code} {amount}x` `↩️{money_icon}{last_value}` `{money_icon}{value}`{stonks_emoji}\n"
+                    text = f"**{name}** `{code} {amount}x` `↩️{MONEY_ICON}{last_value}` `{MONEY_ICON}{value}`{stonks_emoji}\n"
                     investments = investments + text
 
         if not investments: return await ctx.reply("Você não tem investimentos")
@@ -115,7 +114,7 @@ class investments(commands.Cog):
         elif total_value < total_last: stonks_emoji = "<:NotStonks:1532493350614335611>"
         else: stonks_emoji = "<:Ice:1532538728244056125>"
 
-        investments = investments + f"\n **TOTAL:** `↩️{money_icon}{total_last}` `{money_icon}{total_value}`{stonks_emoji}"
+        investments = investments + f"\n **TOTAL:** `↩️{MONEY_ICON}{total_last}` `{MONEY_ICON}{total_value}`{stonks_emoji}"
 
         investments_embed = discord.Embed(title="Investimentos", description=investments)
         investments_embed.set_thumbnail(url=user.avatar.url)
@@ -153,7 +152,7 @@ class investments(commands.Cog):
                 
                 InvestmentsService.market = market
                 InvestmentsService.save_market(market)
-                return await ctx.reply(f"Você vendeu `{code} {amount}x` por `{money_icon}{value}`")
+                return await ctx.reply(f"Você vendeu `{code} {amount}x` por `{MONEY_ICON}{value}`")
 
 # ======================================================================
 async def setup(bot: commands.Bot):

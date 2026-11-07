@@ -5,7 +5,7 @@ from core.user_data import db
 
 from modules.economy import service as EconomyService
 
-from config import aura_icon
+from config import AURA_ICON
 
 equipment_default =  {
     "damage": 4,
@@ -88,7 +88,7 @@ def combat(user1, user2):
 
                 if damage >= 70 or ('mijado' in dfs['state'] and dfs['hp'] < 20):
                     lost_aura = random.randint(10, 60)
-                    message += f'\n**{dfs["user_name"]}** se mijou inteiro... `-{aura_icon}{lost_aura}`'
+                    message += f'\n**{dfs["user_name"]}** se mijou inteiro... `-{AURA_ICON}{lost_aura}`'
                     EconomyService.add_user_aura(dfs['user_id'], -lost_aura)
                   # db.post_user_data("xp", dfs['user_id'], db.get_user_data("xp", dfs['user_id'])-lost_aura)
                     if not 'mijado' in dfs['state']: dfs['state'].append('mijado')

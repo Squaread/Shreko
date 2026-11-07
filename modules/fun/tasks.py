@@ -5,17 +5,19 @@ import re
 from datetime import time
 from zoneinfo import ZoneInfo
 
-from config import general_channel
+from core.logger import logger
+
+from config import GENERAL_CHANNEL
 
 from modules.fun import service as FunService
 
 BRASILIA = ZoneInfo("America/Sao_Paulo")
 
 async def wordle_choose_word(bot):
-    channel = bot.get_channel(general_channel)
+    channel = bot.get_channel(GENERAL_CHANNEL)
 
     if channel is None:
-        channel = await bot.fetch_channel(general_channel)
+        channel = await bot.fetch_channel(GENERAL_CHANNEL)
 
     valid_words = []
 
@@ -50,7 +52,7 @@ async def wordle_choose_word(bot):
             if word.lower() != without_accent.lower():
                 continue
 
-            valid_words.append(without_accent.lower())
+            valid_words.append((without_accent.lower(), message.author))
 
     if not valid_words: return None
     return random.choice(valid_words)
@@ -63,11 +65,12 @@ class Fun_tasks(commands.Cog):
     async def on_ready(self):
            self.update_wordle.start()
     
-    @tasks.loop(time=time(hour=0, minute=0, tzinfo=BRASILIA))
+    @tasks.loop(time=time(hour=12, minute=0, tzinfo=BRASILIA))
     async def update_wordle(self):
             try:
-                 FunService.new_wordle(wordle_choose_word())
-                 pass
+                 wordle_word, wordle_author = await wordle_choose_word(self.bot)
+                 FunService.new_wordle(wordle_word, wordle_author)
+                 await logger(self.bot, "Wordle", "Wordle atualizado")
             except Exception as e:
                     print(f"[!] Erro ao atualizar wordle modules.fun.tasks: {e}")
 

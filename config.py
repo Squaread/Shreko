@@ -5,16 +5,17 @@ load_dotenv()
 
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
-bot_prefix = "!"
+BOT_PREFIX = "!"
 
-money_icon = "🪙"
-aura_icon = "✨"
-vault_icon = "<:safe:1179377954032201749>"
-vault_default_limit = 2000
+MONEY_ICON = "🪙"
+AURA_ICON = "✨"
+VAULT_ICON = "<:safe:1179377954032201749>"
+VAULT_DEFAULT_LIMIT = 2000
 
-banco_central = 1130974954205225041
+BANCO_CENTRAL = 1130974954205225041 # Id da conta usada como BANCO CENTRAL (nesse caso o ID do proprio bot)
 
-log_channel = 1021218243974795335
-general_channel = 1021078777830322176
+SERVERS_ID = [1514453067574284432, 1021078777385730049] # Servidores nos quais o bot vai aceitar interagir
+LOG_CHANNEL = 1021078777830322176 # Canal onde serao enviadas as logs
+GENERAL_CHANNEL = 1021078777830322176 # Canal onde o wordle vai escolher a palavra diaria
 
-error_handling = True
+ERROR_HANDLING = True # Pra debug é melhor deixar como false pois ficara mais claro onde estao os erros

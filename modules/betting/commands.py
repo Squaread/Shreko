@@ -12,7 +12,7 @@ from core.logger import logger
 
 from utils.helpers import interpret_input_value
 
-from config import bot_prefix, money_icon, banco_central
+from config import BOT_PREFIX, MONEY_ICON, BANCO_CENTRAL
 
 async def format_votes(bot, vote, aposta_data):
         votes_list = aposta_data["votes"].get(vote)
@@ -32,9 +32,9 @@ async def format_votes(bot, vote, aposta_data):
             name = user.display_name if user else f"{await bot.fetch_user(user_id)}"
 
             if winner == vote and str(user_id) in payouts:
-                lines.append(f"• {name}: `{money_icon}{amount}` `🏆{money_icon}{payouts[str(user_id)]}`")
+                lines.append(f"• {name}: `{MONEY_ICON}{amount}` `🏆{MONEY_ICON}{payouts[str(user_id)]}`")
             else:
-                lines.append(f"• {name}: `{money_icon}{amount}`")
+                lines.append(f"• {name}: `{MONEY_ICON}{amount}`")
 
         return "\n".join(lines)
 
@@ -53,7 +53,7 @@ async def update_aposta(bot, aposta_data, aposta_id):
         
 
         embed = discord.Embed(
-        title=f"APOSTA | {aposta_data['title']}", description=f"**Acumulado:** `{money_icon}{aposta_data["fund"]}`/**Código:** `{aposta_id}`")
+        title=f"APOSTA | {aposta_data['title']}", description=f"**Acumulado:** `{MONEY_ICON}{aposta_data["fund"]}`/**Código:** `{aposta_id}`")
         winner = ''
         if aposta_data["open"] == False: text_status = "TRANCADA"
         if aposta_data["open"] == True: text_status = "ABERTA"
@@ -126,9 +126,9 @@ class betting(commands.Cog):
         if fund and not creator in AdminService.load_admins().get("economy"): fund = 0
         else:
             if fund > 0:
-                banco_central_fund = EconomyService.get_user_bank(banco_central) #db.get_user_data("bank", banco_central)
+                banco_central_fund = EconomyService.get_user_bank(BANCO_CENTRAL) #db.get_user_data("bank", banco_central)
                 if fund > banco_central_fund: return await ctx.reply("O Banco Central não tem dinheiro suficiente...")
-                EconomyService.add_user_bank(banco_central, -fund) #db.post_user_data("bank", banco_central, banco_central_fundos-fund)
+                EconomyService.add_user_bank(BANCO_CENTRAL, -fund) #db.post_user_data("bank", banco_central, banco_central_fundos-fund)
                 official = True
         option_A = option_a
         option_B = option_b
@@ -136,7 +136,7 @@ class betting(commands.Cog):
         option_D = option_d
 
         if not title or not option_A or not option_B:
-            return await ctx.send(f'`{bot_prefix}criaraposta "<title>" "<option_A>" "<option_B>" "<option_C>" "<option_D>"`')
+            return await ctx.send(f'`{BOT_PREFIX}criaraposta "<title>" "<option_A>" "<option_B>" "<option_C>" "<option_D>"`')
         
         if isinstance(option_C, str):
             if option_C.lower() == "none": option_C = None
@@ -146,7 +146,7 @@ class betting(commands.Cog):
         data = BettingService.load_betting()
         aposta_id = str(len(data) + 1)
         
-        aposta_embed = discord.Embed(title=f"APOSTA | {title}", description=f"**Acumulado:** `{money_icon}{fund}`/**Código:** `{aposta_id}`")
+        aposta_embed = discord.Embed(title=f"APOSTA | {title}", description=f"**Acumulado:** `{MONEY_ICON}{fund}`/**Código:** `{aposta_id}`")
         aposta_embed.add_field(name=f"A) {option_A}", value="", inline=True)
         aposta_embed.add_field(name=f"B) {option_B}", value="", inline=True)
         if option_C != None: aposta_embed.add_field(name=f"C) {option_C}", value="", inline=False)
@@ -190,7 +190,7 @@ class betting(commands.Cog):
     @commands.hybrid_command(name="votaraposta", aliases=["vaposta"], description="Vote numa aposta")
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def votaraposta(self, ctx, aposta_id=None, option=None, amount=None):
-        if not aposta_id or not option or not amount: return await ctx.send(f"`{bot_prefix}votaraposta <apostaCode> <option> <amount>`")
+        if not aposta_id or not option or not amount: return await ctx.send(f"`{BOT_PREFIX}votaraposta <apostaCode> <option> <amount>`")
         amount = interpret_input_value(amount)
 
         data = BettingService.load_betting()
@@ -218,7 +218,7 @@ class betting(commands.Cog):
 
         if aposta["options"].get(option) == None: return
         if amount > user_money: return await ctx.send("tu nem tem esse valor noob")
-        if amount < 1: return await ctx.send(f"Tá duro? Valor mínimo: `{money_icon}2`")
+        if amount < 1: return await ctx.send(f"Tá duro? Valor mínimo: `{MONEY_ICON}2`")
     #-------------------------------------------------------------------------------------------
         EconomyService.add_user_money(ctx.author.id, -amount) #db.post_user_data("money", ctx.author.id, user_money-amount)
         aposta["fund"] = aposta["fund"] + amount
@@ -268,7 +268,7 @@ class betting(commands.Cog):
 
         if not payouts: # aposta sem vencedores vai tudo pro banco central
             income = int(aposta['fund'])
-            EconomyService.add_user_bank(banco_central, income)
+            EconomyService.add_user_bank(BANCO_CENTRAL, income)
 
         # fechar aposta
         aposta["status"] = False
@@ -283,7 +283,7 @@ class betting(commands.Cog):
         except: pass
         if ctx.interaction: await ctx.send("Finalizada", ephemeral=True)
 
-        await logger(self.bot, "finalizaraposta", f"`{ctx.author.name}/{user_id}` finalizou `{aposta_id}` `{option}` acumulado: `{money_icon}{aposta["fund"]}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x61602C)
+        await logger(self.bot, "finalizaraposta", f"`{ctx.author.name}/{user_id}` finalizou `{aposta_id}` `{option}` acumulado: `{MONEY_ICON}{aposta["fund"]}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x61602C)
            
     #------------------------------------------
     @commands.hybrid_command(name="reexibiraposta", aliases=["raposta"], description="Reexiba uma aposta")

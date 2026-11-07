@@ -1,13 +1,13 @@
 from discord.ext import commands
 
 from core.errors import CommandOnCooldown
-from config import error_handling
+from config import ERROR_HANDLING
 
 class Errors(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    if error_handling:
+    if ERROR_HANDLING:
         @commands.Cog.listener()
         async def on_command_error(self, ctx, error):
             if isinstance(error, commands.CommandInvokeError):

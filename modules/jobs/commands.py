@@ -12,7 +12,7 @@ from core.logger import logger
 
 from utils import taxes
 
-from config import bot_prefix, money_icon, aura_icon, banco_central
+from config import BOT_PREFIX, BANCO_CENTRAL, MONEY_ICON, AURA_ICON
 
 class jobs(commands.Cog):
     def __init__(self, bot):
@@ -35,11 +35,11 @@ class jobs(commands.Cog):
             if not courses: courses = ""
             else: courses=("\n" + str(courses)).replace("[", "").replace("]", "").replace("'", "").replace(",", "\n")
             texto += (
-                f"{i}. **{vaga['job']}** em **{vaga['company']}**\n`Salário: {money_icon}{int((vaga['salary']*economy.get("private_salary_coefficient"))+(economy.get("private_salary_parity_base")-(vaga['salary']*economy.get("private_salary_coefficient")))*economy.get("private_salary_parity"))} ~{aura_icon}{vaga['xp']*economy.get("aura_coefficient")}`\n`Requisitos: {aura_icon}{vaga["rxp"]}`{courses}\n\n"
+                f"{i}. **{vaga['job']}** em **{vaga['company']}**\n`Salário: {MONEY_ICON}{int((vaga['salary']*economy.get("private_salary_coefficient"))+(economy.get("private_salary_parity_base")-(vaga['salary']*economy.get("private_salary_coefficient")))*economy.get("private_salary_parity"))} ~{AURA_ICON}{vaga['xp']*economy.get("aura_coefficient")}`\n`Requisitos: {AURA_ICON}{vaga["rxp"]}`{courses}\n\n"
             )
         empregos_embed = discord.Embed(
             title="📢 Empregos Disponíveis",
-            description=f"`{bot_prefix}enviarcurriculo <job_number>`\n{texto}",
+            description=f"`{BOT_PREFIX}enviarcurriculo <job_number>`\n{texto}",
             color=discord.Color.green()
         )
         empregos_embed.set_footer(text="A lista atualiza a cada 1 hora")
@@ -90,7 +90,7 @@ class jobs(commands.Cog):
 
         user_id = user.id
         user_job = JobsService.get_user_job(user_id)
-        if not user_job: return await ctx.send(f"Sua carteira ainda não é assinada... VAGAS ABERTAS `{bot_prefix}empregos`")
+        if not user_job: return await ctx.send(f"Sua carteira ainda não é assinada... VAGAS ABERTAS `{BOT_PREFIX}empregos`")
         job_name = user_job['job']
         job_salary = user_job['salary']
         job_company = user_job['company']
@@ -107,8 +107,8 @@ class jobs(commands.Cog):
         if not user_courses: user_courses = []
         else: user_courses = json.loads(user_courses)
 
-        clt_embed=discord.Embed(title="CARTEIRA DE TRABALHO", description=f"NOME: `{user.name}`\nCPF: `{user_id}`\nAURA: `{aura_icon}{EconomyService.get_user_aura(user_id)}`")
-        clt_embed.add_field(name=f"{job_company}", value=f"**{job_name}**\nSalário: `{money_icon}{job_salary} ~{aura_icon}{job_xp}`")
+        clt_embed=discord.Embed(title="CARTEIRA DE TRABALHO", description=f"NOME: `{user.name}`\nCPF: `{user_id}`\nAURA: `{AURA_ICON}{EconomyService.get_user_aura(user_id)}`")
+        clt_embed.add_field(name=f"{job_company}", value=f"**{job_name}**\nSalário: `{MONEY_ICON}{job_salary} ~{AURA_ICON}{job_xp}`")
         if user_courses:
          user_courses=(str(user_courses)).replace("[", "").replace("]", "").replace("'", "").replace(",", "\n")
         else: user_courses = ""
@@ -127,7 +127,7 @@ class jobs(commands.Cog):
         user_job = JobsService.get_user_job(user_id)
         economy = EconomyService.economy
         jobs = JobsService.jobs
-        banco_central_saldo = EconomyService.get_user_bank(banco_central)
+        banco_central_saldo = EconomyService.get_user_bank(BANCO_CENTRAL)
 
         if banco_central_saldo < 0 and user_job: # Caso economia em crise ha chance de demissao
             if not user_job.get('company') == "Governo":
@@ -161,13 +161,12 @@ class jobs(commands.Cog):
             else:
                 income = jobs.get("public_ofices").get(job_name).get("salary_base")
 
-                banco_central_saldo = EconomyService.get_user_bank(banco_central)
+                banco_central_saldo = EconomyService.get_user_bank(BANCO_CENTRAL)
                 if income > banco_central_saldo:
                     return await ctx.reply("O Banco Central não tem dinheiro suficiente...")
-                EconomyService.add_user_bank(banco_central, -income)
+                EconomyService.add_user_bank(BANCO_CENTRAL, -income)
 
             xp_income = round(random.uniform(user_job['xp']*0.8, user_job['xp']*1.2)*economy.get("aura_coefficient"))
-
 
         base = income
         tax, tax_msg = taxes.rent_tax(None, income) # Calcular o imposto
@@ -195,11 +194,11 @@ class jobs(commands.Cog):
         EconomyService.add_user_money(user_id, income)
         EconomyService.add_user_aura(user_id, xp_income)
 
-        trab_embed = discord.Embed(title=job_name, description=f"{random.choice(phrases)}\n> `{money_icon}{base}` `{aura_icon}{xp_income}`{tax_msg}{box_message}")
+        trab_embed = discord.Embed(title=job_name, description=f"{random.choice(phrases)}\n> `{MONEY_ICON}{base}` `{AURA_ICON}{xp_income}`{tax_msg}{box_message}")
         trab_embed.set_footer(text=f"{ctx.author.display_name}/{user_id}")
         trab_embed.color = 0x2ecc71
         await ctx.reply(embed=trab_embed)
-        await logger(self.bot, "trab", f"`{ctx.author.name}/{user_id}` pegou `{money_icon}{income}` {item_name}", f"{ctx.guild.name}/{ctx.guild.id}", 0x75ff7a)
+        await logger(self.bot, "trab", f"`{ctx.author.name}/{user_id}` pegou `{MONEY_ICON}{income}` {item_name}", f"{ctx.guild.name}/{ctx.guild.id}", 0x75ff7a)
 
 # ======================================================================
 async def setup(bot: commands.Bot):

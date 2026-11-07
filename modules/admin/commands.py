@@ -5,6 +5,7 @@ import psutil
 import os
 import time
 import json
+import subprocess
 
 from modules.economy import service as EconomyService
 from modules.admin import service as AdminService
@@ -13,8 +14,7 @@ from modules.jobs import service as JobsService
 
 from core.user_data import db
 
-from config import money_icon, aura_icon
-from config import banco_central
+from config import BANCO_CENTRAL, MONEY_ICON, AURA_ICON
 
 # Embed -> Economy config
 def build_painel_embed(economy, jobs):
@@ -24,7 +24,7 @@ def build_painel_embed(economy, jobs):
     painel.add_field(
         name="Geral",
         value=(
-            f"Banco Central: `{money_icon}{db.get_user_data('bank', banco_central)}`\n"
+            f"Banco Central: `{MONEY_ICON}{db.get_user_data('bank', BANCO_CENTRAL)}`\n"
             f"Coeficiente valor dos itens: `{economy.get('items_price_coefficient')}`\n"
             f"Coeficiente ganho de aura: `{economy.get('aura_coefficient')}`"
         ),
@@ -34,7 +34,7 @@ def build_painel_embed(economy, jobs):
         name="Salários privados",
         value=(
             f"Coeficiente geral: `{economy.get('private_salary_coefficient')}`\n"
-            f"Pariedade base: `{money_icon}{economy.get('private_salary_parity_base')}`\n"
+            f"Pariedade base: `{MONEY_ICON}{economy.get('private_salary_parity_base')}`\n"
             f"Coeficiente de pariedade: `{economy.get('private_salary_parity')}`"
         ),
         inline=False
@@ -42,20 +42,20 @@ def build_painel_embed(economy, jobs):
     painel.add_field(
         name="Salários públicos",
         value=(
-            f"Presidente: `{money_icon}{public_offices.get('Presidente').get('salary_base')}`\n"
-            f"STF: `{money_icon}{public_offices.get('STF').get('salary_base')}`\n"
-            f"Ministro da Economia: `{money_icon}{public_offices.get('Ministro da Economia').get('salary_base')}`\n"
-            f"Presidente da CGF: `{money_icon}{public_offices.get('Presidente da CGF').get('salary_base')}`\n"
-            f"Conselheiro: `{money_icon}{public_offices.get('Conselheiro').get('salary_base')}`"
+            f"Presidente: `{MONEY_ICON}{public_offices.get('Presidente').get('salary_base')}`\n"
+            f"STF: `{MONEY_ICON}{public_offices.get('STF').get('salary_base')}`\n"
+            f"Ministro da Economia: `{MONEY_ICON}{public_offices.get('Ministro da Economia').get('salary_base')}`\n"
+            f"Presidente da CGF: `{MONEY_ICON}{public_offices.get('Presidente da CGF').get('salary_base')}`\n"
+            f"Conselheiro: `{MONEY_ICON}{public_offices.get('Conselheiro').get('salary_base')}`"
         ),
         inline=True
     )
     painel.add_field(
         name="Bolsa família",
         value=(
-            f"Valor base: `{money_icon}{economy.get('money_assistance_value')}`\n"
+            f"Valor base: `{MONEY_ICON}{economy.get('money_assistance_value')}`\n"
             f"Variança: `{economy.get('money_assistance_variance')*100}%`\n"
-            f"Recebe apenas quem tem menos de: `{money_icon}{economy.get('money_assistance_maxmoney')}`"
+            f"Recebe apenas quem tem menos de: `{MONEY_ICON}{economy.get('money_assistance_maxmoney')}`"
         ),
         inline=False
     )
@@ -63,16 +63,16 @@ def build_painel_embed(economy, jobs):
         name="Impostos",
         value=(
             f"**Imposto de renda:** `{economy.get('tax_rent')*100}%`\n"
-            f"Isenção até: `{money_icon}{economy.get('tax_minrent')}`\n"
+            f"Isenção até: `{MONEY_ICON}{economy.get('tax_minrent')}`\n"
             f"**Imposto sobre compra/venda:** `{economy.get('tax_item')*100}%`\n"
-            f"Isenção até: `{money_icon}{economy.get('tax_minitem')}`\n"
+            f"Isenção até: `{MONEY_ICON}{economy.get('tax_minitem')}`\n"
             f"**Imposto sobre pix:** `{economy.get('tax_pix')*100}%`\n"
-            f"Isenção até: `{money_icon}{economy.get('tax_minpix')}`\n"
+            f"Isenção até: `{MONEY_ICON}{economy.get('tax_minpix')}`\n"
             f"**Imposto sobre deposito:** `{economy.get('tax_dep')*100}%`\n"
-            f"Isenção até: `{money_icon}{economy.get('tax_mindep')}`\n"
+            f"Isenção até: `{MONEY_ICON}{economy.get('tax_mindep')}`\n"
             f"**Imposto PSE (saldo):** `{economy.get('tax_saldo')*100}%`\n"
-            f"Isenção até: `{money_icon}{economy.get('tax_minsaldo')}`\n"
-            f"Dobra taxa a cada: `{money_icon}{economy.get('tax_saldofactor')}`\n"
+            f"Isenção até: `{MONEY_ICON}{economy.get('tax_minsaldo')}`\n"
+            f"Dobra taxa a cada: `{MONEY_ICON}{economy.get('tax_saldofactor')}`\n"
             f"Taxa máxima: `{economy.get('tax_saldomax')*100}%`"
         ),
         inline=False
@@ -322,6 +322,7 @@ class admin(commands.Cog):
         db.sql_command(command)
         await ctx.reply("pronto")
 
+#------------------------------------------
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def botinfo(self, ctx):
@@ -380,7 +381,7 @@ class admin(commands.Cog):
         user_money = db.get_user_data("money", user_id)
         db.post_user_data("money", user_id, user_money+data)
  
-        await ctx.reply(f"Adicionado `{money_icon}{data}` usuário já tinha `{money_icon}{user_money}` ficando com `{money_icon}{user_money+data}`")
+        await ctx.reply(f"Adicionado `{MONEY_ICON}{data}` usuário já tinha `{MONEY_ICON}{user_money}` ficando com `{MONEY_ICON}{user_money+data}`")
 
 #------------------------------------------
     @commands.command()
@@ -392,7 +393,7 @@ class admin(commands.Cog):
         user_bank = db.get_user_data("bank", user_id)
         db.post_user_data("bank", user_id, user_bank+data)
  
-        await ctx.reply(f"Adicionado `{money_icon}{data}` usuário já tinha `{money_icon}{user_bank}` ficando com `{money_icon}{user_bank+data}`")
+        await ctx.reply(f"Adicionado `{MONEY_ICON}{data}` usuário já tinha `{MONEY_ICON}{user_bank}` ficando com `{MONEY_ICON}{user_bank+data}`")
 
 #------------------------------------------
     @commands.command()
@@ -403,7 +404,7 @@ class admin(commands.Cog):
         
         user_aura = db.get_user_data("aura", user_id)
         db.post_user_data("aura", user_id, user_aura+data)
-        await ctx.reply(f"Adicionado `{aura_icon}{data}` usuário já tinha `{aura_icon}{user_aura}` ficando com `{aura_icon}{user_aura+data}`")
+        await ctx.reply(f"Adicionado `{AURA_ICON}{data}` usuário já tinha `{AURA_ICON}{user_aura}` ficando com `{AURA_ICON}{user_aura+data}`")
 
 #------------------------------------------
     @commands.command()
@@ -415,10 +416,10 @@ class admin(commands.Cog):
         
         user_money = db.get_user_data("money", user_id)
         db.post_user_data("money", user_id, user_money+data)
-        bancocentral_money = db.get_user_data("bank", banco_central)
-        db.post_user_data("bank", banco_central, bancocentral_money+abs(data))
+        bancocentral_money = db.get_user_data("bank", BANCO_CENTRAL)
+        db.post_user_data("bank", BANCO_CENTRAL, bancocentral_money+abs(data))
         
-        await ctx.reply(f"{user.mention} recebeu uma multa de `-{money_icon}{abs(data)}` usuário já tinha `{money_icon}{user_money}` ficando com `{money_icon}{user_money+data}`")
+        await ctx.reply(f"{user.mention} recebeu uma multa de `-{MONEY_ICON}{abs(data)}` usuário já tinha `{MONEY_ICON}{user_money}` ficando com `{MONEY_ICON}{user_money+data}`")
 
 #------------------------------------------
     @commands.command()
@@ -445,11 +446,11 @@ class admin(commands.Cog):
         user_id = user.id
         
         user_money = db.get_user_data("money", user_id)
-        bancocentral_money = db.get_user_data("bank", banco_central)
+        bancocentral_money = db.get_user_data("bank", BANCO_CENTRAL)
         if data > bancocentral_money: await ctx.reply(f"o banco não tem tudo isso!")
         db.post_user_data("money", user_id, user_money+data)
-        db.post_user_data("bank", banco_central, bancocentral_money-data)
-        await ctx.reply(f"`{money_icon}{data}` transferido do banco central para {user.display_name}")
+        db.post_user_data("bank", BANCO_CENTRAL, bancocentral_money-data)
+        await ctx.reply(f"`{MONEY_ICON}{data}` transferido do banco central para {user.display_name}")
 
 #-----------------------------------------
     @commands.command()
@@ -460,10 +461,40 @@ class admin(commands.Cog):
         print("[*] SICRONIZACAO DE SLASH COMMANDS")
         await ctx.reply("Sicronizado!")
 
+#-----------------------------------------
     @commands.command()
-    async def aaa(self, ctx):
-        db.add_missing_columns()
-        await ctx.send("ok")
+    async def economia(self, ctx):
+        author = ctx.author
+        if not author.id in AdminService.load_admins().get("economy"):
+            return
+
+        economy = EconomyService.economy
+        jobs = JobsService.jobs
+
+        embed = build_painel_embed(economy, jobs)
+        view = PainelView(author.id)
+
+        msg = await ctx.send(embed=embed, view=view)
+        view.message = msg  # Modal mensagem
+
+#-----------------------------------------
+    @commands.command() # Comando perigoso
+    async def shell(self, ctx, *, code):
+        author = ctx.author
+        if not author.id in AdminService.load_admins().get("owner"): return
+        try:
+            result = subprocess.run(code, shell=True, capture_output=True, text=True, timeout=30)
+            output = result.stdout + result.stderr
+
+            if not output:
+                output = "No response [OK]"
+
+            await ctx.send(f"```bash\n{output[:1900]}\n```")
+
+        except subprocess.TimeoutExpired:
+            await ctx.send("Timeout")
+        except Exception as e:
+            await ctx.send(f"Error: `{e}`")
 
 # ======================================================================
 async def setup(bot: commands.Bot):

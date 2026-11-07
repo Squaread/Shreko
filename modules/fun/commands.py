@@ -140,8 +140,8 @@ class fun(commands.Cog):
         correct_word = FunService.wordle["word"].upper()
         word = word.upper()
 
-        if len(word) != len(correct_word):
-            return await ctx.send(f"A palavra tem {len(correct_word)} letras haha")
+        if len(word) > len(correct_word):
+            return await ctx.send(f"Você botou mais letras que a correta hein haha")
 
         if word == correct_word:
             if not FunService.wordle["discovered"]:
@@ -159,7 +159,7 @@ class fun(commands.Cog):
                 msg = "**🎉 Você acertou!**"
 
         else:
-            result = ["⬛"] * len(word)
+            result = ["⬛"] * len(correct_word)
             remaining = Counter(correct_word)
 
             # Verificar letras na posição correta
@@ -177,10 +177,16 @@ class fun(commands.Cog):
                     result[i] = "🟨"
                     remaining[letter] -= 1
 
-            msg = f"{''.join(result)}"
+            # Preencher espaços vazios
+            for i in range(len(word), len(correct_word)):
+                result[i] = "⬜"
 
+            msg = "".join(result)
+
+        wordle_hint = FunService.wordle["hint"]
         wordle_discovered = FunService.wordle["discovered"]
-        wordle_embed = discord.Embed(title="Wordle",description=f"**Dica:** A palavra tem {len(correct_word)} letras!\n{f"`Descoberta por {FunService.wordle["winner"]}`" if wordle_discovered else "`Não descoberta`"}\n\n{msg}", color=discord.Color.green())
+        wordle_winner = FunService.wordle["winner"]
+        wordle_embed = discord.Embed(title="Wordle",description=f"**Dica:** {wordle_hint}\n{f"`Descoberta por {wordle_winner}`" if wordle_discovered else "`Não descoberta`"}\n\n{msg}", color=discord.Color.green())
 
         await ctx.reply(embed=wordle_embed, mention_author=False)
 

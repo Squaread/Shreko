@@ -1,8 +1,10 @@
 # Secrets
 .env
-.env.*
 user_data.db
+
+# Auto-generated
 betting.json
+cooldown.json
 
 # Python
 __pycache__/

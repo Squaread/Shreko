@@ -12,7 +12,7 @@ from core.logger import logger
 
 from utils import taxes
 
-from config import bot_prefix, money_icon, aura_icon, banco_central
+from config import BOT_PREFIX, MONEY_ICON, AURA_ICON, BANCO_CENTRAL
 
 class items(commands.Cog):
     def __init__(self, bot):
@@ -63,7 +63,7 @@ class items(commands.Cog):
         item_name = next((name for name in items if query_item == name.lower() or query_item in name.lower().split()), None)
 
         if not item_name:
-            return await ctx.reply(f"`{query_item}` não encontrado `{bot_prefix}comprar <item_name> <quant(opcional)>`")
+            return await ctx.reply(f"`{query_item}` não encontrado `{BOT_PREFIX}comprar <item_name> <quant(opcional)>`")
 
         item = items[item_name]
         category = item["category"]
@@ -95,10 +95,10 @@ class items(commands.Cog):
         else: ItemsService.add_user_inventory(user_id, item_name, quant)
 
         # Repassar imposto pro banco central
-        if tax: EconomyService.add_user_bank(banco_central, tax)
+        if tax: EconomyService.add_user_bank(BANCO_CENTRAL, tax)
 
-        await ctx.reply(f"Você comprou **{item_name}** {f'({quant}x) ' if category != 'course' else ''} por `{money_icon}{full_price}`")
-        await logger(self.bot, "comprar", f"`{ctx.author.name}/{user_id}` comprou `{item_name} {quant}x` por `{money_icon}{full_price}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x0cff00)
+        await ctx.reply(f"Você comprou **{item_name}** {f'({quant}x) ' if category != 'course' else ''} por `{MONEY_ICON}{full_price}`")
+        await logger(self.bot, "comprar", f"`{ctx.author.name}/{user_id}` comprou `{item_name} {quant}x` por `{MONEY_ICON}{full_price}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x0cff00)
 
 #------------------------------------------
     @commands.hybrid_command(name="vender", description="Venda seus itens")
@@ -119,7 +119,7 @@ class items(commands.Cog):
         item_name = next((name for name in inventory if query_item == name.lower() or query_item in name.lower().split()), None)
 
         if not item_name:
-            return await ctx.reply(f"`{query_item}` não encontrado no inventário `{bot_prefix}vender <item_name> <quant(opcional)>`")
+            return await ctx.reply(f"`{query_item}` não encontrado no inventário `{BOT_PREFIX}vender <item_name> <quant(opcional)>`")
 
         item = items.get(item_name)
 
@@ -150,12 +150,12 @@ class items(commands.Cog):
         EconomyService.add_user_money(user_id, final_value)
 
         # Repassar imposto ao banco central
-        if tax: EconomyService.add_user_bank(banco_central, tax)
+        if tax: EconomyService.add_user_bank(BANCO_CENTRAL, tax)
 
-        tax_msg = (f"\n> `Imposto sobre venda: -{money_icon}{tax}`"if tax else "")
+        tax_msg = (f"\n> `Imposto sobre venda: -{MONEY_ICON}{tax}`"if tax else "")
 
-        await ctx.reply(f"Você vendeu **{item_name}** ({quant}x) por `{money_icon}{final_value}`{tax_msg}")
-        await logger(self.bot, "vender", f"`{ctx.author.name}/{user_id}` vendeu `{item_name} {quant}x` por `{money_icon}{final_value}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x0add00)
+        await ctx.reply(f"Você vendeu **{item_name}** ({quant}x) por `{MONEY_ICON}{final_value}`{tax_msg}")
+        await logger(self.bot, "vender", f"`{ctx.author.name}/{user_id}` vendeu `{item_name} {quant}x` por `{MONEY_ICON}{final_value}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x0add00)
 
 #------------------------------------------
     @commands.hybrid_command(name="dar", description="Dê itens para alguém")
@@ -205,7 +205,7 @@ class items(commands.Cog):
                 ItemsService.user_equip_item(user_id, item_name)
                 return await ctx.reply("equipado", mention_author=False)
             
-        await ctx.reply(f"`{query_item}` não encontrado no seu inventário `{bot_prefix}inventario` `{bot_prefix}equipar <item_name>`")
+        await ctx.reply(f"`{query_item}` não encontrado no seu inventário `{BOT_PREFIX}inventario` `{BOT_PREFIX}equipar <item_name>`")
 
 #------------------------------------------
     @commands.hybrid_command(name="desequipar", description="Desequipe seu equipamento")
@@ -257,10 +257,10 @@ class items(commands.Cog):
                         gains += f'\n> {f"**{item_gain_quant}x**" if item_gain_quant > 1 else ""}{items.get(item_claim).get("icon")}**{item_claim}**'
                     if money:
                         EconomyService.add_user_money(user_id, money)
-                        gains = gains + f"\n> `{money_icon}{money}`"
+                        gains = gains + f"\n> `{MONEY_ICON}{money}`"
                     if aura:
                         EconomyService.add_user_aura(user_id, aura)
-                        gains = gains + f"\n> `{aura_icon}{aura}`"
+                        gains = gains + f"\n> `{AURA_ICON}{aura}`"
 
                     ItemsService.add_user_inventory(user_id, item, -1)
     
@@ -285,7 +285,7 @@ class items(commands.Cog):
 
 
             return await ctx.reply(f'`{item}` não é utilizável...')
-        await ctx.reply(f'`{item_name}` não encontrado `{bot_prefix}usar <item_name>`')
+        await ctx.reply(f'`{item_name}` não encontrado `{BOT_PREFIX}usar <item_name>`')
 
 #------------------------------------------
     @commands.hybrid_command(name="loja", description="Abra o painel da loja [armas, cursos]")
@@ -298,7 +298,7 @@ class items(commands.Cog):
 
         if type.lower() == "armas":
             loja_embed = discord.Embed(
-                title="Loja de Armas",description=f'`{bot_prefix}comprar <item_name> <quant(opcional)>`',
+                title="Loja de Armas",description=f'`{BOT_PREFIX}comprar <item_name> <quant(opcional)>`',
                 color=discord.Color.blue())
 
             melee = []
@@ -314,27 +314,27 @@ class items(commands.Cog):
 
                 if data.get("style") == "melee":
                     melee.append(
-                        f"{data['icon']}**{name}** `{money_icon}{price}`\n"
+                        f"{data['icon']}**{name}** `{MONEY_ICON}{price}`\n"
                         f"`💥{data['damage']} ⚡{data['agility']} 🎯{data['accuracy']}`"
                     )
 
                 elif data.get("model") == "pistol":
                     pistols.append(
-                        f"{data['icon']}**{name}** `{money_icon}{price}`\n"
+                        f"{data['icon']}**{name}** `{MONEY_ICON}{price}`\n"
                         f"`🔸{data['bullet']}/{data['capacity']}\n"
                         f"💥{data['damage']} ⚡{data['agility']} 🎯{data['accuracy']}`"
                     )
 
                 elif data.get("model") == "rifle":
                     rifles.append(
-                        f"{data['icon']}**{name}** `{money_icon}{price}`\n"
+                        f"{data['icon']}**{name}** `{MONEY_ICON}{price}`\n"
                         f"`🔸{data['bullet']}/{data['capacity']}\n"
                         f"💥{data['damage']} ⚡{data['agility']} 🎯{data['accuracy']}`"
                     )
 
                 elif data.get("category") == "ammo":
                     ammo.append(
-                        f"{data['icon']}**{name}** `{money_icon}{price}`"
+                        f"{data['icon']}**{name}** `{MONEY_ICON}{price}`"
                     )
 
             if melee:
@@ -369,18 +369,18 @@ class items(commands.Cog):
 
         if type.lower() == "cursos":
             loja_embed = discord.Embed(
-                title="Loja de Cursos",description=f'`{bot_prefix}comprar <item_name> <quant(opcional)>`',
+                title="Loja de Cursos",description=f'`{BOT_PREFIX}comprar <item_name> <quant(opcional)>`',
                 color=discord.Color.blue())
             for name, data in items.items():
                 if data.get('category') == "course":
                     price = data.get('price')*price_coefficient
                     tax = taxes.item_tax(None, price)
                     price += tax
-                    loja_embed.add_field(name=f"{data.get('icon')}{name}", value=f"`{money_icon}{price}`")
+                    loja_embed.add_field(name=f"{data.get('icon')}{name}", value=f"`{MONEY_ICON}{price}`")
             return await ctx.send(embed=loja_embed)
         
         else:
-            loja_embed=discord.Embed(title="Loja", description=f"Seja bem vindo(a), selecione uma categoria:\n`{bot_prefix}loja armas\n{bot_prefix}loja cursos`")
+            loja_embed=discord.Embed(title="Loja", description=f"Seja bem vindo(a), selecione uma categoria:\n`{BOT_PREFIX}loja armas\n{BOT_PREFIX}loja cursos`")
             await ctx.send(embed=loja_embed)
 
 # ======================================================================

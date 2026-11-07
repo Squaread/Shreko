@@ -1,0 +1,72 @@
+{
+    "MERCADO": {
+        "volatility": 0.1
+    },
+    "Dólar americano": {
+        "category": "currency",
+        "type": "real",
+        "code": "USB",
+        "value": 5.4833,
+        "last_value": 5.48,
+        "investors": {}
+    },
+    "Euro": {
+        "category": "currency",
+        "type": "real",
+        "code": "EUR",
+        "value": 6.1579,
+        "last_value": 6.1503,
+        "investors": {}
+    },
+    "Libra esterlina": {
+        "category": "currency",
+        "type": "real",
+        "code": "GBP",
+        "value": 7.384,
+        "last_value": 7.3837,
+        "investors": {}
+    },
+    "Peso argentino": {
+        "category": "currency",
+        "type": "real",
+        "code": "ARS",
+        "value": 0.0033,
+        "last_value": 0.0033,
+        "investors": {}
+    },
+    "Roblox": {
+        "category": "share",
+        "type": "real",
+        "code": "RBLX",
+        "value": 47.265,
+        "last_value": 46.59,
+        "investors": {}
+    },
+    "Fifa": {
+        "category": "share",
+        "type": "fake",
+        "code": "FIF4",
+        "value": 0.0,
+        "last_value": 0.0,
+        "default_volatility": 0.5,
+        "investors": {}
+    },
+    "Pretobras": {
+        "category": "share",
+        "type": "fake",
+        "code": "PRET0",
+        "value": 0.0,
+        "last_value": 0.0,
+        "default_volatility": 0.2,
+        "investors": {}
+    },
+    "Vitrine Calçados": {
+        "category": "share",
+        "type": "fake",
+        "code": "VIDR4",
+        "value": 0.0,
+        "last_value": 0.0,
+        "default_volatility": 0.05,
+        "investors": {}
+    }
+}

@@ -1,0 +1,770 @@
+{
+    "companys": {
+        "Microsoft": {
+            "salary_factor": 1.95,
+            "xp_factor": 2,
+            "rxp_factor": 1.8,
+            "chance": 18
+        },
+        "Google": {
+            "salary_factor": 2.2,
+            "xp_factor": 1.8,
+            "rxp_factor": 1.85,
+            "chance": 15
+        },
+        "Atacadão": {
+            "salary_factor": 0.45,
+            "xp_factor": 0.6,
+            "rxp_factor": 0.06,
+            "chance": 85
+        },
+        "La Prostitute": {
+            "salary_factor": 1.22,
+            "xp_factor": 1,
+            "rxp_factor": 0.5,
+            "chance": 55
+        },
+        "Pretobras": {
+            "salary_factor": 1.55,
+            "xp_factor": 1.5,
+            "rxp_factor": 1.3,
+            "chance": 32
+        },
+        "Bar do Zé": {
+            "salary_factor": 0.8,
+            "xp_factor": 1,
+            "rxp_factor": 0.4,
+            "chance": 78
+        },
+        "Nigga's Burger": {
+            "salary_factor": 0.78,
+            "xp_factor": 0.4,
+            "rxp_factor": 0.12,
+            "chance": 95
+        },
+        "Roblox": {
+            "salary_factor": 1.4,
+            "xp_factor": 1.2,
+            "rxp_factor": 1.2,
+            "chance": 42
+        },
+        "Vitrine Calçados": {
+            "salary_factor": 0.7,
+            "xp_factor": 2,
+            "rxp_factor": 0.15,
+            "chance": 92
+        },
+        "Bradesca": {
+            "salary_factor": 1.35,
+            "xp_factor": 1.1,
+            "rxp_factor": 1.3,
+            "chance": 48
+        },
+        "Nubanka": {
+            "salary_factor": 1.25,
+            "xp_factor": 1.2,
+            "rxp_factor": 1.2,
+            "chance": 50
+        },
+        "OpenAI": {
+            "salary_factor": 2.8,
+            "xp_factor": 2.2,
+            "rxp_factor": 2.5,
+            "chance": 6
+        },
+        "NVIDIA": {
+            "salary_factor": 2,
+            "xp_factor": 2,
+            "rxp_factor": 1.5,
+            "chance": 14
+        },
+        "Discord": {
+            "salary_factor": 1.1,
+            "xp_factor": 1.2,
+            "rxp_factor": 1,
+            "chance": 58
+        },
+        "Carrefour": {
+            "salary_factor": 0.32,
+            "xp_factor": 0.7,
+            "rxp_factor": 0.01,
+            "chance": 88
+        },
+        "Assaí": {
+            "salary_factor": 0.88,
+            "xp_factor": 0.75,
+            "rxp_factor": 0.25,
+            "chance": 82
+        },
+        "Latam Airlines": {
+            "salary_factor": 1.5,
+            "xp_factor": 1.2,
+            "rxp_factor": 1.25,
+            "chance": 38
+        },
+        "Hitler's Pizzas": {
+            "salary_factor": 0.88,
+            "xp_factor": 3,
+            "rxp_factor": 0.7,
+            "chance": 68
+        },
+        "Stark Industries": {
+            "salary_factor": 2.8,
+            "xp_factor": 2.5,
+            "rxp_factor": 3,
+            "chance": 4
+        },
+        "InGen": {
+            "salary_factor": 1.75,
+            "xp_factor": 2,
+            "rxp_factor": 1.5,
+            "chance": 22
+        },
+        "La Casa Del Puta": {
+            "salary_factor": 1.1,
+            "xp_factor": 0.3,
+            "rxp_factor": 0.05,
+            "chance": 28
+        },
+        "Valve": {
+            "salary_factor": 1.28,
+            "xp_factor": 1.2,
+            "rxp_factor": 1.2,
+            "chance": 52
+        },
+        "Embraer": {
+            "salary_factor": 1.8,
+            "xp_factor": 1.85,
+            "rxp_factor": 1.7,
+            "chance": 20
+        },
+        "SpaceX": {
+            "salary_factor": 2.1,
+            "xp_factor": 2.1,
+            "rxp_factor": 2,
+            "chance": 10
+        },
+        "Santos Futebol Clube": {
+            "salary_factor": 1.2,
+            "xp_factor": 1.1,
+            "rxp_factor": 1,
+            "chance": 48
+        },
+        "Esporte Clube Bahia": {
+            "salary_factor": 0.4,
+            "xp_factor": 0.85,
+            "rxp_factor": 0.01,
+            "chance": 88
+        },
+        "São Paulo Futebol Clube": {
+            "salary_factor": 1.22,
+            "xp_factor": 0.9,
+            "rxp_factor": 1.18,
+            "chance": 52
+        },
+        "Flamengo": {
+            "salary_factor": 1.8,
+            "xp_factor": 1.4,
+            "rxp_factor": 2,
+            "chance": 28
+        }
+    },
+    "jobs": {
+        "Prostituto": {
+            "salary_base": 350,
+            "xp_base": 4,
+            "company": [
+                "La Prostitute",
+                "La Casa Del Puta"
+            ],
+            "requirements": {
+                "courses": [],
+                "rxp_base": 0
+            },
+            "phrases": [
+                "Você entreteu muito bem o seu cliente",
+                "Você se fantasiou de Vaporeon",
+                "Você deixou seu cliente feliz",
+                "Você enfiou vidros no cu sorte que o cliente pagou sua conta hospitalar!",
+                "Bruce pediu para você enfiar os cabelos dele no cu e você fez",
+                "Você passou uma noite na Little Saint James!",
+                "Você teve que se fantasiar de neymar (??)",
+                "Você foi chamado pra Casa Branca!",
+                "Você moscou e dudu te pegou!",
+                "Você dançou pole dance numa praça e todos adoraram",
+                "Você foi chamado pra palestrar numa creche",
+                "Você enfiou um cabo de vassoura no cu",
+                "Você vestiu uma fursuit e dançou pro público",
+                "Você performou pole dance no bar",
+                "Você pegou HIV e recebeu uma compensação",
+                "Você gravou o clipe sete mil negões e foi um sucesso!",
+                "Você produziu um filme com o The Rock haha",
+                "Você teve que trabalhar muito...",
+                "Você teve que se esforçar muito...",
+                "Hoje foi muito dolorido!"
+            ]
+        },
+        "Faxineiro": {
+            "salary_base": 350,
+            "xp_base": 4,
+            "company": [
+                "Microsoft",
+                "Google",
+                "SpaceX",
+                "La Prostitute",
+                "Bar do Zé",
+                "Nigga's Burger",
+                "Vitrine Calçados",
+                "Carrefour",
+                "Assaí",
+                "Hitler's Pizzas",
+                "La Casa Del Puta"
+            ],
+            "requirements": {
+                "courses": [],
+                "rxp_base": 0
+            },
+            "phrases": [
+                "Você limpou o chão de forma impecável!",
+                "Você apenas teve que limpar umas janelinhas",
+                "Você teve que desentupir uma privada cheia de merda",
+                "Alguém cagou no chão e você teve que limpar",
+                "Você acabou escorregando numa bosta e recebeu compensação",
+                "Uma criança autista cagou em tudo e você teve que limpar",
+                "Alguém vomitou e você limpou",
+                "Alguém mijou nas paredes e sobrou pra você limpar"
+            ]
+        },
+        "Suporte Técnico": {
+            "salary_base": 430,
+            "xp_base": 4,
+            "company": [
+                "Microsoft",
+                "Google",
+                "Roblox",
+                "Bradesca",
+                "Nubanka",
+                "Discord",
+                "Latam Airlines",
+                "Valve"
+            ],
+            "requirements": {
+                "courses": [],
+                "rxp_base": 0
+            },
+            "phrases": [
+                "Você ajudou a recuperar a conta de alguém",
+                "Você conseguiu salvar alguém de cair em golpe!",
+                "Você fez alguém cair num golpe, mas ninguém precisa saber disso...",
+                "Você restaurou uma conta",
+                "Você respondeu várias dúvidas",
+                "Você fez alguém morrer",
+                "Você não ajudou ninguém mas mesmo assim recebeu!",
+                "Você acabou apagando a conta de alguém sem querer",
+                "Você fez literalmente nada pois nosso suporte é horrível mesmo haha!",
+                "Você não soube ajudar ninguém",
+                "Você botou o ChatGPT pra responder e deu certo (talvez)",
+                "Você fingiu que era bot até a pessoa fechar o ticket"
+            ]
+        },
+        "Atendente": {
+            "salary_base": 470,
+            "xp_base": 8,
+            "company": [
+                "Atacadão",
+                "La Prostitute",
+                "Bar do Zé",
+                "Nigga's Burger",
+                "Vitrine Calçados",
+                "Bradesca",
+                "Carrefour",
+                "Assaí",
+                "La Casa Del Puta"
+            ],
+            "requirements": {
+                "courses": [],
+                "rxp_base": 40
+            },
+            "phrases": [
+                "Você atendeu muitas pessoas",
+                "Você ajudou um cliente burro",
+                "Você ajudou umas pessoas",
+                "Você respondeu umas dúvidas",
+                "Você atendeu! É isso que você faz, né?",
+                "Você ajudou uma velha burra e fudida, parabéns!",
+                "Hoje não foi muito movimentado ezzz"
+            ]
+        },
+        "Operador de Caixa": {
+            "salary_base": 600,
+            "xp_base": 12,
+            "company": [
+                "Bar do Zé",
+                "Atacadão",
+                "Nigga's Burger",
+                "Carrefour",
+                "Assaí",
+                "Hitler's Pizzas",
+                "Vitrine Calçados"
+            ],
+            "requirements": {
+                "courses": [],
+                "rxp_base": 100
+            },
+            "phrases": [
+                "Você é um ótimo operador de caixa!",
+                "Você ficou no caixa jogando roblox",
+                "Você não atendeu ninguém pois ficou no TikTok, sorte que ninguém viu",
+                "Você finalizou muitas vendas"
+            ]
+        },
+        "Repositor": {
+            "salary_base": 670,
+            "xp_base": 10,
+            "company": [
+                "Atacadão",
+                "Carrefour",
+                "Assaí",
+                "Vitrine Calçados"
+            ],
+            "requirements": {
+                "courses": [],
+                "rxp_base": 300
+            },
+            "phrases": [
+                "Você pegou muitas caixas",
+                "Você é o maior pegador de caixas do mundo!",
+                "Você adora carregar caixas",
+                "Você carregou umas caixas"
+            ]
+        },
+        "Auxiliar Administrativo": {
+            "salary_base": 770,
+            "xp_base": 20,
+            "company": [
+                "Microsoft",
+                "Google",
+                "Atacadão",
+                "Pretobras",
+                "Roblox",
+                "Bradesca",
+                "Nubanka",
+                "OpenAI",
+                "NVIDIA",
+                "Discord",
+                "Carrefour",
+                "Assaí",
+                "Latam Airlines",
+                "Stark Industries",
+                "InGen",
+                "La Casa Del Puta",
+                "La Prostitute",
+                "Valve",
+                "Embraer",
+                "SpaceX"
+            ],
+            "requirements": {
+                "courses": [
+                    "Curso de administração"
+                ],
+                "rxp_base": 1000
+            },
+            "phrases": [
+                "Você atualizou a agenda",
+                "Você organizou muitos documentos",
+                "Você imprimiu umas coisas",
+                "Você montou um relátorio feito por IA",
+                "Você prestou suporte a umas pessoas"
+            ]
+        },
+        "Técnico de Informática": {
+            "salary_base": 800,
+            "xp_base": 28,
+            "company": [
+                "Microsoft",
+                "Google",
+                "Atacadão",
+                "Pretobras",
+                "Roblox",
+                "Bradesca",
+                "Nubanka",
+                "OpenAI",
+                "NVIDIA",
+                "Discord",
+                "Carrefour",
+                "Assaí",
+                "Latam Airlines",
+                "Stark Industries",
+                "InGen",
+                "Valve",
+                "Embraer",
+                "SpaceX"
+            ],
+            "requirements": {
+                "courses": [
+                    "Curso de informática"
+                ],
+                "rxp_base": 1500
+            },
+            "phrases": [
+                "Você botou virus no computador da empresa",
+                "Você ficou jogando minecraft o tempo todo",
+                "Você consertou uns computadores",
+                "Você teve que reinstalar o windows pois alguém baixou virus",
+                "Alguém não sabia como entrar no excel e você ajudou",
+                "Alguém deixou a fonte desligada e você foi chamado"
+            ]
+        },
+        "Analista Financeiro": {
+            "salary_base": 850,
+            "xp_base": 35,
+            "company": [
+                "Microsoft",
+                "Google",
+                "Atacadão",
+                "Pretobras",
+                "Roblox",
+                "Bradesca",
+                "Nubanka",
+                "OpenAI",
+                "NVIDIA",
+                "Discord",
+                "Carrefour",
+                "Assaí",
+                "Latam Airlines",
+                "Stark Industries",
+                "InGen",
+                "Valve",
+                "Embraer",
+                "SpaceX",
+                "La Prostitute"
+            ],
+            "requirements": {
+                "courses": [
+                    "Curso de economia",
+                    "Curso de matemática"
+                ],
+                "rxp_base": 2800
+            },
+            "phrases": [
+                "Você analisou coisas financeiras",
+                "Você sonegou um pouco de imposto",
+                "Você é o maior sonegador do mundo!",
+                "Você montou algumas notas fiscais",
+                "Você fez a empresa economizar 2 milhões! (seu salário não vai subir)"
+            ]
+        },
+        "Analista de Sistemas": {
+            "salary_base": 1000,
+            "xp_base": 35,
+            "company": [
+                "Microsoft",
+                "Google",
+                "Atacadão",
+                "Pretobras",
+                "Roblox",
+                "Bradesca",
+                "Nubanka",
+                "OpenAI",
+                "NVIDIA",
+                "Discord",
+                "Carrefour",
+                "Assaí",
+                "Latam Airlines",
+                "Stark Industries",
+                "InGen",
+                "Valve",
+                "Embraer",
+                "SpaceX"
+            ],
+            "requirements": {
+                "courses": [
+                    "Curso de informática"
+                ],
+                "rxp_base": 4000
+            },
+            "phrases": [
+                "Você atualizou uns sistemas antigos",
+                "Você montou um projeto very massa!",
+                "Você otimizou uns processos"
+            ]
+        },
+        "Programador": {
+            "salary_base": 1250,
+            "xp_base": 38,
+            "company": [
+                "Atacadão",
+                "Carrefour",
+                "Assaí",
+                "Microsoft",
+                "Google",
+                "Pretobras",
+                "Roblox",
+                "Bradesca",
+                "Nubanka",
+                "OpenAI",
+                "NVIDIA",
+                "Discord",
+                "Latam Airlines",
+                "Stark Industries",
+                "InGen",
+                "Valve",
+                "Embraer",
+                "SpaceX"
+            ],
+            "requirements": {
+                "courses": [
+                    "Curso de programação"
+                ],
+                "rxp_base": 5200
+            },
+            "phrases": [
+                "Você ajudou a montar um sistema importante",
+                "Você montou um sistema inteiro em HTML!",
+                "Você montou uns projetos legais",
+                "Você projetou uma solução importante",
+                "O ChatGPT fez um código bem interessante"
+            ]
+        },
+        "Jogador": {
+            "salary_base": 1550,
+            "xp_base": 45,
+            "company": [
+                "Santos Futebol Clube",
+                "Esporte Clube Bahia",
+                "São Paulo Futebol Clube"
+            ],
+            "requirements": {
+                "courses": [],
+                "rxp_base": 6000
+            },
+            "phrases": [
+                "Você jogou e conseguiu fazer 2 gols!",
+                "Você jogou se lesionou e não fez nenhum gol...",
+                "Você jogou mas fez gol contra, o pior jogador do mundo!",
+                "Você jogou e conseguiu fazer 1 gol!",
+                "Você acabou ficando de reserva então só assistiu",
+                "Você ficou de reserva te chamaram e a primeira coisa que fez foi um gol contra!",
+                "Você fez vários gols até perceber que o campo foi invertido no intervalo",
+                "Você jogou e... só isso... só jogou marcou nada..."
+            ]
+        },
+        "Engenheiro de Software": {
+            "salary_base": 2050,
+            "xp_base": 50,
+            "company": [
+                "Atacadão",
+                "Carrefour",
+                "Assaí",
+                "Microsoft",
+                "Google",
+                "Pretobras",
+                "Roblox",
+                "Bradesca",
+                "Nubanka",
+                "OpenAI",
+                "NVIDIA",
+                "Discord",
+                "Latam Airlines",
+                "Stark Industries",
+                "InGen",
+                "Valve",
+                "Embraer",
+                "SpaceX"
+            ],
+            "requirements": {
+                "courses": [
+                    "Curso de programação",
+                    "Curso de informática",
+                    "Curso de engenharia"
+                ],
+                "rxp_base": 10000
+            },
+            "phrases": [
+                "Você fez a arquitetura de um novo projeto",
+                "Você mostrou um projeto interessante",
+                "Você arquitetou um novo modelo de projeto"
+            ]
+        },
+        "Gerente Administrativo": {
+            "salary_base": 2550,
+            "xp_base": 60,
+            "company": [
+                "Microsoft",
+                "Google",
+                "Atacadão",
+                "Pretobras",
+                "Roblox",
+                "Bradesca",
+                "Nubanka",
+                "OpenAI",
+                "NVIDIA",
+                "Discord",
+                "Carrefour",
+                "Assaí",
+                "Latam Airlines",
+                "Stark Industries",
+                "InGen",
+                "Valve",
+                "Embraer",
+                "SpaceX",
+                "La Prostitute",
+                "La Casa Del Puta"
+            ],
+            "requirements": {
+                "courses": [
+                    "Curso de administração"
+                ],
+                "rxp_base": 18000
+            },
+            "phrases": [
+                "Você estruturou um novo projeto admistrativo",
+                "Você organizou umas burocracias",
+                "Você gerenciou admistrativamente!"
+            ]
+        },
+        "Gerente Financeiro": {
+            "salary_base": 2850,
+            "xp_base": 70,
+            "company": [
+                "Microsoft",
+                "Google",
+                "Atacadão",
+                "Pretobras",
+                "Roblox",
+                "Bradesca",
+                "Nubanka",
+                "OpenAI",
+                "NVIDIA",
+                "Discord",
+                "Carrefour",
+                "Assaí",
+                "Latam Airlines",
+                "Stark Industries",
+                "InGen",
+                "Valve",
+                "Embraer",
+                "SpaceX",
+                "La Prostitute",
+                "La Casa Del Puta"
+            ],
+            "requirements": {
+                "courses": [
+                    "Curso de administração"
+                ],
+                "rxp_base": 25000
+            },
+            "phrases": [
+                "Você conseguiu sonegar uns impostos",
+                "Você montou um plano de desenvolvimento",
+                "Você abaixou os gastos da empresa"
+            ]
+        },
+        "Engenheiro Aeroespacial": {
+            "salary_base": 3250,
+            "xp_base": 200,
+            "company": [
+                "Stark Industries",
+                "Embraer",
+                "SpaceX"
+            ],
+            "requirements": {
+                "courses": [
+                    "Curso de matemática",
+                    "Curso de engenharia"
+                ],
+                "rxp_base": 52000
+            },
+            "phrases": [
+                "Você conseguiu construir um carro voador",
+                "Você consegui fazer um novo protótipo de aeronave",
+                "Você batizou uma aeronave de AeroCu"
+            ]
+        },
+        "Piloto": {
+            "salary_base": 3850,
+            "xp_base": 600,
+            "company": [
+                "Stark Industries",
+                "Embraer",
+                "SpaceX",
+                "Latam Airlines"
+            ],
+            "requirements": {
+                "courses": [
+                    "Curso de matemática",
+                    "Curso de engenharia"
+                ],
+                "rxp_base": 200000
+            },
+            "phrases": [
+                "Você foi usado como piloto de teste num novo protótipo e quase morreu",
+                "Você pilotou um avião executivo",
+                "Você é o melhor piloto do mundo!"
+            ]
+        },
+        "Astronauta": {
+            "salary_base": 4550,
+            "xp_base": 1200,
+            "company": [
+                "SpaceX"
+            ],
+            "requirements": {
+                "courses": [
+                    "Curso de pilotagem",
+                    "Curso de matemática",
+                    "Curso de engenharia"
+                ],
+                "rxp_base": 400000
+            },
+            "phrases": [
+                "Você foi a Lua e voltou foi muito ez",
+                "Você gritou palmeiras não tem mundial do espaço",
+                "Você foi ao espaço e acenou pra Terra",
+                "Você foi pra Lua e achou o ET Bilu!"
+            ]
+        }
+    },
+    "public_ofices": {
+        "Presidente": {
+            "salary_base": 7000,
+            "xp_base": 170,
+            "company": "Governo",
+            "phrases": [
+                "Vc fez coisas de presidente"
+            ]
+        },
+        "STF": {
+            "salary_base": 5200,
+            "xp_base": 150,
+            "company": "Governo",
+            "phrases": [
+                "Vc fez coisas de STF"
+            ]
+        },
+        "Presidente da CGF": {
+            "salary_base": 4600,
+            "xp_base": 120,
+            "company": "Governo",
+            "phrases": [
+                "Vc fez coisas gulosas"
+            ]
+        },
+        "Ministro da Economia": {
+            "salary_base": 4600,
+            "xp_base": 120,
+            "company": "Governo",
+            "phrases": [
+                "Vc fez coisas economicas"
+            ]
+        },
+        "Conselheiro": {
+            "salary_base": 4000,
+            "xp_base": 100,
+            "company": "Governo",
+            "phrases": [
+                "Vc fez coisas de conselheiros"
+            ]
+        }
+    }
+}

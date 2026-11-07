@@ -1,0 +1,15 @@
+# Secrets
+.env
+.env.*
+user_data.db
+betting.json
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# IDEs
+.vscode/
+.idea/

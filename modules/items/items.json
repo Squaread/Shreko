@@ -1,0 +1,290 @@
+{
+    "Taco": {
+        "category": "equipment",
+        "type": "weapon",
+        "style": "melee",
+        "damage": 15,
+        "agility": 25,
+        "accuracy": 80,
+        "price": 200,
+        "icon": "<:Taco:1516123640461131816>",
+        "lootbox_chance": 100,
+        "rarity": "common"
+    },
+    "Canivete": {
+        "category": "equipment",
+        "type": "weapon",
+        "style": "melee",
+        "damage": 12,
+        "agility": 35,
+        "accuracy": 90,
+        "price": 500,
+        "icon": "<:Canivete:1516124618954637486>",
+        "lootbox_chance": 100,
+        "rarity": "common"
+    },
+    "Faca militar": {
+        "category": "equipment",
+        "type": "weapon",
+        "style": "melee",
+        "damage": 16,
+        "agility": 32,
+        "accuracy": 92,
+        "price": 1800,
+        "icon": "<:Faca_militar:1515944924074344530>",
+        "lootbox_chance": 40,
+        "rarity": "rare"
+    },
+    "Glock 17": {
+        "category": "equipment",
+        "type": "weapon",
+        "style": "firearm",
+        "model": "pistol",
+        "bullet": "9x19mm",
+        "capacity": 18,
+        "damage": 18,
+        "agility": 30,
+        "accuracy": 85,
+        "price": 5000,
+        "icon": "<:Glock_17:1515942470846775356>",
+        "lootbox_chance": 20,
+        "rarity": "epic"
+    },
+    "Desert Eagle": {
+        "category": "equipment",
+        "type": "weapon",
+        "style": "firearm",
+        "model": "pistol",
+        "bullet": ".50 AE",
+        "capacity": 7,
+        "damage": 33,
+        "agility": 20,
+        "accuracy": 70,
+        "price": 20000,
+        "icon": "<:Desert_Eagle:1515943121949692025>",
+        "lootbox_chance": 18,
+        "rarity": "epic"
+    },
+    "M4A1": {
+        "category": "equipment",
+        "type": "weapon",
+        "style": "firearm",
+        "model": "rifle",
+        "bullet": "5.56x45mm NATO",
+        "capacity": 30,
+        "damage": 39,
+        "agility": 22,
+        "accuracy": 90,
+        "price": 120000,
+        "icon": "<:M4A1:1515943304360104078>",
+        "lootbox_chance": 3,
+        "rarity": "legendary"
+    },
+    "G36C": {
+        "category": "equipment",
+        "type": "weapon",
+        "style": "firearm",
+        "model": "rifle",
+        "bullet": "5.56x45mm NATO",
+        "capacity": 30,
+        "damage": 43,
+        "agility": 24,
+        "accuracy": 88,
+        "price": 800000,
+        "icon": "<:G36C:1515943906011775028>",
+        "lootbox_chance": 2,
+        "rarity": "mystic"
+    },
+    "SCAR-L": {
+        "category": "equipment",
+        "type": "weapon",
+        "style": "firearm",
+        "model": "rifle",
+        "bullet": "5.56x45mm NATO",
+        "capacity": 30,
+        "damage": 46,
+        "agility": 20,
+        "accuracy": 92,
+        "price": 2000000,
+        "icon": "<:SCARL:1515943503463714950>",
+        "lootbox_chance": 1,
+        "rarity": "mystic"
+    },
+    "9x19mm": {
+        "category": "ammo",
+        "type": "pistol",
+        "price": 20,
+        "icon": "<:Ammo:1552516060144472185>",
+        "lootbox_chance": 30,
+        "rarity": "common"
+    },
+    ".50 AE": {
+        "category": "ammo",
+        "type": "pistol",
+        "price": 50,
+        "icon": "<:Ammo:1552516060144472185>",
+        "lootbox_chance": 25,
+        "rarity": "rare"
+    },
+    "5.56x45mm NATO": {
+        "category": "ammo",
+        "type": "rifle",
+        "price": 100,
+        "icon": "<:Ammo:1552516060144472185>",
+        "lootbox_chance": 20,
+        "rarity": "epic"
+    },
+    "Curso de matemática": {
+        "category": "course",
+        "price": 500,
+        "icon": "📐"
+    },
+    "Curso de economia": {
+        "category": "course",
+        "price": 2000,
+        "icon": "💵"
+    },
+    "Curso de administração": {
+        "category": "course",
+        "price": 8000,
+        "icon": "🗂️"
+    },
+    "Curso de informática": {
+        "category": "course",
+        "price": 20000,
+        "icon": "💻"
+    },
+    "Curso de programação": {
+        "category": "course",
+        "price": 80000,
+        "icon": "📟"
+    },
+    "Curso de engenharia": {
+        "category": "course",
+        "price": 120000,
+        "icon": "🛠️"
+    },
+    "Curso de pilotagem": {
+        "category": "course",
+        "price": 300000,
+        "icon": "✈️"
+    },
+    "Caixa de merda": {
+        "category": "lootbox",
+        "type": "all",
+        "factor": {"common": 1, "rare": 1, "epic": 1, "legendary": 1, "mystic": 1},
+        "income": {"min_money": 200, "max_money": 2000, "min_xp": 20, "max_xp": 220, "item_gain_quant_factor": 1},
+        "rarity": "common",
+        "lootbox_chance": 50,
+        "price": 2000,
+        "icon": "<:Caixa_de_merda:1531108961015693483>"
+    },
+    "Caixa de pro": {
+        "category": "lootbox",
+        "type": "all",
+        "factor": {"common": 0.15, "rare": 1, "epic": 3, "legendary": 2, "mystic": 2},
+        "income": {"min_money": 5000, "max_money": 50000, "min_xp": 500, "max_xp": 2000, "item_gain_quant_factor": 4},
+        "rarity": "epic",
+        "lootbox_chance": 10,
+        "price": 15000,
+        "icon": "<:Caixa_de_pro:1531109019589017721>"
+    },
+    "Caixa 67": {
+        "category": "lootbox",
+        "type": "points",
+        "income": {"min_money": 3000, "max_money": 30000, "min_xp": 2000, "max_xp": 10000, "item_gain_quant_factor": 0},
+        "rarity": "epic",
+        "lootbox_chance": 10,
+        "price": 10000,
+        "icon": "<:Caixa_67:1531109273625432074>"
+    },
+    "Caixa gulosa": {
+        "category": "lootbox",
+        "type": "random",
+        "factor": {"common": 1, "rare": 1, "epic": 1.5, "legendary": 1.2, "mystic": 1},
+        "income": {"min_money": 500, "max_money": 3000, "min_xp": 200, "max_xp": 500, "item_gain_quant_factor": 5},
+        "rarity":"rare",
+        "lootbox_chance": 25,
+        "price": 2500,
+        "icon":"<:Caixa_gulosa:1531399901664251974>"
+    },
+    "Caixa misteriosa": {
+        "category": "lootbox",
+        "type": "all",
+        "style": "unsafe",
+        "factor": {"common": 0.5, "rare": 0.8, "epic": 1.2, "legendary": 1.2, "mystic": 1},
+        "income": {"min_money": 5, "max_money": 30000, "min_xp": 5, "max_xp": 5000, "item_gain_quant_factor": 4},
+        "rarity":"rare",
+        "lootbox_chance": 30,
+        "price": 10000,
+        "icon":"<:Caixa_misteriosa:1531447583652712609>"
+    },
+    "Vibrador": {
+        "category": "random",
+        "type": "meme",
+        "use_message": "e foi totoso demais",
+        "lootbox_chance": 40,
+        "rarity": "common",
+        "price": 100,
+        "icon": "<:Vibrador:1531391307334029332>"
+    },
+    "Travesseiro do Bolsonaro": {
+        "category": "random",
+        "type": "meme",
+        "use_message": "e dormiu muito bem haha",
+        "lootbox_chance": 30,
+        "rarity": "rare",
+        "price": 400,
+        "icon": "<:Travesseiro_do_Bolsonaro:1531394167157166223>"
+    },
+    "Travesseiro do Neymar": {
+        "category": "random",
+        "type": "meme",
+        "use_message": "e dormiu muito bem haha",
+        "lootbox_chance": 20,
+        "rarity": "epic",
+        "price": 8000,
+        "icon": "<:Travesseiro_do_Neymar:1531395532411637822>"
+    },
+    "Minividro": {
+        "category": "random",
+        "type": "meme",
+        "use_message": "e enfiou no cu haha",
+        "lootbox_chance": 20,
+        "rarity": "epic",
+        "price": 5,
+        "icon": "<:vidrocagado:1554985846866972763>"
+    },
+    "Cofre Upgrader": {
+        "category": "upgrader",
+        "type": "vault",
+        "lootbox_chance": 30,
+        "rarity": "rare",
+        "price": 10000,
+        "icon": "<:Cofre_Upgrader:1531437288368767127>"
+    },
+    "Taça Gulosa": {
+        "category": "award",
+        "type": "soccer",
+        "use_message": "vc quase perdeu ela dentro do cu...",
+        "icon": "<:Taca:1548084545952284803>"
+    },
+    "Medalha de prata": {
+        "category": "award",
+        "type": "soccer",
+        "use_message": "vc quase perdeu ela dentro do cu...",
+        "icon": "<:Medalhadeprata:1566256899886817330>"
+    },
+    "Medalha de merda": {
+        "category": "award",
+        "type": "soccer",
+        "use_message": "vc quase perdeu ela dentro do cu...",
+        "icon": "<:Medalhademerda:1566256974067273858>"
+    },
+    "Taça Gulão": {
+        "category": "award",
+        "type": "soccer",
+        "use_message": "vc quase perdeu ela dentro do cu...",
+        "icon": "<:Tacagulao:1566264935401398322>"
+    }
+}

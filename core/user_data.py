@@ -6,7 +6,7 @@ class Database:
     def __init__(self):
         BASE_DIR = Path(__file__).resolve().parent.parent
 
-        self.conn = sqlite3.connect(BASE_DIR/"user_data.db")
+        self.conn = sqlite3.connect(BASE_DIR/"user_data.db", check_same_thread=False)
         self.cursor = self.conn.cursor()
 
         self.cursor.execute("""

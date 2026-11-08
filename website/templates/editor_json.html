@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Shreko - Editor JSON</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='img/Shreko.png') }}" alt="Shreko">
+            Shreko
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('conta') }}">Conta</a></li>
+                <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Editor JSON</h1>
+
+        <label for="fileSelect">Arquivo:</label>
+
+        <select id="fileSelect">
+            {% for key, filename in files.items() %}
+                <option value="{{ key }}">{{ filename }}</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <textarea
+            id="jsonEditor"
+            spellcheck="false"
+            style="width: 100%; height: 450px; font-family: monospace;"
+        ></textarea>
+
+        <br><br>
+
+        <button onclick="loadJSON()">Carregar</button>
+        <button onclick="saveJSON()">Salvar</button>
+
+        <p id="status"></p>
+    </main>
+
+    <script>
+        const fileSelect = document.getElementById("fileSelect");
+        const editor = document.getElementById("jsonEditor");
+        const status = document.getElementById("status");
+
+        async function loadJSON() {
+            const filename = fileSelect.value;
+
+            status.textContent = "Carregando...";
+
+            try {
+                const response = await fetch(`/editor_json/json/${filename}`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || "Erro ao carregar.");
+                }
+
+                editor.value = JSON.stringify(data, null, 4);
+                status.textContent = "JSON carregado!";
+
+            } catch (error) {
+                status.textContent = error.message;
+            }
+        }
+
+        async function saveJSON() {
+            const filename = fileSelect.value;
+
+            let data;
+
+            // Verifica se o conteúdo é um JSON válido
+            try {
+                data = JSON.parse(editor.value);
+            } catch (error) {
+                status.textContent = "JSON inválido! Verifique a sintaxe.";
+                return;
+            }
+
+            status.textContent = "Salvando...";
+
+            try {
+                const response = await fetch(`/editor_json/json/${filename}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || "Erro ao salvar.");
+                }
+
+                status.textContent = "Salvo com sucesso!";
+
+            } catch (error) {
+                status.textContent = error.message;
+            }
+        }
+
+        // Carrega o primeiro arquivo automaticamente
+        loadJSON();
+    </script>
+
+</body>
+</html>

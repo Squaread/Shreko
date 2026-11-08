@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Shreko - Home</title>
+</head>
+<body>
+    <header>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <!-- Inicio -->
+        <div class="logo">
+            <img src="{{ url_for('static', filename='img/Shreko.png') }}" alt="Shreko">
+            Shreko
+        </div>
+
+        <nav>
+            <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('conta') }}">Conta</a></li>
+            <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h1>Home</h1>
+
+    {% if user %}
+
+        <p>Nome: {{ user.username }}</p>
+        <p>ID: {{ user.id }}</p>
+
+        {% if user.avatar %}
+            <img src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png" width="100">
+        {% endif %}
+
+        <br><br>
+
+        <a href="/logout">Sair</a>
+
+    {% else %}
+
+        <p>Você não está logado.</p>
+
+        <a href="/login">
+            <button>Entrar com Discord</button>
+        </a>
+
+    {% endif %}
+
+</body>
+</html>

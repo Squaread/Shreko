@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Shreko - Admin</title>
+</head>
+<body>
+    <header>
+        <style>
+            .button {
+            background-color: #04AA6D;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            }
+        </style>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <!-- Inicio -->
+        <div class="logo">
+            <img src="{{ url_for('static', filename='img/Shreko.png') }}" alt="Shreko">
+            Shreko
+        </div>
+
+        <nav>
+            <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('conta') }}">Conta</a></li>
+            <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h1>Admin</h1>
+    <a href="{{ url_for('economia') }}" class="button">Economia</a>
+    <a href="{{ url_for('editor_json') }}" class="button">Editor JSON</a>
+
+
+</body>
+</html>

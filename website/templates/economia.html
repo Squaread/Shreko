@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shreko - Economia</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        main {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .economy-layout {
+            display: flex;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .categories {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 200px;
+        }
+
+        .categories button {
+            padding: 12px;
+            text-align: left;
+            cursor: pointer;
+            border: 1px solid #555;
+            border-radius: 6px;
+        }
+
+        .categories button.active {
+            background: #444;
+            color: white;
+        }
+
+        .editor {
+            flex: 1;
+            min-width: 0;
+            padding: 20px;
+            border: 1px solid #555;
+            border-radius: 8px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .field input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #777;
+            font-size: 16px;
+        }
+
+        #saveButton {
+            padding: 12px 25px;
+            cursor: pointer;
+        }
+
+        #status {
+            margin-top: 15px;
+        }
+
+        @media (max-width: 650px) {
+            .economy-layout {
+                flex-direction: column;
+            }
+
+            .categories {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <img src="{{ url_for('static', filename='img/Shreko.png') }}" alt="Shreko">
+        Shreko
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('conta') }}">Conta</a></li>
+            <li><a href="{{ url_for('admin') }}">Admin</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+    <h1>Painel Economia</h1>
+    <p>Tenha certeza que botou os valores corretos!</p>
+
+    <div class="economy-layout">
+
+        <aside class="categories" id="categories">
+
+            <button class="active" data-group="geral">Geral</button>
+            <button data-group="privados">Salários privados</button>
+            <button data-group="bolsa">Bolsa família</button>
+            <button data-group="tax_rent">Imposto de renda</button>
+            <button data-group="tax_item">Imposto de compra/venda</button>
+            <button data-group="tax_pix">Imposto de PIX</button>
+            <button data-group="tax_dep">Imposto de depósito</button>
+            <button data-group="tax_saldo">Imposto PSE (saldo)</button>
+
+        </aside>
+
+        <section class="editor">
+
+            <h2 id="categoryTitle">Geral</h2>
+
+            <form id="economyForm">
+
+                <div id="fields"></div>
+
+                <button type="submit" id="saveButton">
+                    Salvar alterações
+                </button>
+
+            </form>
+
+            <p id="status"></p>
+
+        </section>
+
+    </div>
+
+</main>
+
+<script>
+    // Flask
+    const economy = {{ economy | tojson }}; // Pode ficar com falso positivo de erro no vs code
+
+    // Configuracoes de cada categoria
+    const categories = {
+
+        geral: {
+            title: "Configurações gerais",
+            fields: [
+                ["items_price_coefficient", "Coeficiente do valor dos itens"],
+                ["aura_coefficient", "Coeficiente de ganho de aura"]
+            ]
+        },
+
+        privados: {
+            title: "Salários privados",
+            fields: [
+                ["private_salary_coefficient", "Coeficiente geral"],
+                ["private_salary_parity_base", "Paridade base"],
+                ["private_salary_parity", "Coeficiente de paridade"]
+            ]
+        },
+
+        bolsa: {
+            title: "Bolsa família",
+            fields: [
+                ["money_assistance_value", "Valor base"],
+                ["money_assistance_variance", "Variância (0.05 = 5%)"],
+                ["money_assistance_maxmoney", "Renda máxima para receber"]
+            ]
+        },
+
+        tax_rent: {
+            title: "Imposto de renda",
+            fields: [
+                ["tax_rent", "Imposto (0.05 = 5%)"],
+                ["tax_minrent", "Isenção até"]
+            ]
+        },
+
+        tax_item: {
+            title: "Imposto de compra/venda",
+            fields: [
+                ["tax_item", "Imposto (0.05 = 5%)"],
+                ["tax_minitem", "Isenção até"]
+            ]
+        },
+
+        tax_pix: {
+            title: "Imposto de PIX",
+            fields: [
+                ["tax_pix", "Imposto (0.05 = 5%)"],
+                ["tax_minpix", "Isenção até"]
+            ]
+        },
+
+        tax_dep: {
+            title: "Imposto de depósito",
+            fields: [
+                ["tax_dep", "Imposto (0.05 = 5%)"],
+                ["tax_mindep", "Isenção até"]
+            ]
+        },
+
+        tax_saldo: {
+            title: "Imposto PSE (saldo)",
+            fields: [
+                ["tax_saldo", "Imposto inicial (0.05 = 5%)"],
+                ["tax_minsaldo", "Isenção até"],
+                ["tax_saldofactor", "Dobra a taxa a cada"],
+                ["tax_saldomax", "Taxa máxima (0.05 = 5%)"]
+            ]
+        }
+
+    };
+
+    let currentGroup = "geral";
+
+    const fieldsContainer = document.getElementById("fields");
+    const title = document.getElementById("categoryTitle");
+    const status = document.getElementById("status");
+
+    // Monta os campos da categoria
+    function renderCategory(group) {
+
+        currentGroup = group;
+
+        const category = categories[group];
+
+        title.textContent = category.title;
+        fieldsContainer.innerHTML = "";
+
+        status.textContent = "";
+
+        category.fields.forEach(([key, label]) => {
+
+            const value = economy[key] ?? 0;
+
+            const field = document.createElement("div");
+            field.className = "field";
+
+            const inputLabel = document.createElement("label");
+            inputLabel.textContent = label;
+            inputLabel.htmlFor = key;
+
+            const input = document.createElement("input");
+            input.type = "number";
+            input.step = "any";
+            input.id = key;
+            input.name = key;
+            input.value = value;
+
+            field.appendChild(inputLabel);
+            field.appendChild(input);
+
+            fieldsContainer.appendChild(field);
+
+        });
+
+        // Atualiza botao ativo
+        document.querySelectorAll(".categories button").forEach(button => {
+            button.classList.toggle(
+                "active",
+                button.dataset.group === group
+            );
+        });
+    }
+
+    // Navegacao entre categorias
+    document.querySelectorAll(".categories button").forEach(button => {
+
+        button.addEventListener("click", () => {
+            renderCategory(button.dataset.group);
+        });
+
+    });
+
+    // Salvar alteracoes
+    document.getElementById("economyForm").addEventListener("submit", async (event) => {
+
+        event.preventDefault();
+
+        const category = categories[currentGroup];
+        const values = {};
+
+        for (const [key] of category.fields) {
+
+            const input = document.getElementById(key);
+            const value = input.value;
+
+            if (value.trim() === "") {
+                status.textContent = "Preencha todos os campos!";
+                return;
+            }
+
+            const number = Number(value);
+
+            if (!Number.isFinite(number)) {
+                status.textContent = "Valor numérico inválido!";
+                return;
+            }
+
+            values[key] = number;
+        }
+
+        status.textContent = "Salvando...";
+
+        try {
+
+            const response = await fetch("/economia/salvar", {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    group: currentGroup,
+                    values: values
+                })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || "Erro ao salvar!");
+            }
+
+            // Atualiza os dados locais
+            Object.assign(economy, values);
+
+            status.textContent = "Alterações salvas com sucesso!";
+
+        } catch (error) {
+
+            status.textContent = error.message;
+
+        }
+
+    });
+
+    // Inicializar a pagina
+    renderCategory("geral");
+
+</script>
+
+</body>
+</html>

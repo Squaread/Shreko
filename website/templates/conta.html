@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shreko - Conta</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <img
+                src="{{ url_for('static', filename='img/Shreko.png') }}"
+                alt="Shreko"
+            >
+            Shreko
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('conta') }}">Conta</a></li>
+                <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Conta</h1>
+
+        {% if user %}
+            <section>
+                <p>Nome: {{ user.username }}</p>
+                <p>ID: {{ user.id }}</p>
+
+                {% if user.avatar %}
+                    <img src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png" alt="Avatar de {{ user.username }}" width="100">
+                {% endif %}
+
+                <p>Carteira: {{ user_data.money }}</p>
+                <p>Banco: {{ user_data.bank }}</p>
+                <br>
+                {% if user_data.job %}
+                    <p>Empresa: {{ user_data.job.company }}</p>
+                    <p>Cargo: {{ user_data.job.job }}</p>
+                {% else %}
+                    <p>Vagabundo</p>
+                {% endif %}
+            </section>
+            
+        {% else %}
+            <section>
+                <p>Você não está logado.</p>
+            </section>
+        {% endif %}
+    </main>
+
+</body>
+</html>

@@ -104,8 +104,6 @@ class jobs(commands.Cog):
 
         job_xp = user_job['xp']*economy.get("aura_coefficient")
         user_courses = JobsService.get_user_courses(user_id)
-        if not user_courses: user_courses = []
-        else: user_courses = json.loads(user_courses)
 
         clt_embed=discord.Embed(title="CARTEIRA DE TRABALHO", description=f"NOME: `{user.name}`\nCPF: `{user_id}`\nAURA: `{AURA_ICON}{EconomyService.get_user_aura(user_id)}`")
         clt_embed.add_field(name=f"{job_company}", value=f"**{job_name}**\nSalário: `{MONEY_ICON}{job_salary} ~{AURA_ICON}{job_xp}`")

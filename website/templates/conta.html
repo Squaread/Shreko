@@ -6,60 +6,156 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Shreko - Conta</title>
+    <title>Shreko - Minha conta</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
+    <div class="site-wrapper">
+        <!-- Cabeçalho -->
+        <header class="header" data-logo="{{ url_for('static', filename='img/Shreko.png') }}">
+            <script src="{{ url_for('static', filename='js/header.js') }}"></script>
+        </header>
 
-    <header>
-        <div class="logo">
-            <img
-                src="{{ url_for('static', filename='img/Shreko.png') }}"
-                alt="Shreko"
-            >
-            Shreko
-        </div>
-
-        <nav>
+        <!-- Navegação -->
+        <nav class="navbar">
             <ul>
-                <li><a href="{{ url_for('home') }}">Home</a></li>
-                <li><a href="{{ url_for('conta') }}">Conta</a></li>
-                <li><a href="{{ url_for('admin') }}">Admin</a></li>
+                <li><a href="{{ url_for('home') }}">⌂ Home</a></li>
+                <li><a href="{{ url_for('conta') }}" class="active">♟ Conta</a></li>
+                <li><a href="{{ url_for('admin') }}">⚙ Admin</a></li>
             </ul>
         </nav>
-    </header>
 
-    <main>
-        <h1>Conta</h1>
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="{{ url_for('home') }}">Shreko</a>
+            » <a href="{{ url_for('conta') }}">Conta</a>
+            » Minha conta
+        </div>
 
-        {% if user %}
-            <section>
-                <p>Nome: {{ user.username }}</p>
-                <p>ID: {{ user.id }}</p>
+        <main>
 
-                {% if user.avatar %}
-                    <img src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png" alt="Avatar de {{ user.username }}" width="100">
-                {% endif %}
+            <div class="section-title">
+                <span>Minha conta</span>
+            </div>
 
-                <p>Carteira: {{ user_data.money }}</p>
-                <p>Banco: {{ user_data.bank }}</p>
-                <br>
-                {% if user_data.job %}
-                    <p>Empresa: {{ user_data.job.company }}</p>
-                    <p>Cargo: {{ user_data.job.job }}</p>
-                {% else %}
-                    <p>Vagabundo</p>
-                {% endif %}
+            {% if user %}
+
+                <!-- Perfil -->
+                <section class="profile-panel">
+
+                    <div class="profile-sidebar">
+
+                        {% if user.avatar %}
+                            <img
+                                class="profile-avatar"
+                                src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png"
+                                alt="Avatar de {{ user.username }}"
+                            >
+                        {% else %}
+                            <div class="profile-avatar-placeholder">?</div>
+                        {% endif %}
+
+                        <h2>{{ user.username }}</h2>
+
+                        <div class="profile-sidebar-divider"></div>
+                    </div>
+
+                    <div class="profile-content">
+
+                        <!-- Informações -->
+                        <div class="profile-info-grid">
+                            <div class="profile-info-row">
+                                <span>CPF</span>
+                                <strong>{{ user.id }}</strong>
+                            </div>
+                        </div>
+
+                        <!-- Economia -->
+                        <div>
+
+                            <div>
+                                <div>
+                                    <span">💼</span>
+                                    <span>Carteira:</span>
+                                    <strong>{{ user_data.money }}</strong>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <span>🏦</span>
+                                    <span>Banco:</span>
+                                    <strong>{{ user_data.bank }}</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Emprego -->
+                        {% if user_data.job %}
+                            <div>
+                                <div>
+                                    <h3>{{ user_data.job.company }}</h3>
+
+                                    <p><strong>Cargo:</strong>{{ user_data.job.job }}</p>
+                                </div>
+
+                            </div>
+
+                        {% else %}
+                            <div>
+
+                                <div>?</div>
+
+                                <div>
+                                    <p>Vagabundo!</p>
+                                </div>
+
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                </section>
+
+            {% else %}
+
+                <section class="login-panel">
+
+                    <div class="login-icon">?</div>
+
+                    <div>
+                        <h2>Você não está logado.</h2>
+
+                        <p>
+                            Faça login!
+                        </p>
+
+                        <a href="/login" class="button button-login">
+                            Entrar com Discord
+                        </a>
+                    </div>
+
+                </section>
+
+            {% endif %}
+
+            <div class="section-title">
+                <span>Avisos</span>
+            </div>
+
+            <section class="notice-panel">
+                <span class="notice-icon">📌</span>
+                <script src="{{ url_for('static', filename='js/notice.js') }}"></script>
             </section>
-            
-        {% else %}
-            <section>
-                <p>Você não está logado.</p>
-            </section>
-        {% endif %}
-    </main>
 
+        </main>
+
+        <footer class="footer">
+            <script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+        </footer>
+    </div>
+    
 </body>
 </html>

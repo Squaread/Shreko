@@ -61,13 +61,38 @@
 
             try {
                 const response = await fetch(`/editor_json/json/${filename}`);
-                const data = await response.json();
+
+                // Receber o JSON como texto, sem converter numeros para number pois js é muito ruim sllkk
+                const data = await response.text();
 
                 if (!response.ok) {
-                    throw new Error(data.error || "Erro ao carregar.");
+                    let error;
+
+                    try {
+                        error = JSON.parse(data).error;
+                    } catch {}
+
+                    throw new Error(error || "Erro ao carregar.");
                 }
 
-                editor.value = JSON.stringify(data, null, 4);
+                // Formatar o JSON preservando os numeros originais
+                editor.value = JSON.stringify(
+                    JSON.parse(data, (key, value, context) => {
+                        if (
+                            typeof value === "number" &&
+                            !Number.isSafeInteger(value) &&
+                            context &&
+                            /^-?\d+$/.test(context.source)
+                        ) {
+                            return context.source;
+                        }
+
+                        return value;
+                    }),
+                    null,
+                    4
+                );
+
                 status.textContent = "JSON carregado!";
 
             } catch (error) {
@@ -78,11 +103,9 @@
         async function saveJSON() {
             const filename = fileSelect.value;
 
-            let data;
-
-            // Verifica se o conteúdo é um JSON válido
+            // Validar sintaxe
             try {
-                data = JSON.parse(editor.value);
+                JSON.parse(editor.value);
             } catch (error) {
                 status.textContent = "JSON inválido! Verifique a sintaxe.";
                 return;
@@ -96,7 +119,7 @@
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(data)
+                    body: editor.value
                 });
 
                 const result = await response.json();
@@ -111,8 +134,7 @@
                 status.textContent = error.message;
             }
         }
-
-        // Carrega o primeiro arquivo automaticamente
+        // Carregar
         loadJSON();
     </script>
 

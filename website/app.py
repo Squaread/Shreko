@@ -19,7 +19,6 @@ from modules.jobs import service as JobsService
 from modules.fun import service as FunService
 from modules.investments import service as InvestmentsService
 from modules.items import service as ItemsService
-from modules.betting import service as BettingService
 
 load_dotenv()
 
@@ -102,11 +101,11 @@ JSON_FILES = {
 }
 def check_perm_owner():
     user = session.get("user")
-    return user is not None and int(user["id"]) in AdminService.load_admins().get("owner")
+    return user is not None and user["id"] in AdminService.load_admins(int_converter=False).get("owner")
 
 def check_perm_economy():
     user = session.get("user")
-    return user is not None and int(user["id"]) in AdminService.load_admins().get("economy")
+    return user is not None and user["id"] in AdminService.load_admins(int_converter=False).get("economy")
 
 @app.route("/")
 def home():
@@ -131,14 +130,14 @@ def conta():
 
 @app.route("/admin")
 def admin():
-    if not check_perm_economy() and not check_perm_owner: return "GET OUT", 403
+    if not check_perm_economy() and not check_perm_owner(): return "GET OUT", 403
 
     return render_template("admin.html")
 
 @app.route("/economia")
 def economia():
     if not check_perm_economy():
-        return "Acesso negado!", 403
+        return "GET OUT", 403
 
     with open(ECONOMY_PATH, "r", encoding="utf-8") as f:
         economy_data = json.load(f)
@@ -148,7 +147,7 @@ def economia():
 @app.route("/economia/salvar", methods=["POST"])
 def salvar_economia():
     if not check_perm_economy():
-        return jsonify({"error": "Acesso negado!"}), 403
+        return jsonify({"error": "GET OUT"}), 403
 
     data = request.get_json(silent=True)
 
@@ -200,7 +199,7 @@ def salvar_economia():
             json.dump(economy_data, f, ensure_ascii=False, indent=4)
 
         temp_path.replace(ECONOMY_PATH)
-        EconomyService.load_economy()
+        EconomyService.economy = EconomyService.load_economy()
         return jsonify({"success": True})
 
     except (OSError, json.JSONDecodeError, TypeError, ValueError):
@@ -215,7 +214,7 @@ def editor_json():
 @app.route("/editor_json/json/<filename>", methods=["GET", "POST"])
 def edit_json(filename):
     if not check_perm_owner():
-        return jsonify({"error": "Acesso negado!"}), 403
+        return jsonify({"error": "GET OUT"}), 403
 
     if filename not in JSON_FILES:
         return jsonify({"error": "Arquivo não encontrado!"}), 404
@@ -248,17 +247,14 @@ def edit_json(filename):
 
             temp_path.replace(file_path)
 
-            AdminService.load_admins()
-            BettingService.load_betting()
-            EconomyService.load_economy()
-            FunService.load_wordle()
-            InvestmentsService.load_market()
-            ItemsService.load_items()
-            JobsService.load_jobs()
+            EconomyService.economy = EconomyService.load_economy()
+            FunService.wordle = FunService.load_wordle()
+            InvestmentsService.market = InvestmentsService.load_market()
+            ItemsService.items = ItemsService.load_items()
+            JobsService.jobs = JobsService.load_jobs()
             return jsonify({"success": True})
         except (OSError, TypeError, ValueError):
             return jsonify({"error": "Erro ao salvar o arquivo."}), 500
-
     
 @app.route("/login")
 def login():

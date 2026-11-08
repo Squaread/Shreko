@@ -1,46 +1,54 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shreko - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-    <header>
-        <style>
-            .button {
-            background-color: #04AA6D;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            }
-        </style>
+    <div class="site-wrapper">
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <!-- Inicio -->
-        <div class="logo">
-            <img src="{{ url_for('static', filename='img/Shreko.png') }}" alt="Shreko">
-            Shreko
-        </div>
+        <!-- Cabeçalho -->
+        <header class="header" data-logo="{{ url_for('static', filename='img/Shreko.png') }}">
+            <script src="{{ url_for('static', filename='js/header.js') }}"></script>
+        </header>
 
-        <nav>
+        <!-- Navegação -->
+        <nav class="navbar">
             <ul>
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('conta') }}">Conta</a></li>
-            <li><a href="{{ url_for('admin') }}">Admin</a></li>
+                <li><a href="{{ url_for('home') }}">⌂ Home</a></li>
+                <li><a href="{{ url_for('conta') }}">♟ Conta</a></li>
+                <li><a href="{{ url_for('admin') }}" class="active">⚙ Admin</a></li>
             </ul>
         </nav>
-    </header>
 
-    <h1>Admin</h1>
-    <a href="{{ url_for('economia') }}" class="button">Economia</a>
-    <a href="{{ url_for('editor_json') }}" class="button">Editor JSON</a>
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="{{ url_for('home') }}">Shreko</a>
+            » <a href="{{ url_for('admin') }}">Admin</a>
+            » Administração
+        </div>
 
+        <main>
+            <div class="section-title">
+                <span>Páginas</span>
+            </div>
 
+                <!-- Perfil -->
+                <section class="panel">
+                     <a href="{{ url_for('economia') }}" class="button">Economia</a>
+                     <a href="{{ url_for('editor_json') }}" class="button">Editor JSON</a>
+                </section>
+        </main>
+
+        <footer class="footer">
+            <script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+        </footer>
+    </div>
+    
 </body>
 </html>

@@ -1,51 +1,110 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Shreko - Home</title>
-</head>
-<body>
-    <header>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <!-- Inicio -->
-        <div class="logo">
-            <img src="{{ url_for('static', filename='img/Shreko.png') }}" alt="Shreko">
-            Shreko
-        </div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <nav>
+    <title>Shreko - Fórum</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="site-wrapper">
+
+        <!-- Cabeçalho -->
+        <header class="header" data-logo="{{ url_for('static', filename='img/Shreko.png') }}">
+            <script src="{{ url_for('static', filename='js/header.js') }}"></script>
+        </header>
+
+        <!-- Menu -->
+        <nav class="navbar">
             <ul>
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('conta') }}">Conta</a></li>
-            <li><a href="{{ url_for('admin') }}">Admin</a></li>
+                <li><a href="{{ url_for('home') }}" class="active">⌂ Home</a></li>
+                <li><a href="{{ url_for('conta') }}">♟ Conta</a></li>
+                <li><a href="{{ url_for('admin') }}">⚙ Admin</a></li>
             </ul>
         </nav>
-    </header>
 
-    <h1>Home</h1>
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="{{ url_for('home') }}">Shreko</a>
+            » Página inicial
+        </div>
 
-    {% if user %}
+        <!-- Conteúdo -->
+        <main>
+            <div class="section-title">
+                <span>Conta</span>
+            </div>
 
-        <p>Nome: {{ user.username }}</p>
-        <p>ID: {{ user.id }}</p>
+            {% if user %}
+                <section class="panel">
 
-        {% if user.avatar %}
-            <img src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png" width="100">
-        {% endif %}
+                    <div class="user-sidebar">
+                        {% if user.avatar %}
+                            <img
+                                class="avatar"
+                                src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png"
+                                alt="Avatar de {{ user.username }}"
+                            >
+                        {% else %}
+                            <div class="avatar-placeholder">?</div>
+                        {% endif %}
 
-        <br><br>
+                        <span class="user-status">
+                            ● Online
+                        </span>
 
-        <a href="/logout">Sair</a>
+                        <span class="user-rank">DISCORD</span>
+                    </div>
 
-    {% else %}
+                    <div class="user-details">
+                        <h2>{{ user.username }}</h2>
 
-        <p>Você não está logado.</p>
+                        <div class="user-divider"></div>
 
-        <a href="/login">
-            <button>Entrar com Discord</button>
-        </a>
+                        <p><strong>Nome:</strong>{{ user.username }}</p>
 
-    {% endif %}
+                        <p><strong>ID:</strong>{{ user.id }}</p>
 
+                        <div class="user-actions">
+                            <a href="{{ url_for('conta') }}" class="button">Minha conta</a>
+                            <a href="/logout" class="button button-danger">Sair da conta</a>
+                        </div>
+                    </div>
+                </section>
+
+            {% else %}
+                <section class="login-panel">
+                    <div class="login-icon">?</div>
+
+                    <div>
+                        <h2>Faça login!</h2>
+                        <p>Entre com a sua conta do Discord.</p>
+                        <a href="/login" class="button button-login">Entrar com Discord</a>
+                    </div>
+                </section>
+            {% endif %}
+
+            <div class="section-title">
+                <span>Avisos</span>
+            </div>
+
+            <section class="notice-panel">
+                <span class="notice-icon">📌</span>
+                <script src="{{ url_for('static', filename='js/notice.js') }}"></script>
+            </section>
+
+        </main>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+            <script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+        </footer>
+    </div>
+    
 </body>
 </html>

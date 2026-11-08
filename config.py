@@ -5,7 +5,7 @@ load_dotenv()
 
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
-BOT_PREFIX = "!"
+BOT_PREFIX = ";"
 
 MONEY_ICON = "🪙"
 AURA_ICON = "✨"
@@ -18,4 +18,4 @@ SERVERS_ID = [1514453067574284432, 1021078777385730049] # Servidores nos quais o
 LOG_CHANNEL = 1021078777830322176 # Canal onde serao enviadas as logs
 GENERAL_CHANNEL = 1021078777830322176 # Canal onde o wordle vai escolher a palavra diaria
 
-ERROR_HANDLING = True # Pra debug é melhor deixar como false pois ficara mais claro onde estao os erros
+ERROR_HANDLING = False # Pra debug é melhor deixar como false pois ficara mais claro onde estao os erros

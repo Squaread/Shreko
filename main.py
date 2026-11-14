@@ -57,7 +57,7 @@ async def on_message(message):
 
 async def load_cogs():
     print("[...] Loading cogs")
-    initial_extensions = ['core.error_handling', 'modules.jobs.tasks', 'modules.economy.tasks', 'modules.fun.tasks', 'modules.economy.commands', 'modules.items.commands', 'modules.admin.commands', 'modules.jobs.commands', 'modules.betting.commands', 'modules.investments.commands', 'modules.fun.commands']
+    initial_extensions = ['core.error_handling', 'modules.jobs.tasks', 'modules.economy.tasks', 'modules.fun.tasks', 'modules.economy.commands', 'modules.items.commands', 'modules.admin.commands', 'modules.jobs.commands', 'modules.betting.commands', 'modules.investments.commands', 'modules.fun.commands', 'modules.admin.roles_repo']
     for extension in initial_extensions:
         await bot.load_extension(extension)
 

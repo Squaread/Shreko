@@ -225,12 +225,12 @@ class fun(commands.Cog):
         turn = 1
         game_over = False
 
-        view = ui.View(timeout=180)
+        view = ui.View(timeout=60)
 
         button_shoot = ui.Button(label="Atirar", style=discord.ButtonStyle.danger)
 
         async def shoot(interaction: discord.Interaction):
-            nonlocal current_player, turn, game_over
+            nonlocal current_player, turn, game_over, msg
             if game_over: return
 
             user_turn = players[current_player]
@@ -254,8 +254,9 @@ class fun(commands.Cog):
             current_player = 1 - current_player
             button_shoot.disabled = False
             user_turn = players[current_player]
-
-            await msg.edit(content=(f"**REVOLVER CARREGADO**\n`Vez de {user_turn.display_name} | {turn}/{camera_capacity} {round(turn/camera_capacity*100, 2)}%`"), view=view)
+            await msg.delete()
+            await asyncio.sleep(0.25)
+            msg = await ctx.reply(content=(f"**REVOLVER CARREGADO**\n`Vez de {user_turn.display_name} | {turn}/{camera_capacity} {round(turn/camera_capacity*100, 2)}%`"), view=view)
 
         button_shoot.callback = shoot
         view.add_item(button_shoot)

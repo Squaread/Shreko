@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord import ui
 import asyncio
 import random
 from collections import Counter
@@ -8,6 +9,8 @@ from modules.fun import service as FunService
 from modules.items import service as ItemsService
 
 from utils.combat import combat
+
+from utils.embeds import base_embed_template
 
 class DuelInviteView(discord.ui.View):
     def __init__(self, invited_user):
@@ -190,6 +193,105 @@ class fun(commands.Cog):
 
         await ctx.reply(embed=wordle_embed, mention_author=False)
 
+#------------------------------------------
+    @commands.command(name="roletarussa")
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def roletarussa(self, ctx, member: discord.Member | None):
+        if member and member == ctx.author:
+            return await ctx.reply("Q", mention_author=False)
+
+        if member and member.bot:
+            return await ctx.reply("Noob", mention_author=False)
+
+        camera_capacity = 6
+        bullet_position = random.randint(1, camera_capacity)
+
+        msg = await ctx.reply("https://klipy.com/gifs/salesman-squid-game")
+
+        if member is None:
+            await asyncio.sleep(2.5)
+            if bullet_position == 1:
+                await msg.edit(content="**💥 POWWWWW!**")
+                try: await ctx.author.kick(reason="Roleta russa") # Kickar o perdedor ha
+                except: pass
+            else:
+                await msg.edit(content="Você sobreviveu ha")
+            return
+
+        players = [ctx.author, member]
+        random.shuffle(players)
+
+        current_player = 0
+        turn = 1
+        game_over = False
+
+        view = ui.View(timeout=180)
+
+        button_shoot = ui.Button(label="Atirar", style=discord.ButtonStyle.danger)
+
+        async def shoot(interaction: discord.Interaction):
+            nonlocal current_player, turn, game_over
+            if game_over: return
+
+            user_turn = players[current_player]
+
+            if interaction.user.id != user_turn.id: return await interaction.response.send_message("Sai", ephemeral=True)
+
+            button_shoot.disabled = True
+            await interaction.response.edit_message(view=view)
+
+            if turn == bullet_position:
+                game_over = True
+                view.stop()
+                await msg.edit(content=f"**💥 POWWWWW!**", view=None)
+                try: await user_turn.kick(reason="Roleta russa") # Kickar o perdedor ha
+                except: pass
+                return
+            await msg.edit(content=f"_click_", view=None)
+            await asyncio.sleep(3)
+            # Preparar pra proxima rodada
+            turn += 1
+            current_player = 1 - current_player
+            button_shoot.disabled = False
+            user_turn = players[current_player]
+
+            await msg.edit(content=(f"**REVOLVER CARREGADO**\n`Vez de {user_turn.display_name} | {turn}/{camera_capacity} {round(turn/camera_capacity*100, 2)}%`"), view=view)
+
+        button_shoot.callback = shoot
+        view.add_item(button_shoot)
+
+        await asyncio.sleep(2.5)
+
+        await msg.edit(content=(f"**REVOLVER CARREGADO**\n`Vez de {players[current_player].display_name} | {turn}/{camera_capacity} {round(turn/camera_capacity*100, 2)}%`"), view=view)
+
+        await view.wait() # Aguardar
+
+        if not game_over:
+            game_over = True
+            await msg.edit(content="Fugiu...",view=None)
+
+#------------------------------------------
+    @commands.command(name="randomban")
+    @commands.has_permissions(administrator=True)
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def randomban(self, ctx):
+      members = [m for m in ctx.guild.members
+        if not m.bot
+        #and m != ctx.guild.owner
+        #and m.top_role < ctx.guild.me.top_role
+        ]
+
+      if not members: return await ctx.reply("Nao ha membros validos")
+      victim = random.choice(members)
+
+      msg = await ctx.reply("Escolhendo um coitado...")
+      await asyncio.sleep(3)
+      try:
+          await victim.ban(reason="randomban")
+          await msg.edit(content=f"**SOBROU NADA PRO** {victim.mention} **KKKKKKKKKKKKKKKKKKKK**")
+      except:
+          await msg.edit(content=f"N consegui mata-lo mas o escolhido foi {victim.mention} haha")
+        
 # ======================================================================
 async def setup(bot: commands.Bot):
     print("[+] Module fun loaded")

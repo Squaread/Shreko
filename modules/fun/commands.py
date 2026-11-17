@@ -288,7 +288,7 @@ class fun(commands.Cog):
       msg = await ctx.reply("Escolhendo um coitado...")
       await asyncio.sleep(3)
       try:
-          await victim.ban(reason="randomban")
+          await victim.ban(reason="randomban", delete_message_seconds=0)
           await msg.edit(content=f"**SOBROU NADA PRO** {victim.mention} **KKKKKKKKKKKKKKKKKKKK**")
       except:
           await msg.edit(content=f"N consegui mata-lo mas o escolhido foi {victim.mention} haha")

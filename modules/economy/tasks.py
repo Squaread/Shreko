@@ -50,6 +50,7 @@ def ImpostoSobreSaldo():
             imposto += valor * taxa
             restante -= valor
 
+        imposto=int(imposto)
         total_collected+=imposto
         saldo = int(saldo - imposto)
 

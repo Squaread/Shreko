@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Shreko - Fórum</title>
+    <title>Shreko</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
@@ -72,7 +71,7 @@
 
                         <div class="user-actions">
                             <a href="{{ url_for('conta') }}" class="button">Minha conta</a>
-                            <a href="/logout" class="button button-danger">Sair da conta</a>
+                            <a href="/logout" class="button button-danger">Logout</a>
                         </div>
                     </div>
                 </section>
@@ -84,7 +83,7 @@
                     <div>
                         <h2>Faça login!</h2>
                         <p>Entre com a sua conta do Discord.</p>
-                        <a href="/login" class="button button-login">Entrar com Discord</a>
+                        <a href="/login" class="button button-login">Fazer login</a>
                     </div>
                 </section>
             {% endif %}

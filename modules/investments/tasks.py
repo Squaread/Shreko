@@ -4,6 +4,8 @@ import random
 import math
 import yfinance as yf
 
+from core import logging as logger
+
 from modules.investments import service as InvestmentsService
 
 def simulate_value(market, data):
@@ -79,7 +81,7 @@ def update_market():
 
     market["MERCADO"]["volatility"] = new_market_volatility
 
-    print("MERCADO DE INVESTIMENTOS ATUALIZADO")
+    logger.info("MARKET ATUALIZADO")
     InvestmentsService.market = market
     InvestmentsService.save_market(market)
     return market
@@ -99,7 +101,7 @@ class Market_tasks(commands.Cog):
                  update_market()
                  pass
             except Exception as e:
-                    print(f"[!] Erro ao atualizar mercado modules.investments.tasks: {e}")
+                    logger.error(f"Erro terrivel ao tentar atualizar market! {e}")
 
 # ======================================================================
 async def setup(bot: commands.Bot):

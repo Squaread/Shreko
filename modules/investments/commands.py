@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 import math
 
+from core import logging as logger
+
 from modules.economy import service as EconomyService
 from modules.investments import service as InvestmentsService
 
@@ -62,7 +64,7 @@ class investments(commands.Cog):
 
                     if price < 100: return await ctx.reply(f"Total: `{MONEY_ICON}{price}` você tem que investir pelo menos `{MONEY_ICON}100`")
                     user_money = EconomyService.get_user_money(user_id)
-                    if user_money < price: return await ctx.reply(f"Você não tem `{MONEY_ICON}{price}` pobre")
+                    if user_money < price: return await ctx.reply(f"Você não tem `{MONEY_ICON}{price}` pobre (faltam `{MONEY_ICON}{user_money-price}`)")
                     EconomyService.add_user_money(user_id, -price)
 
                     if not investors.get(str(user_id)): investors[str(user_id)] = amount
@@ -70,7 +72,9 @@ class investments(commands.Cog):
 
                     InvestmentsService.market = market
                     InvestmentsService.save_market(market)
-                    return await ctx.reply(f"Você comprou `{code} {amount}` por `{MONEY_ICON}{price}`")
+                    await ctx.reply(f"Você comprou `{code} {amount}` por `{MONEY_ICON}{price}`")
+                    logger.action(f"Investir: {user_id} {code} {amount}")
+                    return
 
         await ctx.reply(f"`{code}` não encontrado `{BOT_PREFIX}mercado`")
 
@@ -152,7 +156,8 @@ class investments(commands.Cog):
                 
                 InvestmentsService.market = market
                 InvestmentsService.save_market(market)
-                return await ctx.reply(f"Você vendeu `{code} {amount}x` por `{MONEY_ICON}{value}`")
+                await ctx.reply(f"Você vendeu `{code} {amount}x` por `{MONEY_ICON}{value}`")
+                logger.action(f"Negociar: {user_id} {code} {amount}")
 
 # ======================================================================
 async def setup(bot: commands.Bot):

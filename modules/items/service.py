@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+from core import logging as logger
 from core.user_data import db
 
 items = {}
@@ -12,16 +13,19 @@ ITEMS_FILE = BASE_DIR/"items.json"
 def load_items():
     try:
         with open(ITEMS_FILE, "r", encoding="utf-8") as f:
+            logger.system(f"{ITEMS_FILE} loaded")
             return json.load(f)
     except FileNotFoundError:
         print("[!] File not found. Creating:", ITEMS_FILE)
         with open(ITEMS_FILE, "w", encoding="utf-8") as f:
             json.dump({}, f, indent=4)
+            logger.system(f"{ITEMS_FILE} not found, created!")
         return {}
     
 def save_items(data):
     with open(ITEMS_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
+        logger.system(f"{ITEMS_FILE} saved")
 #=======================
 
 def get_user_equipment(user_id: int):
@@ -44,6 +48,7 @@ def add_user_inventory(user_id: int, item_name: str, quant: int = 1):
     if user_inventory[item_name] <= 0: del user_inventory[item_name]
 
     set_user_inventory(user_id, user_inventory)
+    logger.action(f"Add user inventory: {user_id} -> {item_name} {quant}x")
 
 def transfer_item(user_giver_id: int, user_receiver_id: int, item_name: str, quant: int):
     if user_giver_id == user_receiver_id or quant <= 0: return False
@@ -66,6 +71,7 @@ def transfer_item(user_giver_id: int, user_receiver_id: int, item_name: str, qua
     set_user_inventory(user_giver_id, giver_inventory)
     set_user_inventory(user_receiver_id, receiver_inventory)
 
+    logger.action(f"Transfer item! sender: {user_giver_id} receiver: {user_receiver_id} -> {item_name} {quant}x")
     return True
 
 def user_equip_item(user_id, item_name):
@@ -81,6 +87,7 @@ def user_equip_item(user_id, item_name):
     
     set_user_inventory(user_id, user_inventory)
     db.post_user_data("equipment", user_id, item_name)
+    logger.action(f"User equip item: {user_id} -> {item_name}")
 
 def user_unequip_item(user_id):
     user_equipment = get_user_equipment(user_id)
@@ -92,3 +99,4 @@ def user_unequip_item(user_id):
     
         set_user_inventory(user_id, user_inventory)
         db.post_user_data("equipment", user_id, None)
+        logger.action(f"User unequip item: {user_id}")

@@ -8,7 +8,7 @@ from modules.items import service as ItemsService
 from modules.jobs import service as JobsService
 
 from core.cooldown import check_and_apply_cooldown
-from core.logger import logger
+from core import logging as logger
 
 from utils import taxes
 
@@ -78,7 +78,7 @@ class jobs(commands.Cog):
                     
                 JobsService.set_user_job(user_id, vaga)
                 await ctx.reply("Carteira assinada!")
-                await logger(self.bot, "enviarcurriculo", f"`{ctx.author.name}/{user_id}` agora trabalha de `{vaga}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x665b20)
+                await logger.send_discord(self.bot, "enviarcurriculo", f"`{ctx.author.name}/{user_id}` agora trabalha de `{vaga}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x665b20)
 
 #------------------------------------------
     @commands.hybrid_command(name="clt", description="Veja sua CLT e cursos")
@@ -196,7 +196,7 @@ class jobs(commands.Cog):
         trab_embed.set_footer(text=f"{ctx.author.display_name}/{user_id}")
         trab_embed.color = 0x2ecc71
         await ctx.reply(embed=trab_embed)
-        await logger(self.bot, "trab", f"`{ctx.author.name}/{user_id}` pegou `{MONEY_ICON}{income}` {item_name}", f"{ctx.guild.name}/{ctx.guild.id}", 0x75ff7a)
+        await logger.send_discord(self.bot, "trab", f"`{ctx.author.name}/{user_id}` pegou `{MONEY_ICON}{income}` {item_name}", f"{ctx.guild.name}/{ctx.guild.id}", 0x75ff7a)
 
 # ======================================================================
 async def setup(bot: commands.Bot):

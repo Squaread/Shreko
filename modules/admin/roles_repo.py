@@ -1,11 +1,10 @@
-
 import discord
 from discord.ext import commands
 import sqlite3
 import json
 from pathlib import Path
 
-from core.logger import logger
+from core import logging as logger
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -60,11 +59,11 @@ class roles_repo(commands.Cog):
         if roles:
             try: 
                 await member.add_roles(*roles, reason="Restaurando cargos")
-                await logger(self.bot, title="roles_repo | User roles recovered", description=f"`{member.name}/{member.id}`", footer=f"{member.guild.name}/{member.guild.id}")
-
+                await logger.send_discord(self.bot, title="roles_repo | User roles recovered", description=f"`{member.name}/{member.id}`", footer=f"{member.guild.name}/{member.guild.id}")
+                logger.info(f"roles_repo: {member.id}")
             except discord.Forbidden: return # Erro de permissao
             except discord.HTTPException as error:
-                print(f"[!] Erro modules/admin/roles_repo: {error}")
+                logger.error(f"Error roles_repo! {error}")
 
         # Apagar
         if not roles:

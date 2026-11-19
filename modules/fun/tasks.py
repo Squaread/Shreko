@@ -5,7 +5,7 @@ import re
 from datetime import time
 from zoneinfo import ZoneInfo
 
-from core.logger import logger
+from core import logging as logger
 
 from config import GENERAL_CHANNEL
 
@@ -70,9 +70,9 @@ class Fun_tasks(commands.Cog):
             try:
                  wordle_word, wordle_author = await wordle_choose_word(self.bot)
                  FunService.new_wordle(wordle_word, wordle_author)
-                 await logger(self.bot, "Wordle", "Wordle atualizado")
+                 await logger.send_discord(self.bot, "Wordle", "Wordle atualizado")
             except Exception as e:
-                    print(f"[!] Erro ao atualizar wordle modules.fun.tasks: {e}")
+                    logger.error(f"Error while searching for a new wordle! {e}")
 
 # ======================================================================
 async def setup(bot: commands.Bot):

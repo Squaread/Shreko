@@ -6,7 +6,7 @@ from modules.economy import service as EconomyService
 
 from core.user_data import db
 
-from core.logger import logger
+from core import logging as logger
 
 from config import BANCO_CENTRAL, MONEY_ICON
 
@@ -50,13 +50,14 @@ def ImpostoSobreSaldo():
             imposto += valor * taxa
             restante -= valor
 
-        imposto=int(imposto)
         total_collected+=imposto
         saldo = int(saldo - imposto)
 
         db.post_user_data("bank", user_id, saldo)
-        EconomyService.add_user_bank(BANCO_CENTRAL, imposto)
         i+=1
+
+    EconomyService.add_user_bank(BANCO_CENTRAL, int(total_collected))
+    logger.info(f"ImpostoSobreSaldo PSE: {i} {int(total_collected)}")
     return i, int(total_collected)
 
 class Economy_tasks(commands.Cog):
@@ -71,10 +72,10 @@ class Economy_tasks(commands.Cog):
     async def cycle(self):
         try:
             i_PSE, total_collected = ImpostoSobreSaldo()
-            await logger(self.bot, "Cycle concluido", f"Finalizado 24h\nPSE: `{i_PSE}` `{MONEY_ICON}{total_collected}`")
+            await logger.send_discord(self.bot, "Cycle concluido", f"Finalizado 24h\nPSE: `{i_PSE}` `{MONEY_ICON}{total_collected}`")
 
         except Exception as e:
-                print(f"Erro cycle: {e}")
+                logger.error(f"Error cycle! {e}")
 
 # ======================================================================
 async def setup(bot: commands.Bot):

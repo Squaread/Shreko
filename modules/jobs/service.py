@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+from core import logging as logger
 from core.user_data import db
 
 jobs = {}
@@ -32,6 +33,7 @@ def get_user_job(user_id: int):
 
 def set_user_job(user_id: int, data: dict):
     db.post_user_data("job", user_id, data)
+    logger.action(f"Set user job: {user_id} -> {data}")
 
 def get_user_courses(user_id: int):
     user_courses = json.loads(db.get_user_data("courses", user_id))
@@ -40,6 +42,7 @@ def get_user_courses(user_id: int):
 
 def set_user_courses(user_id: int, courses: list):
     db.post_user_data("courses", user_id, courses)
+    logger.action(f"Set user courses: {user_id} -> {courses}")
 
 def add_user_courses(user_id: int, item_name: str):
     user_courses = get_user_courses(user_id)
@@ -49,4 +52,5 @@ def add_user_courses(user_id: int, item_name: str):
     user_courses.append(item_name)
 
     set_user_courses(user_id, user_courses)
+    logger.action(f"Add user courses: {user_id} -> {item_name}")
     return True

@@ -1,6 +1,8 @@
 from discord.ext import commands, tasks
 import random
 
+from core import logging as logger
+
 from modules.jobs import service as JobsService
 
 def choose_company(job, companys):
@@ -45,6 +47,7 @@ def generate_jobs(data):
             "rxp": int(job_data["requirements"]["rxp_base"] * companys[company]["rxp_factor"])
         })
 
+    logger.info(f"Jobs gerados com sucesso haha")
     return result
 
 class Jobs_tasks(commands.Cog):
@@ -58,14 +61,12 @@ class Jobs_tasks(commands.Cog):
     @tasks.loop(hours=1)
     async def update_jobs(self):
         try:
-           # print("LOOP RODANDO")
-
             data = JobsService.jobs
             JobsService.available_jobs = generate_jobs(data)
 
            # print(self.vagas)
         except Exception as e:
-            print(f"[!] Erro ao gerar empregos modules.jobs.tasks: {e}")
+            logger.error(f"Erro ao gerar jobs! {e}")
 
 # ======================================================================
 async def setup(bot: commands.Bot):

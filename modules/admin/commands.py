@@ -12,6 +12,8 @@ from modules.admin import service as AdminService
 from modules.items import service as ItemsService
 from modules.jobs import service as JobsService
 
+from core import logging as logger
+from core import user_data
 from core.user_data import db
 
 from config import BANCO_CENTRAL, MONEY_ICON, AURA_ICON
@@ -79,12 +81,11 @@ def build_painel_embed(economy, jobs):
     )
     return painel
 
-def parse_numero(texto: str):
-    """Converte a string do modal em int ou float automaticamente."""
-    texto = texto.strip().replace(",", ".")
-    if "." in texto:
-        return float(texto)
-    return int(texto)
+def parse_number(text: str):
+    text = text.strip().replace(",", ".")
+    if "." in text:
+        return float(text)
+    return int(text)
 
 # Modal -> Economy config
 class EditModal(ui.Modal):
@@ -105,7 +106,8 @@ class EditModal(ui.Modal):
         try:
             for key in self.field_keys:
                 ti: ui.TextInput = getattr(self, f"input_{key}")
-                values[key] = parse_numero(ti.value)
+                values[key] = parse_number(ti.value)
+            logger.admin("Configurações da economia foram atualizadas!")
         except ValueError:
             await interaction.response.send_message(
                 "❌ Valor inválido, use apenas números (ex: 100 ou 0.05).", ephemeral=True
@@ -311,6 +313,7 @@ class admin(commands.Cog):
                 data=None
                 print(data)
         db.post_user_data(parameter, user_id, data)
+        logger.admin(f"Editdata by {author.id} -> {parameter} {user_id} {data}")
 
 #------------------------------------------
     @commands.command()
@@ -321,6 +324,7 @@ class admin(commands.Cog):
     
         db.sql_command(command)
         await ctx.reply("pronto")
+        logger.admin(f"SQL by {author.id} -> {command}")
 
 #------------------------------------------
     @commands.command()
@@ -382,6 +386,7 @@ class admin(commands.Cog):
         db.post_user_data("money", user_id, user_money+data)
  
         await ctx.reply(f"Adicionado `{MONEY_ICON}{data}` usuário já tinha `{MONEY_ICON}{user_money}` ficando com `{MONEY_ICON}{user_money+data}`")
+        logger.admin(f"Add money by {author.id} -> {user_id} {data}")
 
 #------------------------------------------
     @commands.command()
@@ -394,6 +399,7 @@ class admin(commands.Cog):
         db.post_user_data("bank", user_id, user_bank+data)
  
         await ctx.reply(f"Adicionado `{MONEY_ICON}{data}` usuário já tinha `{MONEY_ICON}{user_bank}` ficando com `{MONEY_ICON}{user_bank+data}`")
+        logger.admin(f"Add bank by {author.id} -> {user_id} {data}")
 
 #------------------------------------------
     @commands.command()
@@ -405,6 +411,7 @@ class admin(commands.Cog):
         user_aura = db.get_user_data("aura", user_id)
         db.post_user_data("aura", user_id, user_aura+data)
         await ctx.reply(f"Adicionado `{AURA_ICON}{data}` usuário já tinha `{AURA_ICON}{user_aura}` ficando com `{AURA_ICON}{user_aura+data}`")
+        logger.admin(f"Add aura by {author.id} -> {user_id} {data}")
 
 #------------------------------------------
     @commands.command()
@@ -420,6 +427,7 @@ class admin(commands.Cog):
         db.post_user_data("bank", BANCO_CENTRAL, bancocentral_money+abs(data))
         
         await ctx.reply(f"{user.mention} recebeu uma multa de `-{MONEY_ICON}{abs(data)}` usuário já tinha `{MONEY_ICON}{user_money}` ficando com `{MONEY_ICON}{user_money+data}`")
+        logger.admin(f"Multar by {author.id} -> {user_id} {data}")
 
 #------------------------------------------
     @commands.command()
@@ -437,6 +445,7 @@ class admin(commands.Cog):
 
         db.post_user_data("inventory", user_id, json.dumps(user_inventory))
         await ctx.reply(f"Feito `{user.id}` `{data} {quant}x`")
+        logger.admin(f"Add item by {author.id} -> {user_id} {data} {quant}x")
 
 #-----------------------------------------
     @commands.command()
@@ -451,15 +460,52 @@ class admin(commands.Cog):
         db.post_user_data("money", user_id, user_money+data)
         db.post_user_data("bank", BANCO_CENTRAL, bancocentral_money-data)
         await ctx.reply(f"`{MONEY_ICON}{data}` transferido do banco central para {user.display_name}")
+        logger.admin(f"Pix do banco by {author.id} -> {user_id} {data}")
+#-----------------------------------------
+    @commands.command()
+    async def deluser(self, ctx, user: discord.Member):
+        author = ctx.author
+        if not author.id in AdminService.load_admins().get("owner"): return
+        user_id = user.id
+        db.delete_all_user_data(user_id)
+        await ctx.reply(f"{user_id} foi deletado...")
+        logger.admin(f"Deluser by {author.id} -> {user_id}")
 
 #-----------------------------------------
     @commands.command()
-    async def sicronizar(self, ctx):
+    async def blacklist(self, ctx, user: discord.Member, *, reason: str = "sem motivo definido..."):
+        author = ctx.author
+        if not author.id in AdminService.load_admins().get("owner"): return
+        user_id = user.id
+        if db.get_user_data("blacklist", user_id) == 1: return await ctx.reply(f"`{user_id}` ja ta blacklistado haha")
+        db.post_user_data("blacklist", user_id, 1)
+        user_data.blacklist.append(user_id)
+        
+        await ctx.reply(f"`{user_id}` foi blacklistado...")
+        logger.admin(f"Blacklist by {author.id} -> user: {user_id} reason: {reason}")
+        await logger.send_discord(self.bot, "Blacklisted user", f"`{user_id}` blacklisted pelo `{author.id}` por {reason}")
+#-----------------------------------------
+    @commands.command()
+    async def unblacklist(self, ctx, user: discord.Member, *, reason: str = "sem motivo definido..."):
+        author = ctx.author
+        if not author.id in AdminService.load_admins().get("owner"): return
+        user_id = user.id
+        if db.get_user_data("blacklist", user_id) == 0: return await ctx.reply(f"`{user_id}` nao ta blacklistado haha")
+        db.post_user_data("blacklist", user_id, 0)
+        user_data.blacklist.remove(user_id)
+
+        await ctx.reply(f"`{user_id}` saiu da blacklist! haha")
+        logger.admin(f"Unblacklist by {author.id} -> user: {user_id} reason: {reason}")
+        await logger.send_discord(self.bot, "Unblacklisted user", f"`{user_id}` unblacklisted pelo `{author.id}` por {reason}")
+
+#-----------------------------------------
+    @commands.command()
+    async def sincronizar(self, ctx):
         author = ctx.author
         if not author.id in AdminService.load_admins().get("owner"): return
         await self.bot.tree.sync()
-        print("[*] SICRONIZACAO DE SLASH COMMANDS")
-        await ctx.reply("Sicronizado!")
+        logger.system("SINCRONIZACAO DE SLASH COMMANDS")
+        await ctx.reply("Sincronizado!")
 
 #-----------------------------------------
     @commands.command()
@@ -495,6 +541,14 @@ class admin(commands.Cog):
             await ctx.send("Timeout")
         except Exception as e:
             await ctx.send(f"Error: `{e}`")
+        logger.admin(f"Shell by {author.id} -> {code}")
+
+    @commands.command()
+    async def uptable(self, ctx):
+        author = ctx.author
+        if not author.id in AdminService.load_admins().get("owner"): return
+        db.add_missing_columns()
+        await ctx.reply("Tabela arrumada")
 
 # ======================================================================
 async def setup(bot: commands.Bot):

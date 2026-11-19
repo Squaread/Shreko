@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
+from core import logging as logger
 from modules.admin import service as AdminService
 from modules.economy import service as EconomyService
 from modules.jobs import service as JobsService
@@ -101,11 +102,23 @@ JSON_FILES = {
 }
 def check_perm_owner():
     user = session.get("user")
-    return user is not None and user["id"] in AdminService.load_admins(int_converter=False).get("owner")
+    if user is None: return False
+    if user["id"] in AdminService.load_admins(int_converter=False).get("owner"): return True
+    else: return False
 
 def check_perm_economy():
     user = session.get("user")
-    return user is not None and user["id"] in AdminService.load_admins(int_converter=False).get("economy")
+    if user is None: return False
+    if user["id"] in AdminService.load_admins(int_converter=False).get("economy"): return True
+    if check_perm_owner(): return True
+    else: return False
+
+def check_perm_moderation():
+    user = session.get("user")
+    if user is None: return False
+    if user["id"] in AdminService.load_admins(int_converter=False).get("moderation"): return True
+    if check_perm_owner(): return True
+    else: return False
 
 @app.route("/")
 def home():
@@ -130,14 +143,23 @@ def conta():
 
 @app.route("/admin")
 def admin():
-    if not check_perm_economy() and not check_perm_owner(): return "GET OUT", 403
+    if not check_perm_economy() and not check_perm_moderation(): return "GET OUT", 403
 
     return render_template("admin.html")
 
-@app.route("/economia")
+@app.route("/admin/logs")
+def logs():
+    if not check_perm_economy() and not check_perm_moderation(): return "GET OUT", 403
+    user = session.get("user")
+    logger.admin(f"WEBSITE {user["id"]} entrou na pagina de logs")
+    logs_data = logger.read_logs()
+    return render_template("logs.html", data=logs_data)
+
+@app.route("/admin/economia")
 def economia():
-    if not check_perm_economy():
-        return "GET OUT", 403
+    if not check_perm_economy(): return "GET OUT", 403
+    user = session.get("user")
+    logger.admin(f"WEBSITE {user["id"]} entrou na pagina de economia")
 
     with open(ECONOMY_PATH, "r", encoding="utf-8") as f:
         economy_data = json.load(f)
@@ -200,12 +222,14 @@ def salvar_economia():
 
         temp_path.replace(ECONOMY_PATH)
         EconomyService.economy = EconomyService.load_economy()
+        user = session.get("user")
+        logger.admin(f"WEBSITE Configurações da economia foram atualizadas por {user["id"]}")
         return jsonify({"success": True})
 
     except (OSError, json.JSONDecodeError, TypeError, ValueError):
         return jsonify({"error": "Não foi possível salvar a economia."}), 500
     
-@app.route("/editor_json")
+@app.route("/admin/editor_json")
 def editor_json():
     if not check_perm_owner(): return "GET OUT", 403
 
@@ -252,6 +276,8 @@ def edit_json(filename):
             InvestmentsService.market = InvestmentsService.load_market()
             ItemsService.items = ItemsService.load_items()
             JobsService.jobs = JobsService.load_jobs()
+            user = session.get("user")
+            logger.admin(f"WEBSITE {filename} atualizado por {user["id"]}")
             return jsonify({"success": True})
         except (OSError, TypeError, ValueError):
             return jsonify({"error": "Erro ao salvar o arquivo."}), 500

@@ -10,8 +10,6 @@ from modules.items import service as ItemsService
 
 from utils.combat import combat
 
-from utils.embeds import base_embed_template
-
 class DuelInviteView(discord.ui.View):
     def __init__(self, invited_user):
         super().__init__(timeout=60)

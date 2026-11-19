@@ -5,7 +5,7 @@ load_dotenv()
 
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
-BOT_PREFIX = ";"
+BOT_PREFIX = "!"
 
 MONEY_ICON = "🪙"
 AURA_ICON = "✨"
@@ -19,3 +19,4 @@ LOG_CHANNEL = 1021078777830322176 # Canal onde serao enviadas as logs
 GENERAL_CHANNEL = 1021078777830322176 # Canal onde o wordle vai escolher a palavra diaria
 
 ERROR_HANDLING = False # Pra debug é melhor deixar como false pois ficara mais claro onde estao os erros
+ON_MESSAGE_BYPASS_EXCEPTIONS_ID = [974297735559806986, 569277281046888488] # Deixar certos ids poderem user o bot sem passar pela verificacao do on_message. Ids dos bots entrosa e socrates

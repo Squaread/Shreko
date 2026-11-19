@@ -8,11 +8,11 @@ from modules.items import service as ItemsService
 from modules.items import lootbox
 from modules.jobs import service as JobsService
 
-from core.logger import logger
+from core import logging as logger
 
 from utils import taxes
 
-from config import BOT_PREFIX, MONEY_ICON, AURA_ICON, BANCO_CENTRAL
+from config import BOT_PREFIX, MONEY_ICON, AURA_ICON, BANCO_CENTRAL, ON_MESSAGE_BYPASS_EXCEPTIONS_ID
 
 class items(commands.Cog):
     def __init__(self, bot):
@@ -52,6 +52,7 @@ class items(commands.Cog):
         parts = item_nq.rsplit(" ", 1)
         query_item = parts[0].lower()
         quant = int(parts[1]) if len(parts) == 2 and parts[1].isdigit() else 1
+        item_name = None
 
         if quant <= 0: return await ctx.reply("morre")
 
@@ -60,7 +61,11 @@ class items(commands.Cog):
         economy = EconomyService.economy
 
         # Procurar item
-        item_name = next((name for name in items if query_item == name.lower() or query_item in name.lower().split()), None)
+        for name in items:
+            if item_nq.lower() == name.lower(): # tentativa de busca 1
+                item_name=name
+                break
+        if not item_name: item_name = next((name for name in items if query_item == name.lower() or query_item in name.lower().split()), None) # tentativa de busca 2
 
         if not item_name:
             return await ctx.reply(f"`{query_item}` não encontrado `{BOT_PREFIX}comprar <item_name> <quant(opcional)>`")
@@ -98,7 +103,7 @@ class items(commands.Cog):
         if tax: EconomyService.add_user_bank(BANCO_CENTRAL, tax)
 
         await ctx.reply(f"Você comprou **{item_name}** {f'({quant}x) ' if category != 'course' else ''} por `{MONEY_ICON}{full_price}`")
-        await logger(self.bot, "comprar", f"`{ctx.author.name}/{user_id}` comprou `{item_name} {quant}x` por `{MONEY_ICON}{full_price}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x0cff00)
+        await logger.send_discord(self.bot, "comprar", f"`{ctx.author.name}/{user_id}` comprou `{item_name} {quant}x` por `{MONEY_ICON}{full_price}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x0cff00)
 
 #------------------------------------------
     @commands.hybrid_command(name="vender", description="Venda seus itens")
@@ -155,7 +160,7 @@ class items(commands.Cog):
         tax_msg = (f"\n> `Imposto sobre venda: -{MONEY_ICON}{tax}`"if tax else "")
 
         await ctx.reply(f"Você vendeu **{item_name}** ({quant}x) por `{MONEY_ICON}{final_value}`{tax_msg}")
-        await logger(self.bot, "vender", f"`{ctx.author.name}/{user_id}` vendeu `{item_name} {quant}x` por `{MONEY_ICON}{final_value}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x0add00)
+        await logger.send_discord(self.bot, "vender", f"`{ctx.author.name}/{user_id}` vendeu `{item_name} {quant}x` por `{MONEY_ICON}{final_value}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x0add00)
 
 #------------------------------------------
     @commands.hybrid_command(name="dar", description="Dê itens para alguém")
@@ -168,7 +173,7 @@ class items(commands.Cog):
         giver_id = ctx.author.id
         receiver_id = member.id
 
-        if giver_id == receiver_id or member.bot:
+        if giver_id == receiver_id or (member.bot and not member.id in ON_MESSAGE_BYPASS_EXCEPTIONS_ID):
             return await ctx.reply("noob")
 
         if quant <= 0:
@@ -187,7 +192,7 @@ class items(commands.Cog):
         if not success: return
 
         await ctx.reply(f"Você deu **{item_name}** ({quant}x) para {member.mention}!")
-        await logger(self.bot, "dar", f"`{ctx.author.name}/{giver_id}` deu `{item_name} {quant}x` para `{member.name}/{receiver_id}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x0add00)
+        await logger.send_discord(self.bot, "dar", f"`{ctx.author.name}/{giver_id}` deu `{item_name} {quant}x` para `{member.name}/{receiver_id}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x0add00)
 
 #------------------------------------------
     @commands.hybrid_command(name="equipar", description="Equipe um item")
@@ -271,7 +276,7 @@ class items(commands.Cog):
 
                     lootbox_embed.set_footer(text=f"{ctx.author.display_name}/{user_id}")
                     await ctx.reply(embed=lootbox_embed)
-                    return await logger(self.bot, "lootbox", f"`{ctx.author.name}/{user_id}` abriu `{item}` e ganhou: {gains}", f"{ctx.guild.name}/{ctx.guild.id}", 0x79f8ff)
+                    return await logger.send_discord(self.bot, "lootbox", f"`{ctx.author.name}/{user_id}` abriu `{item}` e ganhou: {gains}", f"{ctx.guild.name}/{ctx.guild.id}", 0x79f8ff)
             
             elif category == "random":
                 return await ctx.reply(f"Você usou **{items.get(item).get("icon")}{item}** {items.get(item).get("use_message")}")

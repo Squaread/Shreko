@@ -7,7 +7,7 @@ from modules.economy import service as EconomyService
 from modules.items import service as ItemsService
 from modules.jobs import service as JobsService
 
-from core.logger import logger
+from core import logging as logger
 from core.cooldown import check_and_apply_cooldown
 from core.errors import *
 from core.user_data import db
@@ -17,7 +17,7 @@ from utils.helpers import interpret_input_value, encrypt
 from utils import taxes
 from utils.combat import combat
 
-from config import BOT_PREFIX, BANCO_CENTRAL, MONEY_ICON, AURA_ICON, VAULT_ICON, VAULT_DEFAULT_LIMIT
+from config import BOT_PREFIX, BANCO_CENTRAL, MONEY_ICON, AURA_ICON, VAULT_ICON, VAULT_DEFAULT_LIMIT, ON_MESSAGE_BYPASS_EXCEPTIONS_ID
 
 class economy(commands.Cog):
     def __init__(self, bot):
@@ -41,7 +41,7 @@ class economy(commands.Cog):
         
             return await ctx.send(embed=bank_embed)
         
-        if user.bot: return
+        if user.bot and not user_id in ON_MESSAGE_BYPASS_EXCEPTIONS_ID: return
 
         user_money = EconomyService.get_user_money(user_id)
         user_bank = EconomyService.get_user_bank(user_id)
@@ -95,7 +95,7 @@ class economy(commands.Cog):
             color=0x3498db)
 
         await ctx.send(embed=bolsa_familia)
-        await logger(self.bot, "daily", f"`{user.name}/{user_id}` pegou `{MONEY_ICON}{income}`", f"{ctx.guild.name}/{ctx.guild.id}", 0xcee800)
+        await logger.send_discord(self.bot, "daily", f"`{user.name}/{user_id}` pegou `{MONEY_ICON}{income}`", f"{ctx.guild.name}/{ctx.guild.id}", 0xcee800)
 
 #------------------------------------------
     @commands.hybrid_command(name="tigrinho", description="Aposte dinheiro, faça ;tigrinho pra ver as chances")
@@ -165,7 +165,7 @@ class economy(commands.Cog):
         else: # USUARIO GANHOU
             EconomyService.add_user_bank(BANCO_CENTRAL, -income)
         await msg.edit(embed=tigrinho_embed)
-        await logger(self.bot, "tigrinho", f"`{user.name}/{user_id}` tigrinhou `{MONEY_ICON}{amount} * {multiplier}x` = `{MONEY_ICON}{income}`", f"{ctx.guild.name}/{ctx.guild.id}", 0xcee800)
+        await logger.send_discord(self.bot, "tigrinho", f"`{user.name}/{user_id}` tigrinhou `{MONEY_ICON}{amount} * {multiplier}x` = `{MONEY_ICON}{income}`", f"{ctx.guild.name}/{ctx.guild.id}", 0xcee800)
 
 #------------------------------------------
     @commands.hybrid_command(name="pix", description="Mande dinheiro para alguém")
@@ -177,7 +177,7 @@ class economy(commands.Cog):
         author = ctx.author
         author_id = author.id
         
-        if (receiver.id == author_id or receiver.bot) and receiver.id != BANCO_CENTRAL: return await ctx.send(f"noob")
+        if (receiver.id == author_id or receiver.bot) and (receiver.id != BANCO_CENTRAL or not receiver.id in ON_MESSAGE_BYPASS_EXCEPTIONS_ID): return await ctx.send(f"noob")
 
         author_money = EconomyService.get_user_money(author_id)
         if amount > author_money: return await ctx.send("tu nem tem esse valor noob")
@@ -194,7 +194,7 @@ class economy(commands.Cog):
             color=0x2d9fc3)
 
         await ctx.send(embed=pix_embed)
-        await logger(self.bot, "pix", f"`{author.name}/{author_id}` fez pix de `{MONEY_ICON}{amount}` para `{receiver.name}/{receiver.id}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x00ffe0)
+        await logger.send_discord(self.bot, "pix", f"`{author.name}/{author_id}` fez pix de `{MONEY_ICON}{amount}` para `{receiver.name}/{receiver.id}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x00ffe0)
 
 #------------------------------------------
     @commands.hybrid_command(name="depositar", aliases=["dep"], description="Deposite dinheiro no banco")
@@ -320,7 +320,7 @@ class economy(commands.Cog):
 
         member = vitima
         user_id = member.id
-        if member.bot or author_id == user_id: return await ctx.reply("?")
+        if (member.bot and not member.id in ON_MESSAGE_BYPASS_EXCEPTIONS_ID) or author_id == user_id: return await ctx.reply("?")
 
         await check_and_apply_cooldown(author_id, ctx.command.name)
 
@@ -383,7 +383,7 @@ class economy(commands.Cog):
                 EconomyService.add_user_aura(user_id, -round(aura*0.8))
 
             await ctx.reply(f"{member.display_name} tentou resistir ({eq_user1['icon']}{p_user1}x{eq_user2['icon']}{p_user2}) você se saiu bem {money_text} {aura_msg}")
-            await logger(self.bot, "roubar", f"`{author.name}/{author_id}` `{AURA_ICON}+{aura}` roubou `{MONEY_ICON}{money_seized}` de `{vitima.name}/{user_id}` `{AURA_ICON}-{round(aura*0.8)}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x009152)
+            await logger.send_discord(self.bot, "roubar", f"`{author.name}/{author_id}` `{AURA_ICON}+{aura}` roubou `{MONEY_ICON}{money_seized}` de `{vitima.name}/{user_id}` `{AURA_ICON}-{round(aura*0.8)}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x009152)
         else: # Caso a vitima vença
             fine = random.randint(100, 800)
             aura = (p_user2-p_user1)*aura_coefficient
@@ -393,7 +393,7 @@ class economy(commands.Cog):
 
             #---
             await ctx.reply(f"{member.display_name} resistiu ({eq_user1['icon']}{p_user1}x{eq_user2['icon']}{p_user2}) e você levou uma surra gastando `{MONEY_ICON}-{fine}` no hospital kkkkkkk foi moggado perdeu `{AURA_ICON}-{aura}` enquanto ele ganhou aura por te dar uma lição!")
-            await logger(self.bot, "roubar", f"`{author.name}/{author_id}` `{AURA_ICON}-{aura}` falhou em roubar `{vitima.name}/{user_id}` `{AURA_ICON}+{aura}` gastando `{MONEY_ICON}-{fine}`", f"{ctx.guild.name}/{ctx.guild.id}", 0xb20006)
+            await logger.send_discord(self.bot, "roubar", f"`{author.name}/{author_id}` `{AURA_ICON}-{aura}` falhou em roubar `{vitima.name}/{user_id}` `{AURA_ICON}+{aura}` gastando `{MONEY_ICON}-{fine}`", f"{ctx.guild.name}/{ctx.guild.id}", 0xb20006)
 
 #------------------------------------------
     @commands.hybrid_command(name="hackear", description="Invada a conta de um otário e pegue todo seu dinheiro!")
@@ -424,7 +424,7 @@ class economy(commands.Cog):
                 message = f"Você conseguiu sacar todo o dinheiro `{MONEY_ICON}{victim_bank}` de {usuario.mention} que botou `{password}` como senha KKKKKKKKKKKKKKKKKKKKK"
             else: 
                 message = f"Você conseguiu acessar a conta de `{usuario.mention}` `{password}` mas encontrou nem 1 real lá..."
-            await logger(self.bot, "hackear", f"`{author.name}/{author_id}` pegou `{MONEY_ICON}{victim_bank}` de `{usuario.name}/{victim_id}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x000000)
+            await logger.send_discord(self.bot, "hackear", f"`{author.name}/{author_id}` pegou `{MONEY_ICON}{victim_bank}` de `{usuario.name}/{victim_id}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x000000)
             await msg.edit(content=message)
 
 #------------------------------------------

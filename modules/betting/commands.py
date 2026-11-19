@@ -8,7 +8,7 @@ from modules.economy import service as EconomyService
 from modules.betting import service as BettingService
 from modules.admin import service as AdminService
 
-from core.logger import logger
+from core import logging as logger
 
 from utils.helpers import interpret_input_value
 
@@ -184,7 +184,8 @@ class betting(commands.Cog):
         }
 
         BettingService.save_betting(data)
-        await logger(self.bot, "criaraposta", f"`{ctx.author.name}/{creator}` criou `{aposta_id}` `{data[aposta_id]}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x61602C)
+        await logger.send_discord(self.bot, "criaraposta", f"`{ctx.author.name}/{creator}` criou `{aposta_id}` `{data[aposta_id]}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x61602C)
+        logger.action(f"Criar aposta by {creator} -> {aposta_id}")
     #------------------------------------------
 
     @commands.hybrid_command(name="votaraposta", aliases=["vaposta"], description="Vote numa aposta")
@@ -202,7 +203,7 @@ class betting(commands.Cog):
         if aposta["open"] == False: return await ctx.reply("Essa aposta está trancada.")
         user_id = str(ctx.author.id)
 
-        user_money = db.get_user_data("money", ctx.author.id)
+        user_money = EconomyService.get_user_money(ctx.author.id)
         if amount == "all": amount = int(user_money)
  
         # impedir voto duplo
@@ -219,6 +220,7 @@ class betting(commands.Cog):
         if aposta["options"].get(option) == None: return
         if amount > user_money: return await ctx.send("tu nem tem esse valor noob")
         if amount < 1: return await ctx.send(f"Tá duro? Valor mínimo: `{MONEY_ICON}2`")
+
     #-------------------------------------------------------------------------------------------
         EconomyService.add_user_money(ctx.author.id, -amount) #db.post_user_data("money", ctx.author.id, user_money-amount)
         aposta["fund"] = aposta["fund"] + amount
@@ -233,6 +235,7 @@ class betting(commands.Cog):
 
         if ctx.interaction: await ctx.send("Votado computado", ephemeral=True)
         else: await ctx.message.add_reaction("✅")
+        logger.action(f"Votar aposta by {ctx.author.id}: {aposta_id} {option} {amount}")
 
     #------------------------------------------
     @commands.hybrid_command(name="finalizaraposta", aliases=["faposta"], description="Finalize uma aposta")
@@ -283,8 +286,8 @@ class betting(commands.Cog):
         except: pass
         if ctx.interaction: await ctx.send("Finalizada", ephemeral=True)
 
-        await logger(self.bot, "finalizaraposta", f"`{ctx.author.name}/{user_id}` finalizou `{aposta_id}` `{option}` acumulado: `{MONEY_ICON}{aposta["fund"]}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x61602C)
-           
+        await logger.send_discord(self.bot, "finalizaraposta", f"`{ctx.author.name}/{user_id}` finalizou `{aposta_id}` `{option}` acumulado: `{MONEY_ICON}{aposta["fund"]}`", f"{ctx.guild.name}/{ctx.guild.id}", 0x61602C)
+        logger.action(f"Finalizar aposta by {user_id} -> {aposta_id} {option}")
     #------------------------------------------
     @commands.hybrid_command(name="reexibiraposta", aliases=["raposta"], description="Reexiba uma aposta")
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -302,6 +305,7 @@ class betting(commands.Cog):
         BettingService.save_betting(data)
         await asyncio.sleep(2)
         await update_aposta(self.bot, aposta, aposta_id)
+        logger.action(f"Reexibir aposta {aposta_id} by {user_id}")
 
     #------------------------------------------
     @commands.hybrid_command(name="trancaraposta", aliases=["taposta"], description="Tranque uma aposta")
@@ -322,6 +326,7 @@ class betting(commands.Cog):
         try: await ctx.message.delete()
         except: pass
         if ctx.interaction: await ctx.send("Trancada", ephemeral=True)
+        logger.action(f"Trancar aposta {aposta_id} by {user_id}")
 
     #------------------------------------------
     @commands.hybrid_command(name="abriraposta", aliases=["aaposta"], description="Destranque uma aposta")
@@ -342,6 +347,7 @@ class betting(commands.Cog):
         try: await ctx.message.delete()
         except: pass
         if ctx.interaction: await ctx.send("Aberta", ephemeral=True)
+        logger.action(f"Abrir aposta {aposta_id} by {user_id}")
 
 # ======================================================================
 async def setup(bot: commands.Bot):

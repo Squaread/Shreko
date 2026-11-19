@@ -4,13 +4,19 @@ import asyncio
 import random
 import re
 
+from core import logging as logger
+from core import user_data
+from core.user_data import db
+
 from modules.economy import service as EconomyService
 from modules.items import service as ItemsService
 from modules.jobs import service as JobsService
 from modules.investments import service as InvestmentsService
 from modules.fun import service as FunService
 #====================
-from config import BOT_PREFIX, DISCORD_BOT_TOKEN, SERVERS_ID
+from config import BOT_PREFIX, DISCORD_BOT_TOKEN, SERVERS_ID, ON_MESSAGE_BYPASS_EXCEPTIONS_ID
+
+logger.system("--- BOT STARTUP ---")
 
 intents = discord.Intents.all()
 
@@ -22,16 +28,28 @@ ItemsService.items = ItemsService.load_items()
 JobsService.jobs = JobsService.load_jobs()
 InvestmentsService.market = InvestmentsService.load_market()
 FunService.wordle = FunService.load_wordle()
+user_data.blacklist.extend(user[0] for user in db.filter_users("blacklist", 1))
 
 @bot.event
 async def on_ready():
     print(f"Logado como {bot.user}")
 
 @bot.event
+async def on_guild_join(guild: discord.Guild):
+    logger.info(f"on_guild_join -> bot adicionado a um servidor: {guild.name}/{guild.id}")
+    await logger.send_discord(bot, title="on_guild_join", description=f"Fui adicionado a um novo servidor: {guild.name}/{guild.id}")
+
+@bot.event
+async def on_guild_remove(guild: discord.Guild):
+    logger.info(f"on_guild_remove -> bot removido de um servidor: {guild.name}/{guild.id}")
+
+@bot.event
 async def on_message(message):
-    if message.author == bot.user: return
-    if message.guild is None: return
-    if not message.guild.id in SERVERS_ID: return
+    if not message.author.id in ON_MESSAGE_BYPASS_EXCEPTIONS_ID: 
+        if message.author.bot: return
+        if message.guild is None: return
+        if not message.guild.id in SERVERS_ID: return
+    if message.author.id in user_data.blacklist: return
 
     memory_commands = ["tigrinho", "pix", "sacar", "sac", "depositar", "dep", "trab", "saldo"]
     aura_words = ["67", "siriboy", "skibidi", "cityboy", "resenh", "borabill", "xuxa", "sixseven", "sus", "clube", "slk", "seloko", "42", "41", "amogus", "bigode", "sahur", "epstein", "orelha", "69", "tung", "sigma", "chad", "patapim", "ez", "bandido", "tuff", "gul", "based", "baseado", "yara", "tiki"]
@@ -43,7 +61,6 @@ async def on_message(message):
         input = message.content.replace(f"<@{bot.user.id}>", "").strip()
         if not input or len(input) <= 1: return await message.channel.send("Q")
 
-     if message.author.bot: return
      msg = message.content.lower().replace(" ", "")
      if any(word in msg for word in aura_words) or any(p.endswith("x") for p in msg.split()):
             chance = random.randint(1, 2)

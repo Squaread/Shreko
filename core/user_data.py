@@ -47,6 +47,8 @@ class Database:
     def post_user_data(self, parameter, user_id, data):
         if isinstance(data, (dict, list)):
             data = json.dumps(data, ensure_ascii=False)
+        if isinstance(data, float):
+            data = int(data)
 
         self.cursor.execute(f"UPDATE users SET {parameter} = ? WHERE user_id = ?",
             (data, user_id))

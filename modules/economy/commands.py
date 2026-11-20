@@ -330,7 +330,7 @@ class economy(commands.Cog):
 
         member = vitima
         user_id = member.id
-        if (member.bot and not member.id in ON_MESSAGE_BYPASS_EXCEPTIONS_ID) or author_id == user_id: return await ctx.reply("?")
+        if (member.bot and not member.id in ON_MESSAGE_BYPASS_EXCEPTIONS_ID) or author_id == user_id or user_id == CGF: return await ctx.reply("?")
 
         await check_and_apply_cooldown(author_id, ctx.command.name)
 

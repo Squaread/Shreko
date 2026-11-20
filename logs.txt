@@ -1,0 +1,133 @@
+[20/11/2026 17:45:32] [ACTION] Get user money: 634908192404668426 -> 960765
+[20/11/2026 17:45:32] [ACTION] Get user bank: 634908192404668426 -> 0
+[20/11/2026 17:45:34] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:45:35] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:45:38] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:45:55] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:46:02] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:46:02] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:46:11] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:46:11] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:46:14] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:46:24] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:46:24] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:46:26] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:46:34] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:46:34] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:46:36] [ACTION] Get user money: 634908192404668426 -> 960765
+[20/11/2026 17:46:36] [ACTION] Get user bank: 634908192404668426 -> 0
+[20/11/2026 17:46:37] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:46:47] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:47:04] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:47:04] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:47:06] [ACTION] Get user money: 634908192404668426 -> 960765
+[20/11/2026 17:47:06] [ACTION] Get user bank: 634908192404668426 -> 0
+[20/11/2026 17:47:07] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:47:11] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:47:14] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:47:21] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:47:23] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:47:35] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:47:37] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:47:38] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:47:54] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:48:00] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:48:00] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:48:03] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:48:03] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:54:51] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:55:09] [ACTION] Get user money: 634908192404668426 -> 960765
+[20/11/2026 17:55:09] [ACTION] Get user bank: 634908192404668426 -> 0
+[20/11/2026 17:55:11] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:55:14] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:55:15] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:55:17] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:55:27] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:55:27] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:55:30] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:55:42] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:55:42] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\economy\economy.json loaded
+[20/11/2026 17:55:42] [DATABASE] Post user data: bank 1034939047954628628 10726592
+[20/11/2026 17:55:42] [DATABASE] Post user data: bank 1130974954205225041 5954403
+[20/11/2026 17:55:43] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:55:50] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:55:55] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:55:56] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:56:40] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:56:45] [ACTION] Get user money: 634908192404668426 -> 960765
+[20/11/2026 17:56:45] [ACTION] Get user bank: 634908192404668426 -> 0
+[20/11/2026 17:56:46] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:56:53] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:56:53] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\economy\economy.json loaded
+[20/11/2026 17:56:54] [DATABASE] Post user data: bank 1034939047954628628 10727177
+[20/11/2026 17:56:54] [DATABASE] Post user data: bank 1130974954205225041 5955388
+[20/11/2026 17:56:55] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:57:10] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:57:10] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\economy\economy.json loaded
+[20/11/2026 17:57:10] [DATABASE] Post user data: bank 1034939047954628628 10727177
+[20/11/2026 17:57:10] [DATABASE] Post user data: bank 1130974954205225041 5955388
+[20/11/2026 17:57:11] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:57:24] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:57:33] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:57:37] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:57:45] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:57:45] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\economy\economy.json loaded
+[20/11/2026 17:57:45] [DATABASE] Post user data: bank 1034939047954628628 10727023
+[20/11/2026 17:57:45] [DATABASE] Post user data: bank 1130974954205225041 5956138
+[20/11/2026 17:57:46] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:58:00] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:58:09] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:58:17] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:58:17] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:58:20] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:58:29] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:58:29] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\economy\economy.json loaded
+[20/11/2026 17:58:29] [DATABASE] Post user data: bank 1034939047954628628 10697595
+[20/11/2026 17:58:29] [DATABASE] Post user data: bank 1130974954205225041 5982058
+[20/11/2026 17:58:30] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:59:01] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:59:01] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\economy\economy.json loaded
+[20/11/2026 17:59:01] [DATABASE] Post user data: bank 1034939047954628628 10660899
+[20/11/2026 17:59:01] [DATABASE] Post user data: bank 1130974954205225041 6006518
+[20/11/2026 17:59:02] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:59:25] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:59:25] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\economy\economy.json loaded
+[20/11/2026 17:59:25] [DATABASE] Post user data: bank 1034939047954628628 10766975
+[20/11/2026 17:59:25] [DATABASE] Post user data: bank 1130974954205225041 6164018
+[20/11/2026 17:59:26] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:59:47] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:59:47] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\economy\economy.json loaded
+[20/11/2026 17:59:47] [DATABASE] Post user data: bank 1034939047954628628 10821925
+[20/11/2026 17:59:47] [DATABASE] Post user data: bank 1130974954205225041 6269018
+[20/11/2026 17:59:48] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 17:59:54] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:00:08] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:01:13] [ACTION] Get user money: 634908192404668426 -> 960765
+[20/11/2026 18:01:13] [ACTION] Get user bank: 634908192404668426 -> 0
+[20/11/2026 18:01:16] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:02:00] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:02:01] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:02:51] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:02:58] [ACTION] Get user money: 634908192404668426 -> 960765
+[20/11/2026 18:02:58] [ACTION] Get user bank: 634908192404668426 -> 0
+[20/11/2026 18:03:00] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:03:01] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:03:01] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:03:03] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:03:03] [ADMIN] WEBSITE 634908192404668426 entrou na pagina de logs
+[20/11/2026 18:03:26] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:06:09] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:06:47] [ACTION] Get user money: 634908192404668426 -> 960765
+[20/11/2026 18:06:47] [ACTION] Get user bank: 634908192404668426 -> 0
+[20/11/2026 18:06:50] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:07:30] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:07:35] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:07:44] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:08:12] [ACTION] Get user money: 634908192404668426 -> 960765
+[20/11/2026 18:08:12] [ACTION] Get user bank: 634908192404668426 -> 0
+[20/11/2026 18:08:14] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:08:23] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:08:41] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:08:49] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:09:01] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded
+[20/11/2026 18:09:03] [SYSTEM] D:\Projetos\Shreko\Sh_v2\alpha\modules\admin\admins.json loaded

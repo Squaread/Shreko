@@ -115,11 +115,11 @@ class Database:
         self.cursor.execute("SELECT * FROM stadiums")
         return self.cursor.fetchall()
 
-    def add_stadium(self, stadium_id, stadium_name, capacity):
+    def add_stadium(self, stadium_name, capacity):
         self.cursor.execute("""
-            INSERT INTO stadiums (stadium_id, stadium_name, capacity)
-            VALUES (?, ?, ?)
-        """, (stadium_id, stadium_name, capacity))
+            INSERT INTO stadiums (stadium_name, capacity)
+            VALUES (?, ?)
+        """, (stadium_name, capacity))
 
         self.conn.commit()
 

@@ -237,14 +237,13 @@ def add_stadium():
         abort(403)
 
     try:
-        stadium_id = int(request.form["stadium_id"])
         stadium_name = request.form["stadium_name"].strip()
         capacity = int(request.form["capacity"])
 
         if not stadium_name or capacity < 0:
             abort(400)
 
-        cgf_db.add_stadium(stadium_id, stadium_name, capacity)
+        cgf_db.add_stadium(stadium_name, capacity)
 
     except (ValueError, sqlite3.IntegrityError):
         abort(400)

@@ -4,7 +4,7 @@ from pathlib import Path
 from core.user_data import db
 from core import logging as logger
 
-from config import BANCO_CENTRAL
+from config import BANCO_CENTRAL, CGF
 
 economy = {}
 
@@ -84,12 +84,12 @@ def add_user_aura(user_id: int, amount: int):
     logger.action(f"Add user aura: {user_id} -> {amount}")
 
 def money_transaction(user_sender_id: int, user_receiver_id: int, amount: int):
-    if user_sender_id == BANCO_CENTRAL:
+    if user_sender_id == BANCO_CENTRAL or user_sender_id == CGF:
         add_user_bank(user_sender_id, -amount)
     else:
         add_user_money(user_sender_id, -amount)
 
-    if user_receiver_id == BANCO_CENTRAL:
+    if user_receiver_id == BANCO_CENTRAL or user_receiver_id == CGF:
         add_user_bank(user_receiver_id, amount)
     else:
         add_user_money(user_receiver_id, amount)

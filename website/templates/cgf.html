@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shreko - CGF</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="site-wrapper">
+
+        <!-- Cabeçalho -->
+        <header class="header" data-logo="{{ url_for('static', filename='img/Shreko.png') }}">
+            <script src="{{ url_for('static', filename='js/header.js') }}"></script>
+        </header>
+
+        <!-- Navegação -->
+        <nav class="navbar">
+            <ul>
+                <li><a href="{{ url_for('home') }}">⌂ Home</a></li>
+                <li><a href="{{ url_for('conta') }}">♟ Conta</a></li>
+                <li><a href="{{ url_for('cgf') }}" class="active">⚽ CGF</a></li>
+                <li><a href="{{ url_for('admin') }}">⚙ Admin</a></li>
+            </ul>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="{{ url_for('home') }}">Shreko</a>
+            » <a href="{{ url_for('cgf') }}">CGF</a>
+        </div>
+
+        <main>
+            <div class="section-title">
+                <span>Confederação Gulosa do Futebol</span>
+            </div>
+
+                <!-- Perfil -->
+                <section class="panel">
+                     <a href="{{ url_for('cgf_matches') }}" class="button">Jogos</a>
+                     <a href="{{ url_for('cgf_teams') }}" class="button">Times</a>
+                     <a href="{{ url_for('cgf_stadiums') }}" class="button">Estádios</a>
+                </section>
+
+            <div class="section-title"><span>Avisos</span></div>
+
+            <section class="notice-panel">
+                <span class="notice-icon">📌</span>
+                <script src="{{ url_for('static', filename='js/notice.js') }}"></script>
+            </section>
+        </main>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+            <script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+        </footer>
+        
+    </div>
+    
+</body>
+</html>

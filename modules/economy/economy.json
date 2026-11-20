@@ -18,5 +18,6 @@
     "tax_rent": 0.1,
     "tax_saldo": 0,
     "tax_saldofactor": 0,
-    "tax_saldomax": 0
+    "tax_saldomax": 0,
+    "cgf_tax": 0.25
 }

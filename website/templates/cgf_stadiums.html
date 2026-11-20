@@ -1,0 +1,173 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shreko - Estádios</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="site-wrapper">
+
+        <header class="header" data-logo="{{ url_for('static', filename='img/Shreko.png') }}">
+            <script src="{{ url_for('static', filename='js/header.js') }}"></script>
+        </header>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="{{ url_for('home') }}">⌂ Home</a></li>
+                <li><a href="{{ url_for('conta') }}">♟ Conta</a></li>
+                <li><a href="{{ url_for('cgf') }}" class="active">⚽ CGF</a></li>
+                <li><a href="{{ url_for('admin') }}">⚙ Admin</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="{{ url_for('home') }}">Shreko</a>
+            » <a href="{{ url_for('cgf') }}">CGF</a>
+            » Estádios
+        </div>
+
+        <main>
+
+            <div class="section-title">
+                <span>Confederação Gulosa do Futebol</span>
+            </div>
+
+            <table border="1">
+                <thead>
+                    <tr>
+                    <th>Nome</th>
+                    <th>ID</th>
+                    <th>Capacidade</th>
+                    <th>Estatísticas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stadium in stadiums %}
+                    <tr>
+                        <td>{{ stadium[1] or "Sem nome" }}</td>
+                        <td>#{{ stadium[0] }}</td>
+                        <td>{{ "{:,}".format(stadium[2] or 0).replace(",", ".") }} pessoas</td>
+                        <td>
+                            Partidas: {{ stadium[3].get("matches", 0) }}
+                            Gols: {{ stadium[3].get("goals", 0) }}
+                            Arrecado: ${{ stadium[3].get("collected", 0) }}
+                            Visitantes: {{ stadium[3].get("visitors", 0) }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            {% if perm %}
+        
+            <section class="panel team-admin">
+
+                <div class="team-menu" id="stadiumMenu">
+                    <!-- ADICIONAR -->
+                    <details>
+                        <summary>Adicionar estádio</summary>
+
+                        <form method="POST" action="{{ url_for('add_stadium') }}">
+
+                            <label>ID do estádio</label>
+                            <input type="number" name="stadium_id" min="1" required>
+
+                            <label>Nome do estádio</label>
+                            <input type="text" name="stadium_name"
+                                   maxlength="100" required>
+
+                            <label>Capacidade</label>
+                            <input type="number" name="capacity"
+                                   min="0" value="0" required>
+
+                            <button type="submit" class="button">
+                                Criar estádio
+                            </button>
+
+                        </form>
+                    </details>
+
+                    <!-- EDITAR -->
+                    <details>
+                        <summary>Editar estádio</summary>
+
+                        <form method="POST" action="{{ url_for('edit_stadium') }}">
+
+                            <label>Selecione o estádio</label>
+
+                            <select name="stadium_id" required>
+                                <option value="">Selecione...</option>
+
+                                {% for stadium in stadiums %}
+                                <option value="{{ stadium[0] }}">
+                                    {{ stadium[1] }} (#{{ stadium[0] }})
+                                </option>
+                                {% endfor %}
+
+                            </select>
+
+                            <label>Novo nome</label>
+                            <input type="text" name="stadium_name"
+                                   maxlength="100" required>
+
+                            <label>Nova capacidade</label>
+                            <input type="number" name="capacity"
+                                   min="0" required>
+
+                            <button type="submit" class="button">
+                                Salvar alterações
+                            </button>
+
+                        </form>
+                    </details>
+
+                    <!-- REMOVER -->
+                    <details>
+                        <summary>Remover estádio</summary>
+
+                        <form method="POST"
+                              action="{{ url_for('delete_stadium') }}"
+                              onsubmit="return confirm('Tem certeza que deseja remover este estádio?')">
+
+                            <label>Selecione o estádio</label>
+
+                            <select name="stadium_id" required>
+                                <option value="">Selecione...</option>
+
+                                {% for stadium in stadiums %}
+                                <option value="{{ stadium[0] }}">
+                                    {{ stadium[1] }} (#{{ stadium[0] }})
+                                </option>
+                                {% endfor %}
+
+                            </select>
+
+                            <button type="submit" class="button danger">
+                                Remover estádio
+                            </button>
+
+                        </form>
+                    </details>
+
+                </div>
+
+            </section>
+
+            {% endif %}
+
+        </main>
+
+        <footer class="footer">
+            <script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+        </footer>
+
+    </div>
+
+</body>
+</html>
+```

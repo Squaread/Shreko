@@ -16,7 +16,7 @@ from core import logging as logger
 from core import user_data
 from core.user_data import db
 
-from config import BANCO_CENTRAL, MONEY_ICON, AURA_ICON
+from config import BANCO_CENTRAL, CGF, MONEY_ICON, AURA_ICON
 
 # Embed -> Economy config
 def build_painel_embed(economy, jobs):
@@ -75,7 +75,8 @@ def build_painel_embed(economy, jobs):
             f"**Imposto PSE (saldo):** `{economy.get('tax_saldo')*100}%`\n"
             f"Isenção até: `{MONEY_ICON}{economy.get('tax_minsaldo')}`\n"
             f"Dobra taxa a cada: `{MONEY_ICON}{economy.get('tax_saldofactor')}`\n"
-            f"Taxa máxima: `{economy.get('tax_saldomax')*100}%`"
+            f"Taxa máxima: `{economy.get('tax_saldomax')*100}%`\n"
+            f"**Imposto da CGF:** `{economy.get('cgf_tax')*100}%`"
         ),
         inline=False
     )
@@ -140,6 +141,7 @@ class PainelSelect(ui.Select):
             discord.SelectOption(label="Imposto de pix", value="tax_pix"),
             discord.SelectOption(label="Imposto de depósito", value="tax_dep"),
             discord.SelectOption(label="Imposto PSE (saldo)", value="tax_saldo"),
+            discord.SelectOption(label="Imposto CGF", value="cgf_tax"),
         ]
         super().__init__(placeholder="Selecione o que deseja editar...", options=options, min_values=1, max_values=1)
 
@@ -280,7 +282,18 @@ class PainelSelect(ui.Select):
                 ("tax_saldofactor", "Dobra taxa a cada", economy.get("tax_saldofactor")),
                 ("tax_saldomax", "Taxa máxima (0.05 = 5%)", economy.get("tax_saldomax")),
             ]
-            modal = EditModal("Editar Imposto de Depósito", fields, salvar, self.get_message)
+            modal = EditModal("Editar Imposto PSE", fields, salvar, self.get_message)
+
+        elif escolha == "cgf_tax":
+            def salvar(v):
+                if v["cgf_tax"] > 1: return
+                economy["cgf_tax"] = v["cgf_tax"]
+                EconomyService.save_economy(economy)
+
+            fields = [
+                ("cgf_tax", "Imposto sobre arrecadação da CGF (0.05 = 5%)", economy.get("cgf_tax")),
+            ]
+            modal = EditModal("Editar Imposto da CGF", fields, salvar, self.get_message)
 
         await interaction.response.send_modal(modal)
 
@@ -461,6 +474,22 @@ class admin(commands.Cog):
         db.post_user_data("bank", BANCO_CENTRAL, bancocentral_money-data)
         await ctx.reply(f"`{MONEY_ICON}{data}` transferido do banco central para {user.display_name}")
         logger.admin(f"Pix do banco by {author.id} -> {user_id} {data}")
+
+#-----------------------------------------
+    @commands.command()
+    async def pixdacgf(self, ctx, user: discord.Member, data: int):
+        author = ctx.author
+        if not author.id in AdminService.load_admins().get("cgf"): return
+        user_id = user.id
+
+        user_money = db.get_user_data("money", user_id)
+        CGF_money = db.get_user_data("bank", CGF)
+        if data > CGF_money: await ctx.reply(f"A CGF não tem tudo isso!")
+        db.post_user_data("money", user_id, user_money+data)
+        db.post_user_data("bank", CGF, CGF_money-data)
+        await ctx.reply(f"`{MONEY_ICON}{data}` transferido de Confederação Gulosa do Futebol para {user.display_name}")
+        logger.admin(f"Pix da CGF by {author.id} -> {user_id} {data}")
+
 #-----------------------------------------
     @commands.command()
     async def deluser(self, ctx, user: discord.Member):

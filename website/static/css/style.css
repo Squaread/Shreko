@@ -654,4 +654,199 @@ SHREKO - PROFILE PAGE
         text-align: left;
     }
 }
+.team-admin {
+    margin-top: 25px;
+}
+
+.team-menu {
+    margin-top: 15px;
+    padding: 20px;
+    background: var(--card-bg, #202020);
+    border: 1px solid #383838;
+    border-radius: 10px;
+}
+
+.team-menu h3 {
+    margin-bottom: 20px;
+}
+
+.team-menu details {
+    border-top: 1px solid #383838;
+    padding: 15px 0;
+}
+
+.team-menu summary {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.team-menu form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.team-menu input,
+.team-menu select {
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 6px;
+    background: #292929;
+    color: white;
+}
+
+.team-menu label {
+    font-size: 14px;
+    color: #aaa;
+}
+
+.team-menu .button {
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.team-menu .danger {
+    background: #a83232;
+    color: white;
+}
+/* PARTIDAS */
+
+.matches-section {
+    margin-top: 30px;
+}
+
+.matches-section h2 {
+    margin-bottom: 20px;
+}
+
+.matches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+}
+
+.match-card {
+    background: #202020;
+    border: 1px solid #383838;
+    border-radius: 12px;
+    padding: 18px;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.match-card:hover {
+    transform: translateY(-3px);
+    border-color: #666;
+}
+
+.match-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.match-id {
+    color: #999;
+    font-size: 12px;
+}
+
+.match-type {
+    background: #303030;
+    color: #ccc;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.match-scoreboard {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+}
+
+.match-team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 0;
+}
+
+.match-team-name {
+    font-size: 14px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+    min-height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.match-goals {
+    font-size: 38px;
+    font-weight: 800;
+    margin: 8px 0;
+    color: #ddd;
+}
+
+.match-goals.winner {
+    color: #65c98b;
+}
+
+.match-goals.loser {
+    color: #888;
+}
+
+.match-separator {
+    font-size: 28px;
+    color: #666;
+    font-weight: bold;
+}
+
+.match-result {
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.winner-label {
+    color: #65c98b;
+}
+
+.loser-label {
+    color: #999;
+}
+
+.draw-label {
+    color: #e6bd55;
+}
+
+.match-footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+    padding-top: 14px;
+    border-top: 1px solid #383838;
+    color: #999;
+    font-size: 12px;
+}
+
+.match-footer strong {
+    color: #ccc;
+}
+
+@media (max-width: 400px) {
+    .matches-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .match-footer {
+        flex-direction: column;
+    }
+}
 }

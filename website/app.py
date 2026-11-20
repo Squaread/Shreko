@@ -6,13 +6,16 @@ import sys
 from pathlib import Path
 import json
 from datetime import timedelta
+import sqlite3
 
-from flask import Flask, redirect, request, session, render_template, jsonify
+from flask import Flask, redirect, request, session, render_template, jsonify, url_for, abort
 from dotenv import load_dotenv
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
+from core.cgf_data import db as cgf_db
+from core.cgf_data import calc_match
 from core import logging as logger
 from modules.admin import service as AdminService
 from modules.economy import service as EconomyService
@@ -113,6 +116,13 @@ def check_perm_economy():
     if check_perm_owner(): return True
     else: return False
 
+def check_perm_cgf():
+    user = session.get("user")
+    if user is None: return False
+    if user["id"] in AdminService.load_admins(int_converter=False).get("cgf"): return True
+    if check_perm_owner(): return True
+    else: return False
+
 def check_perm_moderation():
     user = session.get("user")
     if user is None: return False
@@ -144,8 +154,193 @@ def conta():
 @app.route("/admin")
 def admin():
     if not check_perm_economy() and not check_perm_moderation(): return "GET OUT", 403
-
     return render_template("admin.html")
+
+@app.route("/cgf")
+def cgf():
+    return render_template("cgf.html")
+
+@app.route("/cgf/times")
+def cgf_teams():
+    teams = cgf_db.get_all_teams_data()
+    teams = [(*team[:3], json.loads(team[3] or "{}"), *team[4:]) for team in teams]
+    stadiums = cgf_db.get_all_stadiums_data()
+    perm = check_perm_cgf()
+    return render_template("cgf_teams.html", teams=teams, stadiums=stadiums, perm=perm)
+
+@app.route("/cgf/estadios")
+def cgf_stadiums():
+    stadiums = cgf_db.get_all_stadiums_data()
+    stadiums = [(*stadium[:3], json.loads(stadium[3] or "{}"), *stadium[4:]) for stadium in stadiums]
+    perm = check_perm_cgf()
+    return render_template("cgf_stadiums.html", stadiums=stadiums, perm=perm)
+
+@app.route("/cgf/times/adicionar", methods=["POST"])
+def add_team():
+    if not check_perm_cgf(): return "GET OUT", 403
+
+    try:
+        team_id = int(request.form["team_id"])
+        team_name = request.form["team_name"].strip()
+        stadium_id = request.form.get("stadium_id") or None
+
+        if not team_name:
+            abort(400)
+
+        if stadium_id is not None:
+            stadium_id = int(stadium_id)
+
+        cgf_db.add_team(team_id, team_name, stadium_id)
+
+    except (ValueError, sqlite3.IntegrityError):
+        abort(400)
+
+    return redirect(url_for("cgf_teams"))
+
+
+@app.route("/cgf/times/editar", methods=["POST"])
+def edit_team():
+    if not check_perm_cgf(): abort(403)
+
+    try:
+        team_id = int(request.form["team_id"])
+        team_name = request.form["team_name"].strip()
+        stadium_id = request.form.get("stadium_id") or None
+
+        if not team_name: abort(400)
+
+        if stadium_id is not None:
+            stadium_id = int(stadium_id)
+
+        cgf_db.edit_team(team_id, team_name, stadium_id)
+
+    except (ValueError, sqlite3.IntegrityError): abort(400)
+
+    return redirect(url_for("cgf_teams"))
+
+
+@app.route("/cgf/times/remover", methods=["POST"])
+def delete_team():
+    if not check_perm_cgf(): abort(403)
+
+    try:
+        team_id = int(request.form["team_id"])
+        cgf_db.delete_team(team_id)
+
+    except (ValueError, sqlite3.IntegrityError): abort(400)
+
+    return redirect(url_for("cgf_teams"))
+
+@app.route("/cgf/estadios/adicionar", methods=["POST"])
+def add_stadium():
+    if not check_perm_cgf():
+        abort(403)
+
+    try:
+        stadium_id = int(request.form["stadium_id"])
+        stadium_name = request.form["stadium_name"].strip()
+        capacity = int(request.form["capacity"])
+
+        if not stadium_name or capacity < 0:
+            abort(400)
+
+        cgf_db.add_stadium(stadium_id, stadium_name, capacity)
+
+    except (ValueError, sqlite3.IntegrityError):
+        abort(400)
+
+    return redirect(url_for("cgf_stadiums"))
+
+
+@app.route("/cgf/estadios/editar", methods=["POST"])
+def edit_stadium():
+    if not check_perm_cgf():
+        abort(403)
+
+    try:
+        stadium_id = int(request.form["stadium_id"])
+        stadium_name = request.form["stadium_name"].strip()
+        capacity = int(request.form["capacity"])
+
+        if not stadium_name or capacity < 0:
+            abort(400)
+
+        cgf_db.edit_stadium(stadium_id, stadium_name, capacity)
+
+    except (ValueError, sqlite3.IntegrityError):
+        abort(400)
+
+    return redirect(url_for("cgf_stadiums"))
+
+
+@app.route("/cgf/estadios/remover", methods=["POST"])
+def delete_stadium():
+    if not check_perm_cgf():
+        abort(403)
+
+    try:
+        stadium_id = int(request.form["stadium_id"])
+        cgf_db.delete_stadium(stadium_id)
+
+    except (ValueError, sqlite3.IntegrityError):
+        abort(400)
+
+    return redirect(url_for("cgf_stadiums"))
+
+@app.route("/cgf/partidas/adicionar", methods=["POST"])
+def add_match():
+
+    if not check_perm_cgf():
+        abort(403)
+
+    try:
+        match_type = request.form["match_type"].strip()
+
+        team_1 = int(request.form["team_1"])
+        team_2 = int(request.form["team_2"])
+
+        goals_1 = int(request.form["teamgoals_1"])
+        goals_2 = int(request.form["teamgoals_2"])
+
+        stadium_id = int(request.form["stadium_id"])
+        ticket_value = int(request.form["ticket_value"])
+
+        if not match_type or not team_1 or not team_2 or not stadium_id:
+            abort(400)
+
+        if team_1 == team_2:
+            abort(400)
+
+        if goals_1 < 0 or goals_2 < 0:
+            abort(400)
+
+        data = calc_match(team_1, team_2, stadium_id, match_type, ticket_value, goals_1, goals_2)
+
+        cgf_db.add_match(
+            match_type,
+            team_1,
+            team_2,
+            goals_1,
+            goals_2,
+            stadium_id,
+            data["tickets_sold"],
+            ticket_value = ticket_value,
+            tax = data["tax"],
+            expenses = data["expenses"],
+            profit = data["profit"],
+        )
+
+    except (ValueError, sqlite3.IntegrityError):
+        abort(400)
+
+    return redirect(url_for("cgf_matches"))
+
+@app.route("/cgf/partidas")
+def cgf_matches():
+    matches = cgf_db.get_all_matches_data()
+    teams = cgf_db.get_all_teams_data()
+    stadiums = cgf_db.get_all_stadiums_data()
+    return render_template("cgf_matches.html",matches=matches, teams=teams, stadiums=stadiums, perm=check_perm_cgf())
 
 @app.route("/admin/logs")
 def logs():
@@ -163,7 +358,6 @@ def economia():
 
     with open(ECONOMY_PATH, "r", encoding="utf-8") as f:
         economy_data = json.load(f)
-
     return render_template("economia.html", economy=economy_data)
 
 @app.route("/economia/salvar", methods=["POST"])

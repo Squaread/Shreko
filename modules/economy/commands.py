@@ -17,7 +17,7 @@ from utils.helpers import interpret_input_value, encrypt
 from utils import taxes
 from utils.combat import combat
 
-from config import BOT_PREFIX, BANCO_CENTRAL, MONEY_ICON, AURA_ICON, VAULT_ICON, VAULT_DEFAULT_LIMIT, ON_MESSAGE_BYPASS_EXCEPTIONS_ID
+from config import BOT_PREFIX, BANCO_CENTRAL, CGF, MONEY_ICON, AURA_ICON, VAULT_ICON, VAULT_DEFAULT_LIMIT, ON_MESSAGE_BYPASS_EXCEPTIONS_ID
 
 class economy(commands.Cog):
     def __init__(self, bot):
@@ -40,6 +40,16 @@ class economy(commands.Cog):
                 color=0x7289da)
         
             return await ctx.send(embed=bank_embed)
+        elif user_id == CGF:
+            bank = EconomyService.get_user_bank(user_id)
+            
+            cgf_embed = base_embed_template(user,
+            title="Confederação Gulosa do Futebol",
+            description=f"> 🏦 `{MONEY_ICON}{bank}`",
+            color=0x0c9b57)
+        
+            return await ctx.send(embed=cgf_embed)
+
         
         if user.bot and not user_id in ON_MESSAGE_BYPASS_EXCEPTIONS_ID: return
 

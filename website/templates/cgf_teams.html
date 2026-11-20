@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shreko - Times</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="site-wrapper">
+
+        <!-- Cabeçalho -->
+        <header class="header" data-logo="{{ url_for('static', filename='img/Shreko.png') }}">
+            <script src="{{ url_for('static', filename='js/header.js') }}"></script>
+        </header>
+
+        <!-- Navegação -->
+        <nav class="navbar">
+            <ul>
+                <li><a href="{{ url_for('home') }}">⌂ Home</a></li>
+                <li><a href="{{ url_for('conta') }}">♟ Conta</a></li>
+                <li><a href="{{ url_for('cgf') }}" class="active">⚽ CGF</a></li>
+                <li><a href="{{ url_for('admin') }}">⚙ Admin</a></li>
+            </ul>
+        </nav>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="{{ url_for('home') }}">Shreko</a>
+            » <a href="{{ url_for('cgf') }}">CGF</a>
+            » Times
+        </div>
+
+<main>
+    <div class="section-title">
+        <span>Confederação Gulosa do Futebol</span>
+    </div>
+
+    <section class="teams-section">
+
+        <h2>Times registrados</h2>
+
+    {% if teams %}
+    
+    <table border="1">
+    <thead>
+        <tr>
+        <th>Nome</th>
+        <th>ID</th>
+        <th>Estádio</th>
+        <th>Estatísticas</th>
+        <th>Popularidade</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for team in teams %}
+        <tr>
+            <td>{{ team[1] or "Time sem nome" }}</td>
+            <td>#{{ team[0] }}</td>
+            <td>{{ team[2] or "Nenhum" }}</td>
+            <td>
+                Gols totais: {{ team[3].get("goals", 0) }}
+                Gols sofridos: {{ team[3].get("goals_conceded", 0) }}
+                Vitórias: {{ team[3].get("victories", 0) }}
+                Empates: {{ team[3].get("draws", 0) }}
+                Derrotas: {{ team[3].get("defeats", 0) }}
+            </td>
+            <td class="team-popularity">★ {{ team[4] or 0 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    <br>
+
+    {% else %}
+
+    <div class="empty-teams">
+        <p>Nenhum time registrado ainda.</p>
+    </div>
+
+    {% endif %}
+        {% if perm %}
+        <section class="panel team-admin">
+
+            <div class="team-menu" id="teamMenu">
+                <!-- ADICIONAR -->
+                <details>
+                    <summary>Adicionar time</summary>
+
+                    <form method="POST" action="{{ url_for('add_team') }}">
+
+                        <label>ID do Discord</label>
+                        <input type="number" name="team_id" required>
+
+                        <label>Nome do time</label>
+                        <input type="text" name="team_name" maxlength="100" required>
+
+                        <label>Estádio</label>
+                        <select name="stadium_id">
+                            <option value="">Nenhum estádio</option>
+                            {% for stadium in stadiums %}
+                                <option value="{{ stadium[0] }}">
+                                    {{ stadium[1] }}
+                                </option>
+                            {% endfor %}
+                        </select>
+
+                        <button type="submit" class="button">
+                            Criar time
+                        </button>
+
+                    </form>
+                </details>
+
+                <!-- EDITAR -->
+                <details>
+                    <summary>Editar time</summary>
+
+                    <form method="POST" action="{{ url_for('edit_team') }}">
+
+                        <label>Selecione o time</label>
+                        <select name="team_id" id="editTeamSelect" required>
+                            <option value="">Selecione...</option>
+
+                            {% for team in teams %}
+                                <option value="{{ team[0] }}">
+                                    {{ team[1] }} (#{{ team[0] }})
+                                </option>
+                            {% endfor %}
+                        </select>
+
+                        <label>Novo nome</label>
+                        <input type="text" name="team_name" maxlength="100" required>
+
+                        <label>Novo estádio</label>
+                        <select name="stadium_id">
+                            <option value="">Nenhum estádio</option>
+
+                            {% for stadium in stadiums %}
+                                <option value="{{ stadium[0] }}">
+                                    {{ stadium[1] }}
+                                </option>
+                            {% endfor %}
+                        </select>
+
+                        <button type="submit" class="button">
+                            Salvar alterações
+                        </button>
+
+                    </form>
+                </details>
+
+                <!-- REMOVER -->
+                <details>
+                    <summary>Remover time</summary>
+
+                    <form method="POST" action="{{ url_for('delete_team') }}"
+                        onsubmit="return confirm('Tem certeza que deseja remover este time?')">
+
+                        <label>Selecione o time</label>
+                        <select name="team_id" required>
+                            <option value="">Selecione...</option>
+
+                            {% for team in teams %}
+                                <option value="{{ team[0] }}">
+                                    {{ team[1] }} (#{{ team[0] }})
+                                </option>
+                            {% endfor %}
+                        </select>
+
+                        <button type="submit" class="button danger">
+                            Remover time
+                        </button>
+
+                    </form>
+                </details>
+
+            </div>
+        </section>
+        {% endif %}
+
+        </section>
+    </main>
+
+        <footer class="footer">
+            <script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+        </footer>
+    </div>
+    
+</body>
+</html>

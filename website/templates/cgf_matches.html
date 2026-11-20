@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shreko - Partidas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="site-wrapper">
+
+        <header class="header" data-logo="{{ url_for('static', filename='img/Shreko.png') }}">
+            <script src="{{ url_for('static', filename='js/header.js') }}"></script>
+        </header>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="{{ url_for('home') }}">⌂ Home</a></li>
+                <li><a href="{{ url_for('conta') }}">♟ Conta</a></li>
+                <li><a href="{{ url_for('cgf') }}" class="active">⚽ CGF</a></li>
+                <li><a href="{{ url_for('admin') }}">⚙ Admin</a></li>
+            </ul>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="{{ url_for('home') }}">Shreko</a>
+            » <a href="{{ url_for('cgf') }}">CGF</a>
+            » Partidas
+        </div>
+
+        <main>
+
+            <div class="section-title">
+                <span>Confederação Gulosa do Futebol</span>
+            </div>
+
+            <section class="matches-section">
+
+                <h2>Histórico de partidas</h2>
+
+                {% if matches %}
+
+                <div class="matches-grid">
+
+                    {% for match in matches %}
+
+                    <div class="match-card">
+                        <!-- PLACAR -->
+                        <div class="match-scoreboard">
+                            <div class="match-team">
+                                <strong>
+                                    <span class="match-team-name">
+                                        {{ match[3] or "Time desconhecido" }}
+                                    </span>
+                                    {{ match[6] }}
+                                    x
+                                    {{ match[7] }}
+                                    <span class="match-team-name">
+                                        {{ match[5] or "Time desconhecido" }}
+                                    </span>
+                                </strong>
+                            </div>
+                        </div>
+                            <div class="match-header">
+                            <span>
+                                {{ match[12] or "Estádio não definido" }}
+                            </span>
+                            -
+                            <span class="match-type">
+                                {{ match[1] or "Amistoso" }}
+                            </span>
+                        </div>
+
+                        <!-- INFORMAÇÕES -->
+                        <div class="match-footer">
+
+                            <span>
+                                {{ match[10] or "Data desconhecida" }}
+                            </span>
+
+                            <span>
+                                valor do ingresso: ${{ "{:,}".format(match[13] or 0).replace(",", ".") }}
+                                ingressos vendidos: {{ "{:,}".format(match[9] or 0).replace(",", ".") }}
+                                despesas: -${{ "{:,}".format(match[14] or 0).replace(",", ".") }}
+                                taxas: -${{ "{:,}".format(match[15] or 0).replace(",", ".") }}
+                                LUCRO: ${{ "{:,}".format(match[16] or 0).replace(",", ".") }}
+                            </span>
+
+                        </div>
+
+                    </div>
+                    <hr>
+                    {% endfor %}
+                </div>
+
+                {% else %}
+
+                <div class="empty-teams">
+                    <p>Nenhuma partida registrada ainda.</p>
+                </div>
+
+                {% endif %}
+
+            </section>
+            <br>
+            <!-- PAINEL ADMINISTRATIVO -->
+            {% if perm %}
+
+            <section class="panel team-admin">
+
+                <div class="team-menu" id="matchMenu">
+
+                    <h3>Registrar partida</h3>
+
+                    <form method="POST" action="{{ url_for('add_match') }}">
+
+                        <label>Tipo de partida</label>
+                        <select name="match_type" required>
+                            <option value="Amistoso">Amistoso</option>
+                            <option value="Pontos corridos">Pontos corridos</option>
+                            <option value="Fase de grupos">Fase de grupos</option>
+                            <option value="Oitavas de finais">Oitavas de finais</option>
+                            <option value="Quartas de finais">Quartas de finais</option>
+                            <option value="Terceiro lugar">Terceiro lugar</option>
+                            <option value="Semifinal">Semifinal</option>
+                            <option value="Final">Final</option>
+                        </select>
+
+                        <label>Estádio</label>
+                        <select name="stadium_id">
+                            <option value="">Nenhum estádio</option>
+
+                            {% for stadium in stadiums %}
+                                <option value="{{ stadium[0] }}">
+                                    {{ stadium[1] }}
+                                </option>
+                            {% endfor %}
+                        </select>
+
+                        <label>Time 1</label>
+
+                        <select name="team_1" required>
+                            <option value="">Selecione...</option>
+
+                            {% for team in teams %}
+                            <option value="{{ team[0] }}">
+                                {{ team[1] }} (#{{ team[0] }})
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                        <label>Gols do time 1</label>
+
+                        <input type="number"
+                               name="teamgoals_1"
+                               min="0"
+                               value="0"
+                               required>
+
+                        <label>Time 2</label>
+
+                        <select name="team_2" required>
+                            <option value="">Selecione...</option>
+
+                            {% for team in teams %}
+                            <option value="{{ team[0] }}">
+                                {{ team[1] }} (#{{ team[0] }})
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                        <label>Gols do time 2</label>
+                        <input type="number"
+                               name="teamgoals_2"
+                               min="0"
+                               value="0"
+                               required>
+
+                        <label>Valor ingresso</label>
+                        <input type="number"
+                               name="ticket_value"
+                               min="5"
+                               placeholder="20"
+                               value="20"
+                               required>
+
+                        <button type="submit" class="button">
+                            Registrar partida
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+            {% endif %}
+
+        </main>
+
+        <footer class="footer">
+            <script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+        </footer>
+
+    </div>
+
+</body>
+</html>

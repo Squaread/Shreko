@@ -330,8 +330,8 @@ def calc_match(team_1: int, team_2: int, stadium_id: int, match_type: str, ticke
     tax_value = int(revenue * tax_factor)
 
     # Despesas operacionais
-    expenses_factor = random.uniform(0.20, 0.60)
-    expenses = int((revenue * expenses_factor) + stadium_capacity*0.2)
+    expenses_factor = random.uniform(0.30, 0.60)
+    expenses = int((revenue * expenses_factor) + stadium_capacity*0.8)
 
     # Lucro líquido
     profit = revenue - expenses - tax_value
@@ -388,18 +388,22 @@ def calc_match(team_1: int, team_2: int, stadium_id: int, match_type: str, ticke
         if matches_played == 0:
             return 0
 
-        # Aproveitamento: vitória vale 3 pontos, empate vale 1
+        # Aproveitamento: vitória = 3, empate = 1, derrota = 0
         points = victories * 3 + draws
         max_points = matches_played * 3
+
         performance = points / max_points
+
+        # Converte aproveitamento para escala de -100 a 100
+        popularity = (performance * 200) - 100
 
         # Bônus por gols marcados
         goals_per_match = goals / matches_played
         goals_bonus = min(15, goals_per_match * 2)
 
-        popularity = 20 + (performance * 65) + goals_bonus
+        popularity += goals_bonus
 
-        return round(max(0, min(100, popularity)))
+        return round(max(-100, min(100, popularity)))
 
     team_1_new_popularity = calculate_popularity(team_1_statistics)
     team_2_new_popularity = calculate_popularity(team_2_statistics)

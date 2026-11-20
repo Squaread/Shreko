@@ -53,10 +53,10 @@
                         <td>#{{ stadium[0] }}</td>
                         <td>{{ "{:,}".format(stadium[2] or 0).replace(",", ".") }} pessoas</td>
                         <td>
-                            Partidas: {{ stadium[3].get("matches", 0) }}
-                            Gols: {{ stadium[3].get("goals", 0) }}
-                            Arrecado: ${{ stadium[3].get("collected", 0) }}
-                            Visitantes: {{ stadium[3].get("visitors", 0) }}
+                            Partidas: {{ stadium[3].get("matches", 0) }} |
+                            Gols: {{ stadium[3].get("goals", 0) }} |
+                            Lucrado: ${{ stadium[3].get("collected", 0) }} |
+                            Visitas: {{ stadium[3].get("visitors", 0) }}
                         </td>
                     </tr>
                     {% endfor %}

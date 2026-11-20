@@ -61,10 +61,10 @@
             <td>#{{ team[0] }}</td>
             <td>{{ team[2] or "Nenhum" }}</td>
             <td>
-                Gols totais: {{ team[3].get("goals", 0) }}
-                Gols sofridos: {{ team[3].get("goals_conceded", 0) }}
-                Vitórias: {{ team[3].get("victories", 0) }}
-                Empates: {{ team[3].get("draws", 0) }}
+                Gols totais: {{ team[3].get("goals", 0) }} |
+                Gols sofridos: {{ team[3].get("goals_conceded", 0) }} |
+                Vitórias: {{ team[3].get("victories", 0) }} |
+                Empates: {{ team[3].get("draws", 0) }} |
                 Derrotas: {{ team[3].get("defeats", 0) }}
             </td>
             <td class="team-popularity">★ {{ team[4] or 0 }}</td>

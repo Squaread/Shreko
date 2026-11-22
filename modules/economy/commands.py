@@ -398,7 +398,7 @@ class economy(commands.Cog):
             fine = random.randint(100, 800)
             aura = (p_user2-p_user1)*aura_coefficient
 
-            EconomyService.money_transaction(author_id, BANCO_CENTRAL) # Ladrao levando multa e multa indo pro banco central
+            EconomyService.money_transaction(author_id, BANCO_CENTRAL, fine) # Ladrao levando multa e multa indo pro banco central
             EconomyService.aura_transaction(author_id, user_id, aura) # Ladrao moggado teve uma parte de sua aura absolvida pela vitima
 
             #---

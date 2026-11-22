@@ -69,9 +69,13 @@ async def on_message(message):
                 EconomyService.add_user_aura(author_id, 1) #db.post_user_data("xp", author_id, db.get_user_data("xp", author_id)+1)
                 return
             else: return
-    
-     ctx = await bot.get_context(message)   
-     if ctx.valid: await bot.invoke(ctx)
+
+    if message.author.bot:
+        ctx = await bot.get_context(message)
+        if ctx.valid:
+            await bot.invoke(ctx)
+    else:
+        await bot.process_commands(message)
 
 async def load_cogs():
     print("[...] Loading cogs")
